@@ -3,141 +3,128 @@
 }
 
 <main>
-    <section id="home" class="intro-section">
+    <!-- HERO SECTION -->
+    <section class="hero bg-light py-5">
         <div class="container">
             <div class="row">
-                <div class="col">
-                    <h1 class="display-2">
-                        <span class="display-2--intro">
-                            Broker de Seguros
-                        </span>
-                    </h1>
-                    <br>
-                    <span class="display-2--description texto">
-                        <br>
-                        <strong>Quienes Somos</strong>
-                        </br>
-                        <br>
-                        <br>
-                        <p id="texto">
-                            Somos una organización joven integrada por profesionales con amplia experiencia en seguros
-                            así como en la evaluación y administración de riesgos.
-                        </p>
-                        <br>
-                        <p id="texto">
-                            Nuestro propósito es comprender las necesidades de nuestros clientes y brindarles soluciones
-                            innovadoras.
-                        </p>
-                    </span>
-
-                    <a href="#cotizador">
-
-                        <button class="nav__link--button">
-                            COTIZAR AHORA!
-                            <span>
-                                <i class="fas fa-cloud-download-alt"></i>
-                            </span>
-                        </button>
-                    </a>
-
+                <div class="col-md-6 d-flex flex-column justify-content-center">
+                    <h1 class="display-4 text-success">Protege tu futuro con confianza</h1>
+                    <p class="lead">En Seguranet, te ofrecemos seguros personalizados para proteger lo que más valoras. Descubre nuestros servicios y obtén la tranquilidad que necesitas.</p>
+                    <br />
+                    <div class="text-center">
+                        <a href="#cta" class="btn btn-success btn-lg">Cotiza tu Auto Ya!!!</a>
+                    </div>
                 </div>
+                <div class="col-md-6 d-flex align-items-center">
+                    <img src="https://images.pexels.com/photos/20411/pexels-photo.jpg?auto=compress&cs=tinysrgb&w=600" alt="Seguros de calidad" class="img-fluid">
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+    <!-- ABOUT SECTION -->
+    <section class="about bg-light py-5">
+        <div class="container">
+            <div class="row text-center">
                 <div class="col">
-                    <div class="img-box">
-                        <img src="/Imagenes/proteccion-auto.png" alt="Personas dentro de un comercio" />
+                    <h2 class="display-4">¿Quiénes somos?</h2>
+                    <p class="lead">En Seguranet, somos un equipo de expertos en seguros comprometidos con ofrecerte las mejores opciones para proteger tus bienes y tu familia. Nuestra misión es brindarte confianza y seguridad con soluciones personalizadas y un servicio excepcional.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SERVICES SECTION -->
+    <section class="services bg-white py-5">
+        <div class="container">
+            <div class="row text-center">
+                <div class="col-md-4">
+                    <div class="service-item">
+                        <i class="fas fa-shield-alt fa-3x mb-3 text-success"></i>
+                        <h3 class="h4">Seguros Personalizados</h3>
+                        <p>Ofrecemos seguros adaptados a tus necesidades específicas para garantizar la mejor protección para ti y tu familia.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="service-item">
+                        <i class="fas fa-user-tie fa-3x mb-3 text-success"></i>
+                        <h3 class="h4">Asesoría Experta</h3>
+                        <p>Contamos con un equipo de asesores con amplia experiencia en el sector que te guiarán en la elección del seguro más adecuado.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="service-item">
+                        <i class="fas fa-thumbs-up fa-3x mb-3 text-success"></i>
+                        <h3 class="h4">Tranquilidad Garantizada</h3>
+                        <p>Te ofrecemos tranquilidad con coberturas que protegen lo que más valoras, para que puedas estar seguro en cualquier situación.</p>
                     </div>
                 </div>
             </div>
         </div>
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
-            <path fill="#fff" fill-opacity="1"
-                  d="M0,96L48,117.3C96,139,192,181,288,176C384,171,480,117,576,122.7C672,128,768,192,864,197.3C960,203,1056,149,1152,144C1248,139,1344,181,1392,202.7L1440,224L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z">
-            </path>
-        </svg>
     </section>
-    <section class="download ">
-        <br>
+
+    <!-- TESTIMONIALS SECTION -->
+    <section class="testimonials bg-light py-5">
         <div class="container">
-            <div class="col">
-                <H2 id="titulo" class="download__title">Cobertura Automotor</H2>
-                <br>
-                <div>
-                </div>
-                <br>
-                <div class="container ">
-                    <div class="row">
-                        <div class="col">
-                            <h3 class="download__title">Planes disponibles</h3>
-                            <br>
-                            <div>
-                                <ul id="listaPlanes">
-                                    <li class="planes">Responsabilidad Civil</li>
-                                    <li class="planes">Tercero Completo</li>
-                                    <li class="planes">Todo Riesgo</li>
-                                </ul>
-                            </div>
-                        </div>
+            <h2 class="text-center display-4 mb-4">Lo que dicen nuestros clientes</h2>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="testimonial text-center p-4 bg-white shadow-sm">
+                        <p class="lead">"Excelente servicio y atención. Me ayudaron a encontrar el seguro perfecto para mi familia con una gran profesionalidad."</p>
+                        <h5 class="font-weight-bold">Juan Pérez</h5>
+                        <p class="text-muted">Cliente</p>
                     </div>
                 </div>
-                <br>
-                <br>
-                <br>
-                <div class="container">
-                    <div class="row">
-                        <div class="col">
-                            <h3 class="download__title">Ahorro Garantizado</h3>
-                            <p class="descuento text-center">
-                                Podes ahorrar entre un 10% y un 35% de lo que pagas
-                                actualmente.<strong> Cotiza con nosotros!</strong>
-                            </p>
-                        </div>
+                <div class="col-md-4">
+                    <div class="testimonial text-center p-4 bg-white shadow-sm">
+                        <p class="lead">"La asesoría fue clara y me dieron todas las opciones posibles. Ahora me siento seguro y protegido con mi nuevo seguro."</p>
+                        <h5 class="font-weight-bold">Ana Gómez</h5>
+                        <p class="text-muted">Cliente</p>
                     </div>
                 </div>
-                <div>
-                    <!-- Card Bootstrap-->
-                    <div id="1" class="card" style="width: 50rem;">
-                        <img class="card-img-top" style="height: 250px;" src="/Imagenes/Baner-Automotor-1.jpg"
-                             alt="Seguro de Responsabilidad Civil">
-                        <div class="card-body">
-                            <h4 class="card-title">Principales Coberturas para Vehículos</h4>
-                            <p>
-                                Nuestros seguros ofrecen una combinación de coberturas especialmente diseñadas para tu tranquilidad,
-                                son hechas a medidas para tu vehículo.
-                            </p>
-                        </div>
+                <div class="col-md-4">
+                    <div class="testimonial text-center p-4 bg-white shadow-sm">
+                        <p class="lead">"Muy satisfecho con el servicio. La atención personalizada y el asesoramiento me dieron la tranquilidad que buscaba."</p>
+                        <h5 class="font-weight-bold">Luis Martínez</h5>
+                        <p class="text-muted">Cliente</p>
                     </div>
                 </div>
-                <br>
-                <br>
-                <div class="container">
-                    <br>
-                    <div class="row">
-                        <div class="col">
-                            <div class="download__logo-box">
-                                <h4 id="subtituloServicio" class="download__title"> Atención las 24 Hrs</h4>
-                                <a href="" target="_blank">
-                                    <img src="/Imagenes/Diseño sin título.png" alt="Call Center"
-                                         class="imagen" />
-                                </a>
-                            </div>
-                        </div>
-                        <div class="col">
-                            <div class="download__logo-box">
-                                <h4 id="subtituloServicio" class="download__title"> Costo-Beneficio </h4>
-                                <a href="" target="_blank">
-                                    <img src="/Imagenes/Diseño sin título (1).png" alt="Inversión" class="imagen" />
-                                </a>
-                            </div>
-                        </div>
-                        <div class="col">
-                            <div class="download__logo-box">
-                                <h4 id="subtituloServicio" class="download__title"> Servicios de Urgencia! </h4>
-                                <a href="" target="_blank">
-                                    <img src="/Imagenes/Diseño sin título (2).png"
-                                         alt="Descargar desde Windows Store" class="imagen" />
-                                </a>
-                            </div>
-                        </div>
-                    </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA SECTION -->
+    <section id="cta" class="cta bg-success text-white text-center py-5">
+        <div class="container">
+            <h2 class="display-4">¿Listo para proteger lo que más valoras?</h2>
+            <p class="lead">Solicita tu cotización personalizada hoy mismo y descubre cómo podemos ayudarte a asegurar tu futuro.</p>
+            <a href="#contact" class="btn btn-light btn-lg">Contáctanos</a>
+        </div>
+    </section>
+
+    <!-- Benefits Section -->
+    <section class="benefits bg-light py-5">
+        <div class="container">
+            <h2 class="text-center display-4 mb-4">Beneficios de elegir Seguranet</h2>
+            <div class="row">
+                <div class="col-md-4 text-center">
+                    <i class="fas fa-lock fa-3x mb-3 text-success"></i>
+                    <h3 class="h4">Protección Completa</h3>
+                    <p>Ofrecemos una amplia gama de coberturas para protegerte contra cualquier eventualidad.</p>
                 </div>
+                <div class="col-md-4 text-center">
+                    <i class="fas fa-star fa-3x mb-3 text-success"></i>
+                    <h3 class="h4">Servicio Personalizado</h3>
+                    <p>Nuestros asesores te brindan atención personalizada para encontrar el seguro que mejor se adapte a tus necesidades.</p>
+                </div>
+                <div class="col-md-4 text-center">
+                    <i class="fas fa-check-circle fa-3x mb-3 text-success"></i>
+                    <h3 class="h4">Garantía de Calidad</h3>
+                    <p>Con nuestra experiencia y compromiso, garantizamos un servicio de alta calidad y confianza.</p>
+                </div>
+            </div>
+        </div>
     </section>
 </main>
