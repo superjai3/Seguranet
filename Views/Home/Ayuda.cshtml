@@ -1,0 +1,43 @@
+﻿@{
+    ViewBag.Title = "Ayuda";
+}
+
+<main>
+    <!-- SECTION: Introducción -->
+    <section class="intro bg-light py-5">
+        <div class="container text-center">
+            <h2 class="display-4 mb-4">Ayuda</h2>
+            <p class="lead">Aquí encontrarás información y recursos útiles sobre el servicios de seguro de tu autos.</p>
+        </div>
+    </section>
+
+    <!-- SECTION: Recursos Útiles -->
+    <section class="resources py-5">
+        <div class="container">
+            <h3 class="mb-4">Recursos Útiles</h3>
+            <ul class="list-unstyled">
+                <li class="mb-3">
+                    <h5>Guía del Cliente</h5>
+                    <p>Descarga nuestra guía del cliente para obtener una visión completa de nuestros productos y servicios.</p>
+                    <a href="/files/guia_cliente.pdf" class="btn btn-success">Descargar Guía</a>
+                </li>
+            </ul>
+            <br />
+            <br />
+            <ul class="list-unstyled">
+                <li class="mb-3">
+                    <h5>Links Importantes</h5>
+                    <p>Descarga nuestra guía del cliente para obtener una visión completa de nuestros productos y servicios.</p>
+                <li><a href="https://www.argentina.gov.ar/seguridad-vial" target="_blank">Seguridad Vial en Argentina</a></li>
+                <li><a href="https://www.defensoresdelpueblo.org.ar" target="_blank">Defensor del Pueblo de la Nación</a></li>
+                <li><a href="https://www.sbs.gob.ar" target="_blank">Superintendencia de Seguros de la Nación</a></li>
+                </li>
+            </ul>
+</section>
+</main>
+
+<!-- Agregar Bootstrap JS para interactividad (opcional) -->
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+}

@@ -12,19 +12,37 @@ namespace Seguranet.Controllers
         {
             return View();
         }
-
-        public ActionResult About()
+        public ActionResult Nosotros()
         {
-            ViewBag.Message = "Your application description page.";
-
             return View();
         }
-
-        public ActionResult Contact()
+        public ActionResult Coberturas()
         {
-            ViewBag.Message = "Your contact page.";
+            return View();
+        }
+        public ActionResult CotizadorAuto()
+        {
+            return View();
+        }
+        public ActionResult Preguntas()
+        {
+            return View();
+        }
+        public ActionResult Ayuda()
+        {
+            return View();
+        }
+        public ActionResult Siniestros()
+        {
+            return View();
+        }
+        public ActionResult Contacto()
+        {
+            //ViewBag.Message = "Your contact page.";
 
             return View();
         }
     }
 }
+
+
