@@ -1,27 +1,75 @@
-﻿@{
+﻿@using System.Web.Mvc
+@using System.Web.Mvc.Html
+@using Seguranet.Models
+
+@model Seguranet.Models.ContactoViewModel
+
+@{
     ViewBag.Title = "Contacto";
 }
-<main aria-labelledby="title">
-    <h2 id="title">@ViewBag.Title.</h2>
 
-
-    <!-- SECTION: Contacto -->
-    <section class="contact py-5">
+<main>
+    <!-- SECTION: Formulario de Contacto -->
+    <section class="contact-form bg-light py-5">
         <div class="container">
-            <p>Si necesitas ayuda adicional, no dudes en contactar a nuestro equipo de atención al cliente. Estamos aquí para ayudarte.</p>
-            <ul class="list-unstyled">
-                <address>
-                <li><strong>Teléfono:</strong> 0800-123-4567</li>
-                <strong>Support:</strong>
-                <a href="mailto:Support@example.com">Support@example.com</a>
-                <br />
-                <strong>Marketing:</strong>
-                <a href="mailto:Marketing@example.com">Marketing@example.com</a>
-                <li><strong>Horario de Atención:</strong> Lunes a Viernes de 9:00 a 18:00</li>
-                </address>
-            </ul>
+            <h2 class="display-4 text-center mb-4 text-success">@ViewBag.Title</h2>
+            <div class="row justify-content-center">
+                <div class="col-md-8 col-lg-6">
+                    @using (Html.BeginForm("EnviarConsulta", "Home", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                    {
+                        <div class="form-group mb-3 text-success">
+                            @Html.LabelFor(model => model.Nombre, htmlAttributes: new { @class = "form-label" })
+                            @Html.TextBoxFor(model => model.Nombre, new { @class = "form-control", placeholder = "Ingresa tu nombre" })
+                        </div>
+
+                        <div class="form-group mb-3 text-success">
+                            @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "form-label" })
+                            @Html.TextBoxFor(model => model.Email, new { @class = "form-control", placeholder = "Ingresa tu email" })
+                        </div>
+
+                        <div class="form-group mb-3 text-success">
+                            @Html.LabelFor(model => model.Telefono, htmlAttributes: new { @class = "form-label" })
+                            @Html.TextBoxFor(model => model.Telefono, new { @class = "form-control", placeholder = "Ingresa tu teléfono" })
+                        </div>
+
+                        <div class="form-group mb-3 text-success">
+                            @Html.LabelFor(model => model.TipoConsulta, htmlAttributes: new { @class = "form-label" })
+                            @Html.DropDownListFor(model => model.TipoConsulta, new SelectList(ViewBag.TipoConsulta, "Value", "Text"), new { @class = "form-control" })
+                        </div>
+
+                        <div class="form-group mb-4 text-success">
+                            @Html.LabelFor(model => model.Mensaje, htmlAttributes: new { @class = "form-label" })
+                            @Html.TextAreaFor(model => model.Mensaje, new { @class = "form-control", placeholder = "Escribe tu mensaje", rows = 5 })
+                        </div>
+
+                        <div class="d-grid">
+                            <input type="submit" value="Enviar" class="btn btn-success btn-block" />
+                        </div>
+                    }
+                </div>
+            </div>
         </div>
     </section>
 
-
+    <!-- SECTION: Información de Contacto -->
+    <section class="contact-info bg-white py-5">
+        <div class="container">
+            <div class="row text-center">
+                <div class="col-md-6">
+                    <h3 class="display-6 text-success">Información de Contacto</h3>
+                    <p class="lead">
+                        <strong>Email:</strong> contacto@seguranet.com<br />
+                        <strong>Teléfono:</strong> +123 456 789
+                    </p>
+                </div>
+                <div class="col-md-6">
+                    <h3 class="display-6 text-success">Horario de Atención</h3>
+                    <p class="lead">
+                        Lunes a Viernes: 9:00 AM - 6:00 PM<br />
+                        Sábados: 9:00 AM - 2:00 PM
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
 </main>

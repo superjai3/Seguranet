@@ -38,8 +38,13 @@ namespace Seguranet.Controllers
         }
         public ActionResult Contacto()
         {
-            //ViewBag.Message = "Your contact page.";
-
+            ViewBag.TipoConsulta = new List<SelectListItem>
+                {
+                    new SelectListItem { Value = "1", Text = "Consulta General" },
+                    new SelectListItem { Value = "2", Text = "Soporte Técnico" },
+                    new SelectListItem { Value = "3", Text = "Ventas" },
+                    new SelectListItem { Value = "4", Text = "Sugerencia" }
+                };
             return View();
         }
     }
