@@ -21,8 +21,9 @@ namespace Seguranet.Servicios
         private static int _Puerto = 587;
         
         private static string _NombreEnvia = "Seguranet";
-        private static string _Correo = "jaimevaldes71@gmail.com";
-        private static string _Clave = "pyxayrbkspzylvqb";
+        private static string _Correo = "seguranetarg@gmail.com";
+        private static string _Clave = "ahbgsoxtkkpiqxww";
+
 
         public static bool Enviar(CorreoDTO correodto)
         {
