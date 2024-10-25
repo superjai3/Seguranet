@@ -29,7 +29,6 @@ header {
     font-weight: bold; /* Opcional, para hacerlo más destacado */
 }
 
-
 .nav-link {
     color: #ffffff !important; /* Blanco para los enlaces */
 }
@@ -37,6 +36,12 @@ header {
     .nav-link:hover {
         color: #b5cae1 !important; /* Color claro para el hover */
     }
+
+.logo-navbar {
+    height: 50px; /* Ajusta la altura según el tamaño del menú */
+    width: auto; /* Mantén la proporción del logo */
+    margin-right: 10px; /* Espacio opcional entre el logo y el resto del menú */
+}
 
 /* Hero Section */
 .hero {

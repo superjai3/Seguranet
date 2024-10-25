@@ -234,6 +234,7 @@
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="Imagenes\hero-image.png.jpg" />
+    <Content Include="Imagenes\Logo Seguranet.png" />
     <Content Include="Plantilla\Confirmar.html" />
     <Content Include="Plantilla\Restablecer.html" />
     <Content Include="Scripts\bootstrap.bundle.js" />

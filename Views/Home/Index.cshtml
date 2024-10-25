@@ -12,7 +12,7 @@
                     <p class="lead">En Seguranet, te ofrecemos seguros personalizados para proteger lo que más valoras. Descubre nuestros servicios y obtén la tranquilidad que necesitas.</p>
                     <br />
                     <div class="text-center">
-                        <a href="~/Views/Home/CotizadorAuto.cshtml" class="btn btn-success btn-lg">Cotiza tu Auto Ya!!!</a>
+                        <a href="@Url.Action("CotizadorAuto", "Home")" class="btn btn-success btn-lg">Cotiza tu Auto Ya!!!</a>
                     </div>
                 </div>
                 <div class="col-md-6 d-flex align-items-center">
@@ -98,7 +98,7 @@
         <div class="container">
             <h2 class="display-4">¿Listo para proteger lo que más valoras?</h2>
             <p class="lead">Solicita tu asesoramiento personalizado hoy mismo y descubre cómo podemos ayudarte a asegurar tu futuro.</p>
-            <a href="~/Views/Home/Contacto.cshtml" class="btn btn-light btn-lg text-success">Contáctanos</a>
+            <a href="@Url.Action("Contacto", "Home")" class="btn btn-light btn-lg text-success">Contáctanos</a>
         </div>
     </section>
 

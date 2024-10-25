@@ -240,3 +240,5 @@ C:\Proyectos\codigo-estudiante\Seguranet\Seguranet\bin\System.Web.Http.WebHost.x
 C:\Proyectos\codigo-estudiante\Seguranet\Seguranet\bin\es\System.Net.Http.Formatting.resources.dll
 C:\Proyectos\codigo-estudiante\Seguranet\Seguranet\bin\es\System.Web.Http.resources.dll
 C:\Proyectos\codigo-estudiante\Seguranet\Seguranet\bin\es\System.Web.Http.WebHost.resources.dll
+C:\Users\jaime\OneDrive\Escritorio\Seguranet\obj\Debug\Seguranet.dll
+C:\Users\jaime\OneDrive\Escritorio\Seguranet\obj\Debug\Seguranet.pdb
