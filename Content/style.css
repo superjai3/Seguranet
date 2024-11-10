@@ -1,0 +1,162 @@
+﻿
+
+/* Reset básico */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Estilo general */
+body {
+    font-family: 'Montserrat', sans-serif;
+    color: #455060; /* Azul oscuro para el texto */
+    line-height: 1.6;
+    background-color: #e6eaed; /* Fondo muy claro */
+}
+
+/* Header */
+header {
+    background-color: #b5cae1; /* Azul muy oscuro para el header */
+    padding: 1rem 0;
+}
+
+.navbar {
+    background-color: #455060
+}
+
+.navbar-brand {
+    color: #ffffff; /* Blanco para el texto del brand */
+    font-size: 2rem; /* Ajusta el tamaño según sea necesario */
+    font-weight: bold; /* Opcional, para hacerlo más destacado */
+}
+
+.nav-link {
+    color: #ffffff !important; /* Blanco para los enlaces */
+}
+
+    .nav-link:hover {
+        color: #b5cae1 !important; /* Color claro para el hover */
+    }
+
+.logo-navbar {
+    height: 50px; /* Ajusta la altura según el tamaño del menú */
+    width: auto; /* Mantén la proporción del logo */
+    margin-right: 10px; /* Espacio opcional entre el logo y el resto del menú */
+}
+
+/* Hero Section */
+.hero {
+    background-color: #e6eaed; /* Fondo claro para el hero */
+    color: #455060; /* Azul oscuro para el texto */
+    padding: 5rem 0;
+}
+
+    .hero h1 {
+        font-size: 2.5rem;
+        color: #455060; /* Azul oscuro para el título principal */
+    }
+
+    .hero p {
+        font-size: 1.25rem;
+        color: #455060; /* Azul oscuro para el texto */
+    }
+
+.btn-primary {
+    background-color: #c86208; /* Naranja para el botón */
+    border-color: #c86208;
+}
+
+    .btn-primary:hover {
+        background-color: #b24b06; /* Naranja más oscuro para el hover */
+        border-color: #a54506;
+    }
+
+/* About Section */
+.about {
+    background-color: #ffffff; /* Fondo blanco para el About */
+    padding: 3rem 0;
+    color: #455060; /* Azul oscuro para el texto */
+}
+
+    .about h2 {
+        color: #455060; /* Azul oscuro para el título */
+    }
+
+/* Services Section */
+.services {
+    background-color: #e6eaed; /* Fondo claro para Services */
+    padding: 3rem 0;
+    color: #455060; /* Azul oscuro para el texto */
+}
+
+    .services .service-item {
+        padding: 1rem;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        background-color: #ffffff; /* Fondo blanco para los elementos de servicio */
+    }
+
+        .services .service-item h3 {
+            color: #455060; /* Azul oscuro para el título del servicio */
+        }
+
+/* Testimonials Section */
+.testimonials {
+    background-color: #e6eaed; /* Fondo claro para Testimonials */
+    padding: 3rem 0;
+}
+
+.testimonial {
+    border-radius: 5px;
+    padding: 1rem;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    background-color: #ffffff; /* Fondo blanco para los testimonios */
+}
+
+/* CTA Section */
+.cta {
+    background-color: #455060; /* Azul oscuro para el CTA */
+    color: #ffffff; /* Blanco para el texto del CTA */
+    padding: 3rem 0;
+}
+
+    .cta h2 {
+        color: #ffffff; /* Blanco para el título del CTA */
+    }
+
+    .cta .btn-light {
+        background-color: #ffffff; /* Blanco para el botón */
+        color: #455060; /* Azul oscuro para el texto del botón */
+        border: none;
+    }
+
+        .cta .btn-light:hover {
+            background-color: #e6eaed; /* Fondo claro para el hover */
+        }
+
+/* Benefits Section */
+.benefits {
+    background-color: #ffffff; /* Fondo blanco para Benefits */
+    padding: 3rem 0;
+    color: #455060; /* Azul oscuro para el texto */
+}
+
+    .benefits i {
+        color: #455060; /* Azul oscuro para los íconos */
+    }
+
+    .benefits h3 {
+        color: #455060; /* Azul oscuro para el título de los beneficios */
+    }
+
+/* Footer */
+.footer {
+    background-color: #6c757d; /* Azul muy oscuro para el footer */
+    color: #ffffff; /* Blanco para el texto del footer */
+    padding: 2rem 0;
+}
+
+    .footer p {
+        margin: 0;
+    }

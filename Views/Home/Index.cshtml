@@ -4,7 +4,7 @@
 
 <main>
     <!-- HERO SECTION -->
-    <section class="hero bg-light py-5">
+    <section class="hero bg-light py-5" data-aos="fade-up">
         <div class="container">
             <div class="row">
                 <div class="col-md-6 d-flex flex-column justify-content-center">
@@ -12,18 +12,18 @@
                     <p class="lead">En Seguranet, te ofrecemos seguros personalizados para proteger lo que más valoras. Descubre nuestros servicios y obtén la tranquilidad que necesitas.</p>
                     <br />
                     <div class="text-center">
-                        <a href="@Url.Action("CotizadorAuto", "Home")" class="btn btn-success btn-lg">Cotiza tu Auto Ya!!!</a>
+                        <a href="@Url.Action("CotizadorAuto", "Home")" class="btn btn-success btn-lg btn-hover">Cotiza tu Auto Ya!!!</a>
                     </div>
                 </div>
                 <div class="col-md-6 d-flex align-items-center">
-                    <img src="https://images.pexels.com/photos/20411/pexels-photo.jpg?auto=compress&cs=tinysrgb&w=600" alt="Seguros de calidad" class="img-fluid">
+                    <img src="~/Imagenes/al-volante.jpg" alt="Seguros de calidad" class="img-fluid img-hover">
                 </div>
             </div>
         </div>
     </section>
 
     <!-- ABOUT SECTION -->
-    <section class="about bg-light py-5">
+    <section class="about bg-light py-5" data-aos="fade-up" data-aos-delay="200">
         <div class="container">
             <div class="row text-center">
                 <div class="col">
@@ -35,7 +35,7 @@
     </section>
 
     <!-- SERVICES SECTION -->
-    <section class="services bg-white py-5">
+    <section class="services bg-white py-5" data-aos="fade-up" data-aos-delay="400">
         <div class="container">
             <div class="row text-center">
                 <div class="col-md-4">
@@ -64,7 +64,7 @@
     </section>
 
     <!-- TESTIMONIALS SECTION -->
-    <section class="testimonials bg-light py-5">
+    <section class="testimonials bg-light py-5" data-aos="fade-up" data-aos-delay="600">
         <div class="container">
             <h2 class="text-center display-4 mb-4 text-success">Lo que dicen nuestros clientes</h2>
             <div class="row">
@@ -94,16 +94,16 @@
     </section>
 
     <!-- CTA SECTION -->
-    <section id="cta" class="cta bg-success text-white text-center py-5">
+    <section id="cta" class="cta bg-success text-white text-center py-5" data-aos="fade-up" data-aos-delay="800">
         <div class="container">
             <h2 class="display-4">¿Listo para proteger lo que más valoras?</h2>
             <p class="lead">Solicita tu asesoramiento personalizado hoy mismo y descubre cómo podemos ayudarte a asegurar tu futuro.</p>
-            <a href="@Url.Action("Contacto", "Home")" class="btn btn-light btn-lg text-success">Contáctanos</a>
+            <a href="@Url.Action("Contacto", "Home")" class="btn btn-light btn-lg text-success btn-hover">Contáctanos</a>
         </div>
     </section>
 
     <!-- Benefits Section -->
-    <section class="benefits bg-light py-5">
+    <section class="benefits bg-light py-5" data-aos="fade-up" data-aos-delay="1000">
         <div class="container">
             <h2 class="text-center display-4 mb-4 text-success">Beneficios de elegir Seguranet</h2>
             <div class="row">
@@ -126,3 +126,47 @@
         </div>
     </section>
 </main>
+
+<!-- Include AOS library -->
+<script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+<script>
+    AOS.init({
+        duration: 1000,  // Duration of animations
+        easing: 'ease-in-out',  // Smooth easing for animations
+        once: true,  // Make the animations occur only once
+    });
+</script>
+
+<!-- Custom styles -->
+<style>
+    .btn-hover:hover {
+        background-color: #004d00 !important;
+        color: white !important;
+    }
+
+    .img-hover:hover {
+        transform: scale(1.1);
+        transition: transform 0.3s ease-in-out;
+    }
+
+    .service-item {
+        transition: transform 0.3s ease-in-out;
+    }
+
+        .service-item:hover {
+            transform: translateY(-10px);
+        }
+
+    .testimonial {
+        transition: transform 0.3s ease-in-out;
+    }
+
+        .testimonial:hover {
+            transform: translateY(-10px);
+        }
+
+    .cta .btn-light:hover {
+        background-color: #fff;
+        color: #28a745;
+    }
+</style>
