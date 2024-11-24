@@ -1,1 +1,7 @@
 .vs/
+# Ignorar la carpeta de configuración de Visual Studio
+.vs/
+
+# Ignorar archivos de compilación de Visual Studio
+bin/
+obj/

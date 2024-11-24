@@ -1,7 +1,4 @@
-﻿@using System.Web.Mvc
-@using System.Web.Mvc.Html
-@using Seguranet.Models
-
+﻿@using Seguranet.Models
 @model Seguranet.Models.ContactoViewModel
 
 @{
@@ -9,65 +6,51 @@
 }
 
 <main>
-    <!-- SECTION: Formulario de Contacto -->
-    <section class="contact-form bg-light py-5">
-        <div class="container">
-            <h2 class="display-4 text-center mb-4 text-success">@ViewBag.Title</h2>
-            <div class="row justify-content-center">
-                <div class="col-md-8 col-lg-6">
-                    @using (Html.BeginForm("EnviarConsulta", "Home", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-                    {
-                        <div class="form-group mb-3 text-success">
-                            @Html.LabelFor(model => model.Nombre, htmlAttributes: new { @class = "form-label" })
-                            @Html.TextBoxFor(model => model.Nombre, new { @class = "form-control", placeholder = "Ingresa tu nombre" })
-                        </div>
 
-                        <div class="form-group mb-3 text-success">
-                            @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "form-label" })
-                            @Html.TextBoxFor(model => model.Email, new { @class = "form-control", placeholder = "Ingresa tu email" })
-                        </div>
-
-                        <div class="form-group mb-3 text-success">
-                            @Html.LabelFor(model => model.Telefono, htmlAttributes: new { @class = "form-label" })
-                            @Html.TextBoxFor(model => model.Telefono, new { @class = "form-control", placeholder = "Ingresa tu teléfono" })
-                        </div>
-
-                        <div class="form-group mb-3 text-success">
-                            @Html.LabelFor(model => model.TipoConsulta, htmlAttributes: new { @class = "form-label" })
-                            @Html.DropDownListFor(model => model.TipoConsulta, new SelectList(ViewBag.TipoConsulta, "Value", "Text"), new { @class = "form-control" })
-                        </div>
-
-                        <div class="form-group mb-4 text-success">
-                            @Html.LabelFor(model => model.Mensaje, htmlAttributes: new { @class = "form-label" })
-                            @Html.TextAreaFor(model => model.Mensaje, new { @class = "form-control", placeholder = "Escribe tu mensaje", rows = 5 })
-                        </div>
-
-                        <div class="d-grid">
-                            <input type="submit" value="Enviar" class="btn btn-success btn-block" />
-                        </div>
-                    }
-                </div>
-            </div>
+    <section class="contact-info bg-light py-5">
+        <div>
+            <section>
+                <iframe id="" allowtransparency="true" allowfullscreen="true" allow="geolocation; microphone; camera" src="https://2u2yqkbs.forms.app/form/674203e6abf58c3603bcd878" frameborder="0" style="width: 100%; min-width:100%; height:1800px; border:none;"></iframe>
+            </section>
         </div>
     </section>
 
+
     <!-- SECTION: Información de Contacto -->
-    <section class="contact-info bg-white py-5">
+    <section class="contact-info bg-light py-5">
         <div class="container">
             <div class="row text-center">
-                <div class="col-md-6">
-                    <h3 class="display-6 text-success">Información de Contacto</h3>
-                    <p class="lead">
-                        <strong>Email:</strong> contacto@seguranet.com.ar<br />
-                        <strong>Teléfono:</strong> +34 632 638 449
-                    </p>
+                <!-- Información de Contacto -->
+                <div class="col-md-6 mb-4">
+                    <h3 class="display-6 text-success mb-4">Información de Contacto</h3>
+                    <div class="lead mb-3">
+                        <!-- Email -->
+                        <div class="d-flex justify-content-center mb-3">
+                            <strong class="mr-2">Email: </strong>
+                            <a href="mailto:contacto@seguranet.com.ar" class="btn btn-outline-primary btn-lg">
+                                <img src="https://cdn-icons-png.flaticon.com/512/732/732200.png" alt="Correo Electrónico" width="30" height="30">
+                                Enviar Email
+                            </a>
+                        </div>
+
+                        <!-- Teléfono y Whatsapp -->
+                        <div class="d-flex justify-content-center">
+                            <strong class="mr-2">Teléfono:  </strong>
+                            <a href="https://wa.me/34632638449" target="_blank" class="btn btn-outline-success btn-lg">
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp" width="30" height="30">
+                                Enviar WhatsApp
+                            </a>
+                        </div>
+                    </div>
                 </div>
+
+                <!-- Horario de Atención -->
                 <div class="col-md-6">
-                    <h3 class="display-6 text-success">Horario de Atención</h3>
-                    <p class="lead">
-                        Lunes a Viernes: 9:00 AM - 6:00 PM<br />
-                        Sábados: 9:00 AM - 2:00 PM
-                    </p>
+                    <h3 class="display-6 text-success mb-4">Horario de Atención</h3>
+                    <div class="lead">
+                        <p><strong>Lunes a Viernes:</strong> 9:00 AM - 6:00 PM</p>
+                        <p><strong>Sábados:</strong> 9:00 AM - 2:00 PM</p>
+                    </div>
                 </div>
             </div>
         </div>
