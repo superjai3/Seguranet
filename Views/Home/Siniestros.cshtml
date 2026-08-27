@@ -65,7 +65,9 @@
 
 <!-- Agregar Bootstrap JS para interactividad (opcional) -->
 @section Scripts {
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    @* El layout ya carga jQuery 3.7.1 desde ~/bundles/jquery. Aca se volvia
+       a traer 3.6.0 del CDN encima: dos versiones de la misma biblioteca, y
+       la segunda pisaba a la primera. *@
     @* El layout ya carga Bootstrap 5.2.0 con Popper. Acá se volvía a cargar
        5.3.0 encima: dos versiones distintas de la misma biblioteca peleando
        por los mismos componentes. *@

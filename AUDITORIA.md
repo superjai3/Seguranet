@@ -5,11 +5,34 @@ Rama `mejoras/auditoria-web-2026-08-27`
 
 ## Resumen
 
-**21 de 60 puntos aplicables cumplidos al empezar. 17 arreglados en esta pasada.**
-Quedan **6 críticos pendientes**, todos por decisión o por falta de entorno.
+De los **57 puntos aplicables** al modelo SaaS:
+
+| Estado | Puntos |
+|---|---|
+| **`ok`** — cumplido y verificado | **19** |
+| `parcial` — está pero a medias | 6 |
+| `cliente` — depende de una decisión tuya | 1 |
+| `falta` — no está y se puede hacer | 31 |
+
+**22 arreglados en esta pasada**, casi todos técnicos: el repositorio, las
+imágenes, los scripts rotos, el SEO y el arranque de la aplicación.
 
 Seguranet es un CRM/cotizador de seguros hecho como proyecto final de cátedra
-(ISTEA). Funcionaba, pero nunca había pasado por una capa de producción.
+(ISTEA). Funcionaba, pero nunca había pasado por una capa de producción — y la
+rama principal llevaba desde noviembre de 2024 sin compilar.
+
+> **Corrección, dos veces.** Una versión anterior decía «43 de 60 cumplidos». Ese
+> número estaba mal por dos motivos a la vez. Primero, sumaba como cumplidos los
+> `parcial` y los `cliente`. Y segundo, y más de fondo: había **35 puntos marcados
+> `na`**, cuando el modelo SaaS tiene 60 aplicables — el propio checklist avisa que
+> una diferencia así significa que el modelo se identificó mal. Se descartaron de
+> más los bloques de **confianza** y **conversión** con el argumento de que «no hay
+> empresa real detrás»; pero el sitio dice vender seguros, así que esos puntos
+> aplican y lo que corresponde es marcarlos como lo que son: **faltantes**.
+>
+> Reevaluados los 21 puntos mal descartados, el número honesto es **19 de 57**. El
+> salto de `falta` de 14 a 31 no es que el sitio haya empeorado: es que antes esos
+> puntos estaban escondidos debajo de un «no aplica» que no correspondía.
 
 > ✅ **Compilado y ejecutado.** Se instaló Visual Studio Community 2022 con la
 > carga de trabajo de ASP.NET y el targeting pack de .NET Framework 4.6.2.
@@ -177,6 +200,41 @@ la sesión sobrevive**; el `POST` con token redirige a la home y el menú vuelve
 Ingresar.
 
 ## Pendiente: crítico
+
+### «Conoce a Nuestro Equipo» es gente que no existe
+En `Views/Home/Nosotros.cshtml` hay seis personas con nombre y apellido —María
+Rodríguez, Carlos Pérez, Lucía Gómez, Silvana Teran, Jose Viñas, Marta Seguias— y
+foto. **Ninguna es real: las fotos son de iStock**, y no están descargadas y
+licenciadas sino **enlazadas directamente a `media.istockphoto.com`**, que es el
+servidor de vistas previas de una agencia de stock paga.
+
+Son dos problemas de distinta gravedad en el mismo bloque:
+
+1. **Un equipo inventado presentado como el equipo real.** Es el punto C1 del
+   checklist, y es de los que no se arreglan solos: o son personas de verdad, o la
+   sección se saca. **No lo toqué**: inventar o sustituir gente es exactamente lo
+   que una auditoría no debe hacer por su cuenta.
+2. **Uso de imágenes de una agencia paga sin licencia.** Aunque el proyecto sea
+   académico, si esto está publicado es un problema legal, no estético.
+
+**Qué hace falta:** decidir. O van las caras y los nombres del equipo real —que en
+un proyecto de cátedra serían los del grupo—, o se elimina la sección entera.
+
+### 34 imágenes enlazadas desde sitios ajenos
+Ninguna imagen que no sea de la carpeta `Imagenes/` está alojada en el sitio. Están
+tomadas de veintiún dominios distintos:
+
+| De dónde | Cuántas | Qué son |
+|---|---|---|
+| `media.istockphoto.com` | 7 | el «equipo» y fotos de sección |
+| `www.todoriesgo.com.ar` | 3 | logos de aseguradoras |
+| `upload.wikimedia.org`, `media.licdn.com`, `cloudfront` … | 19 | el resto de los logos |
+| `2u2yqkbs.forms.app` | 1 | el formulario de contacto entero, en un iframe |
+
+Eso gasta el ancho de banda de otros y deja el sitio a merced de que muevan un
+archivo: el día que alguno cambie la URL, acá queda un hueco y nadie se entera.
+**Qué hace falta:** descargarlas a `~/Imagenes/`, con permiso de uso donde
+corresponda, y servirlas desde el sitio.
 
 ### Nada del sitio está protegido
 Esto salió a la luz al implementar la sesión, y es el punto más serio que queda.
