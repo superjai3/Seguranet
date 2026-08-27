@@ -11,16 +11,14 @@ Quedan **6 críticos pendientes**, todos por decisión o por falta de entorno.
 Seguranet es un CRM/cotizador de seguros hecho como proyecto final de cátedra
 (ISTEA). Funcionaba, pero nunca había pasado por una capa de producción.
 
-> ⚠️ **Los cambios de esta pasada NO están verificados con una compilación.**
-> En esta máquina no hay Visual Studio, ni MSBuild, ni el targeting pack de
-> .NET Framework 4.6.2, así que el proyecto no se puede compilar ni levantar acá.
-> Lo que sí se verificó: los `.cshtml` y `.cs` modificados se pasaron por el
-> compilador de C# en un proyecto aparte y **no tienen errores de sintaxis**
-> (los únicos errores que salen son de referencias que ese proyecto de prueba no
-> tiene: `System.Web.Mvc`, `System.Web.Routing`, `System.Web.Optimization`), y
-> `Web.config`, `Seguranet.csproj` y sus transformaciones se validaron como XML.
-> **Antes de dar esto por bueno hay que abrirlo en Visual Studio, compilar y
-> mirar las páginas.**
+> ✅ **Compilado y ejecutado.** Se instaló Visual Studio Community 2022 con la
+> carga de trabajo de ASP.NET y el targeting pack de .NET Framework 4.6.2.
+> La solución **compila con 0 errores** (queda 1 advertencia, MSB3247 sobre
+> redirecciones de ensamblado, anterior a esta pasada y originada en las
+> dependencias de MailKit), y el sitio se levantó con IIS Express para
+> comprobar página por página. Ejecutarlo encontró **dos errores que la
+> revisión de sintaxis no podía ver** — están abajo, en «Encontrado al
+> ejecutar».
 
 ## Arreglado en esta pasada
 
@@ -79,6 +77,41 @@ nunca pasaron por el CDN: reciben Bootstrap del paquete local vía
 - **`lang="es"` y `noindex`** en las páginas de cuenta, que no lo tenían.
 - Bonus: en `Confirmar.cshtml`, `<div class="container" mt-3>` tenía `mt-3` como
   atributo suelto en vez de como clase.
+
+### `a2b51e4` · Las rutas a los paquetes apuntaban fuera del repositorio
+El `.csproj` buscaba los paquetes de NuGet en `..\packages` — un nivel **más
+arriba** de la carpeta del repositorio. Esa es la ruta del esquema clásico (una
+carpeta de solución con la del proyecto adentro), pero acá el `.sln` y el
+`.csproj` están los dos en la raíz. Con eso, `nuget restore` dejaba los paquetes
+en `Seguranet\packages` y la compilación los buscaba en `repos\packages`: 52
+referencias que nunca se iban a resolver. **El proyecto no compilaba.** Ahora son
+relativas a la raíz, que es donde están.
+
+### `48219db` · Encontrado al ejecutar
+Dos errores propios de esta pasada que sólo aparecieron con el sitio corriendo:
+
+1. **`robots.txt` y `sitemap.xml` devolvían 404.** Los genera `SeoController`,
+   pero como terminan en `.txt` y `.xml`, IIS los atendía con su manejador de
+   archivos estáticos, no encontraba nada en el disco y cortaba antes de que MVC
+   mirara las rutas. Se mandan esos dos al manejador administrado, uno por uno —
+   no con `runAllManagedModulesForAllRequests`, que haría pasar por el pipeline
+   administrado también a las imágenes y a las hojas de estilo.
+2. **`CotizadorAuto.cshtml` salía con los acentos rotos**: "Calculá" se veía
+   "CalculÃ¡". Lo escribí sin BOM, y sin BOM Razor lo lee con la codificación del
+   sistema en vez de UTF-8. Todas las demás vistas del proyecto sí lo tienen.
+
+### Lo que se comprobó con el sitio andando
+- Las **trece páginas** responden 200, incluidas las de cuenta.
+- `robots.txt` y `sitemap.xml` responden 200; el sitemap lista las **siete URL
+  públicas**, sin las de cuenta ni el cotizador.
+- Cada página: **un solo `<h1>`** y su **propia descripción**.
+- Canonical, Open Graph y Twitter Card presentes; el **JSON-LD parsea**.
+- Las **siete imágenes** se sirven como `image/webp`.
+- Las páginas de cuenta llevan `noindex` y `lang="es"` — menos Login, que es la
+  raíz del sitio y quedó sin él a propósito.
+- **Ningún** `<script>` roto: los diez 404 por carga desaparecieron.
+- Y lo que más riesgo tenía del desdoble de paquetes: `Registrar`, que no usa el
+  layout, **sigue recibiendo** `Content/bootstrap.css`, y la home ya no lo repite.
 
 ## Pendiente: crítico
 
