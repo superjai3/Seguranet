@@ -1,0 +1,44 @@
+# Este archivo se llamaba .gitignore.txt y por eso git nunca lo leyó: la
+# extensión sobraba. Mientras tanto el repositorio versionó 590 MB de paquetes
+# de NuGet, la carpeta de compilación y el estado local de Visual Studio.
+
+# Estado local de Visual Studio (layout de ventanas, índice, caché)
+.vs/
+
+# Compilación
+bin/
+obj/
+[Dd]ebug/
+[Rr]elease/
+*.dll.config
+*.pdb
+
+# Paquetes de NuGet: se restauran con `nuget restore` desde packages.config,
+# que sí está versionado. No hay motivo para llevarlos adentro del repositorio.
+packages/
+*.nupkg
+!packages/build/
+
+# Configuración personal de cada máquina
+*.user
+*.suo
+*.userprefs
+*.csproj.user
+
+# Publicación
+PublishProfiles/
+*.pubxml
+*.pubxml.user
+*.publishproj
+
+# Basura del sistema
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+.DS_Store
+
+# Registros y bases de datos locales
+*.log
+App_Data/*.mdf
+App_Data/*.ldf
