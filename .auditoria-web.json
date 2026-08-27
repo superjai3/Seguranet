@@ -1,0 +1,34 @@
+{
+  "version": 1,
+  "fecha": "2026-08-27",
+  "stack": "aspnet-mvc5-netframework",
+  "modelo": "saas",
+  "commit": "841a753",
+  "rama": "mejoras/auditoria-web-2026-08-27",
+  "aviso": "Los cambios NO estan verificados con una compilacion: en esta maquina no hay Visual Studio, MSBuild ni el targeting pack de .NET Framework 4.6.2. Se verifico sintaxis de C# con un proyecto aparte y validez XML de Web.config y del csproj. Hay que compilar y probar en Visual Studio antes de darlo por bueno.",
+  "puntos": {
+    "T1": "falta", "T2": "ok", "T3": "ok", "T4": "ok", "T5": "ok",
+    "T6": "parcial", "T7": "na", "T8": "na", "T9": "ok", "T10": "na",
+    "R1": "falta", "R2": "ok", "R3": "falta", "R4": "falta", "R5": "ok",
+    "R6": "ok", "R7": "ok", "R8": "falta",
+    "S1": "ok", "S2": "ok", "S3": "parcial", "S4": "ok", "S5": "ok",
+    "S6": "parcial", "S7": "na", "S8": "falta", "S9": "na", "S10": "na",
+    "C1": "na", "C2": "na", "C3": "na", "C4": "na", "C5": "na",
+    "C6": "na", "C7": "falta", "C8": "falta", "C9": "na", "C10": "cliente",
+    "C11": "na", "C12": "na",
+    "V1": "ok", "V2": "parcial", "V3": "parcial", "V4": "na", "V5": "na",
+    "V6": "na", "V7": "ok", "V8": "na", "V9": "na", "V10": "na",
+    "V11": "na", "V12": "na", "V13": "na", "V14": "falta", "V15": "na",
+    "V16": "na", "V17": "falta", "V18": "na", "V19": "na", "V20": "na",
+    "U1": "ok", "U2": "ok", "U3": "falta", "U4": "parcial", "U5": "na",
+    "U6": "na", "U7": "falta",
+    "M1": "falta", "M2": "falta", "M3": "falta", "M4": "na",
+    "M5": "na", "M6": "na", "M7": "na"
+  },
+  "resumen": {
+    "aplicables": 60,
+    "ok": 38,
+    "arreglados": 17,
+    "pendientes": 22
+  }
+}
