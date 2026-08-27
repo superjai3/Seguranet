@@ -145,23 +145,53 @@ El CDN de Bootstrap pasa a 5.3.3 para coincidir con el local: antes el CDN serv�
 5.2.0-beta1 y el paquete local 5.3.3, así que una página se veía con una versión u
 otra según pasara o no por el layout.
 
+### `a8cef74` · La raíz del sitio y el cierre de sesión
+Los dos puntos que este informe había dejado como decisión, ya resueltos.
+
+**La raíz del sitio es ahora la home pública.** `RouteConfig` mandaba `/` a
+`Inicio/Login`: la dirección principal de un sitio que quiere que lo encuentren era
+un formulario de usuario y contraseña, y todo lo que explica el negocio colgaba de
+`/Home/`. Para un buscador, la página más importante del sitio era la menos útil de
+todas — y no se le podía poner `noindex` sin sacar el sitio entero del índice. Ahora
+`/` es `Home/Index`; `/Inicio/Login` sigue donde estaba y **ya lleva su `noindex`**
+como sus hermanas.
+
+**«Cerrar sesión» ahora cierra la sesión.** Al ir a implementarlo apareció algo más
+gordo: **no había ninguna sesión que cerrar.** El login validaba correo y clave
+contra la base y, si daban bien, hacía un `RedirectToAction` y nada más. Ni
+`Session`, ni `FormsAuthentication`, ni un solo `[Authorize]` en todo el proyecto. El
+botón del menú era decorativo.
+
+Se agregó `Servicios/SesionServicio.cs`; el login deja registrado quién entró —sin
+guardar la clave ni el token, que ahí adentro no hacen falta— e `InicioController`
+tiene una acción `Salir` que limpia y abandona la sesión. El botón es un **POST con
+token antiforgery**, no un enlace: con un GET alcanzaría que alguien indujera al
+navegador a pedir `/Inicio/Salir` para dejar afuera a la persona sin que lo pidiera.
+Y el menú cambia solo: «Ingresar» si no hay nadie, «Cerrar sesión» si hay alguien.
+
+Verificado de punta a punta contra la base real, con un usuario de prueba creado y
+borrado después (la tabla quedó con los 5 usuarios que tenía): sin sesión el menú
+ofrece Ingresar; el login redirige y el menú pasa a Cerrar sesión; un `GET` a
+`/Inicio/Salir` da **404**; un `POST` sin token da **500** por antifalsificación **y
+la sesión sobrevive**; el `POST` con token redirige a la home y el menú vuelve a
+Ingresar.
+
 ## Pendiente: crítico
 
-### «Cerrar sesión» no cierra ninguna sesión
-El enlace existe en el menú de todas las páginas y ahora lleva al login, que es lo
-que hacía antes de forma indirecta. Pero **no hay ninguna acción de logout en
-`InicioController`**: es un enlace, no un cierre de sesión. Si el sitio maneja
-sesiones de verdad, hace falta la acción que las termine.
+### Nada del sitio está protegido
+Esto salió a la luz al implementar la sesión, y es el punto más serio que queda.
+**Ninguna página exige haber entrado.** No hay un solo `[Authorize]` en el proyecto,
+ni sección `<authentication>` en `Web.config`. La sesión que se agregó identifica
+quién entró, pero no protege nada: cualquiera llega a cualquier URL sin credenciales.
 
-### La raíz del sitio es la pantalla de login
-`RouteConfig` manda `/` a `Inicio/Login`. O sea que la dirección principal de un sitio
-público es un formulario de acceso, y las páginas que venden viven colgadas de `/Home/`.
+Hoy eso no expone datos, porque todas las páginas que existen son públicas a
+propósito —son las que explican el negocio—. Pero **el sitio tiene registro de
+usuarios, confirmación por correo y restablecimiento de clave**: toda esa maquinaria
+está construida para algo que todavía no existe.
 
-Por eso **Login quedó sin `noindex` a propósito**, aunque sus hermanas sí lo llevan:
-marcarla sacaría el sitio entero de Google. Está explicado en la propia vista.
-
-**Lo correcto sería que la ruta por defecto apunte a `Home/Index`**, pero eso cambia
-cómo se comporta la aplicación y es una decisión, no una corrección.
+**Qué hace falta:** decidir qué pantallas debería ver sólo un usuario registrado —el
+cotizador con sus cotizaciones guardadas, un panel de pólizas— y protegerlas. Sin esa
+decisión, el login es un trámite que no da acceso a nada.
 
 ### El cotizador no existe
 `CotizadorAuto.cshtml` es un placeholder de tres líneas que dice *"Aqui va el
