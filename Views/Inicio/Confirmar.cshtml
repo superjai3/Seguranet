@@ -5,14 +5,16 @@
 
 <!DOCTYPE html>
 
-<html>
+<html lang="es">
 <head>
     <meta name="viewport" content="width=device-width" />
+    <meta name="robots" content="noindex, follow" />
     <title>Confirmar</title>
-    @Styles.Render("~/Content/css")
+    @Styles.Render("~/Content/css-completo")
 </head>
 <body>
-    <div class="container" mt-3>
+    <div class="container mt-3">
+        <h1 class="h3">Confirmación de cuenta</h1>
         @if ((bool)ViewBag.Respuesta)
         {
             <div class="alert alert-success">

@@ -5,17 +5,26 @@
 
 <!DOCTYPE html>
 
-<html>
+<html lang="es">
 <head>
     <meta name="viewport" content="width=device-width" />
+    @* OJO: esta vista NO lleva noindex, a diferencia de las otras de Inicio.
+       La ruta por defecto de RouteConfig es Inicio/Login, asi que esta pagina
+       es la raiz del sitio: marcarla noindex sacaria el sitio entero de Google.
+
+       El problema de fondo es ese: la raiz de un sitio publico es una pantalla
+       de login, y las paginas que venden viven colgadas de /Home/. Lo correcto
+       seria que la ruta por defecto apunte a Home/Index, pero eso cambia como
+       se comporta la aplicacion y es una decision, no una correccion. Queda en
+       el informe. *@
     <title>Login</title>
-    @Styles.Render("~/Content/css")
+    @Styles.Render("~/Content/css-completo")
 </head>
 <body>
     <div class="row justify-content-center mt-5">
         <div class="col-5">
             <div class="card">
-                <div class="card-header"><h3 class="text-center">Login</h3></div>
+                <div class="card-header"><h1 class="h3 text-center">Login</h1></div>
                 <div class="card-body">
                     <form action="@Url.Action("Login","Inicio")" method="post">
                         <div class="mb-3">
