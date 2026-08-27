@@ -17,9 +17,18 @@ USUARIO="seguranet"
 CARPETA_APP="/var/www/seguranet"
 CARPETA_DATOS="/var/lib/seguranet"
 
-echo "==> Actualizando el sistema"
+echo "==> Actualizando la lista de paquetes"
+# Sólo `update`, que refresca la lista. NO `upgrade`.
+#
+# Este script puede correrse en una máquina donde ya vive el sitio de un
+# cliente, y actualizar el sistema entero sin avisar puede reiniciar servicios o
+# traer un kernel nuevo que exige reiniciar la máquina. Poner un sitio nuevo no
+# es motivo para tocar el que ya funciona.
+#
+# Actualizar el sistema es una tarea de mantenimiento aparte, que se hace
+# cuando uno decide y mirando:
+#     sudo apt-get update && sudo apt-get upgrade
 apt-get update -qq
-apt-get upgrade -y -qq
 
 echo "==> Instalando lo necesario"
 # aspnetcore-runtime-8.0: alcanza para ejecutar. No hace falta el SDK, porque el
