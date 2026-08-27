@@ -5,16 +5,16 @@ Rama `mejoras/auditoria-web-2026-08-27`
 
 ## Resumen
 
-De los **57 puntos aplicables** al modelo SaaS:
+De los **56 puntos aplicables** al modelo SaaS:
 
 | Estado | Puntos |
 |---|---|
 | **`ok`** — cumplido y verificado | **19** |
 | `parcial` — está pero a medias | 6 |
 | `cliente` — depende de una decisión tuya | 1 |
-| `falta` — no está y se puede hacer | 31 |
+| `falta` — no está y se puede hacer | 30 |
 
-**22 arreglados en esta pasada**, casi todos técnicos: el repositorio, las
+**23 arreglados en esta pasada**, casi todos técnicos: el repositorio, las
 imágenes, los scripts rotos, el SEO y el arranque de la aplicación.
 
 Seguranet es un CRM/cotizador de seguros hecho como proyecto final de cátedra
@@ -30,8 +30,8 @@ rama principal llevaba desde noviembre de 2024 sin compilar.
 > empresa real detrás»; pero el sitio dice vender seguros, así que esos puntos
 > aplican y lo que corresponde es marcarlos como lo que son: **faltantes**.
 >
-> Reevaluados los 21 puntos mal descartados, el número honesto es **19 de 57**. El
-> salto de `falta` de 14 a 31 no es que el sitio haya empeorado: es que antes esos
+> Reevaluados los 21 puntos mal descartados, el número honesto es **19 de 56**. El
+> salto de `falta` de 14 a 30 no es que el sitio haya empeorado: es que antes esos
 > puntos estaban escondidos debajo de un «no aplica» que no correspondía.
 
 > ✅ **Compilado y ejecutado.** Se instaló Visual Studio Community 2022 con la
@@ -199,26 +199,29 @@ ofrece Ingresar; el login redirige y el menú pasa a Cerrar sesión; un `GET` a
 la sesión sobrevive**; el `POST` con token redirige a la home y el menú vuelve a
 Ingresar.
 
-## Pendiente: crítico
+## Decisiones tomadas
 
-### «Conoce a Nuestro Equipo» es gente que no existe
+### C1 · «Conoce a Nuestro Equipo» se queda como está
 En `Views/Home/Nosotros.cshtml` hay seis personas con nombre y apellido —María
-Rodríguez, Carlos Pérez, Lucía Gómez, Silvana Teran, Jose Viñas, Marta Seguias— y
-foto. **Ninguna es real: las fotos son de iStock**, y no están descargadas y
-licenciadas sino **enlazadas directamente a `media.istockphoto.com`**, que es el
-servidor de vistas previas de una agencia de stock paga.
+Rodríguez, Carlos Pérez, Lucía Gómez, Silvana Teran, Jose Viñas, Marta Seguias—
+y foto. Ninguna existe: las fotos son de iStock, enlazadas al servidor de vistas
+previas de la agencia.
 
-Son dos problemas de distinta gravedad en el mismo bloque:
+**Decisión del titular (27/08/2026): se deja.** El razonamiento es que Seguranet
+es un trabajo de cátedra y no una empresa que capta clientes, así que ese bloque
+es contenido de demostración y no una afirmación comercial sobre un equipo real.
 
-1. **Un equipo inventado presentado como el equipo real.** Es el punto C1 del
-   checklist, y es de los que no se arreglan solos: o son personas de verdad, o la
-   sección se saca. **No lo toqué**: inventar o sustituir gente es exactamente lo
-   que una auditoría no debe hacer por su cuenta.
-2. **Uso de imágenes de una agencia paga sin licencia.** Aunque el proyecto sea
-   académico, si esto está publicado es un problema legal, no estético.
+Queda escrito acá porque **la decisión depende de que el proyecto siga siendo
+académico**. El día que Seguranet se use para captar clientes de verdad, esto
+vuelve a ser un problema —y entonces son dos: un equipo inventado presentado
+como real, y el uso de imágenes de una agencia paga sin licencia—.
 
-**Qué hace falta:** decidir. O van las caras y los nombres del equipo real —que en
-un proyecto de cátedra serían los del grupo—, o se elimina la sección entera.
+Nota: **los tres testimonios de la portada sí se quitaron** (commit `38c2369`),
+antes de que esa página pasara a mostrarse en el portafolio comercial de Holding
+Insurtech. Si con el mismo criterio de «es académico» preferís que vuelvan, es
+un revert de un commit.
+
+## Pendiente: crítico
 
 ### 34 imágenes enlazadas desde sitios ajenos
 Ninguna imagen que no sea de la carpeta `Imagenes/` está alojada en el sitio. Están
