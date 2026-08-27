@@ -253,3 +253,56 @@ internet, y así tiene que ser.
 **Si el sitio no responde y todo parece bien**, casi siempre es el cortafuegos:
 comprobar que estén abiertos los dos, el de la consola de Oracle y el de la
 máquina (`sudo iptables -L INPUT -n --line-numbers | head`).
+
+---
+
+## Apéndice: compartir la máquina con otro sitio
+
+Si en lugar de una instancia propia se aloja junto a otro sitio —hoy, junto a
+Enricci en `168.138.128.137`— no hay **nada** que configurar en la consola de
+Oracle: los puertos ya están abiertos y la IP ya es fija. Todo pasa dentro.
+
+Los dos sitios no se pisan porque cada uno tiene lo suyo:
+
+| | Enricci | Seguranet |
+| --- | --- | --- |
+| Puerto | 5000 | 5080 |
+| Usuario | `enricci` | `seguranet` |
+| Aplicación | `/var/www/enricci` | `/var/www/seguranet` |
+| Datos | `/var/lib/enricci` | `/var/lib/seguranet` |
+| nginx | `sites-available/enricci` | `sites-available/seguranet` |
+
+Un mismo nginx atiende los dos dominios y reparte según el nombre que pide el
+navegador.
+
+### La memoria es lo único ajustado
+
+Medido en esa máquina: 954 MB en total, Enricci ocupa unos 234 MB, nginx 6 MB,
+y quedan unos 340 MB disponibles más 2 GB de swap casi sin usar.
+
+Entra, pero sólo porque `seguranet.service` viene con límites puestos:
+
+- **GC de estación de trabajo** en vez de servidor. El de servidor reserva por
+  núcleo y está pensado para máquinas grandes; acá es lo contrario de lo que
+  conviene.
+- **`MemoryHigh=180M`**: por encima de eso el núcleo aprieta y le recupera
+  memoria a este servicio.
+- **`MemoryMax=250M`**: techo duro. Si lo pasa, se mata **este** proceso y no el
+  vecino.
+
+Ese último punto es el que importa: garantiza que un problema en Seguranet no se
+lleve puesto un sitio de un cliente real. Sin él, el que muere cuando falta
+memoria es el que está recibiendo tráfico, que puede ser cualquiera de los dos.
+
+### Comprobar cómo va
+
+```bash
+systemctl show seguranet -p MemoryCurrent   # cuánto usa ahora
+free -m                                     # cuánto queda en la máquina
+journalctl -u seguranet | grep -i "memory\|killed"
+```
+
+Si aparece que lo mataron por memoria, hay dos caminos: subir el techo si
+todavía hay margen, o mover Seguranet a una instancia propia. La cuota ARM de
+la capa gratuita —4 CPU y 24 GB— está sin usar si el otro sitio corre en una
+`E2.1.Micro` x86, así que esa mudanza no cuesta dinero.

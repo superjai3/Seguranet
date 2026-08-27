@@ -35,6 +35,27 @@ EnvironmentFile=/etc/seguranet.env
 Environment=ASPNETCORE_URLS=http://127.0.0.1:5080
 Environment=DOTNET_PRINT_TELEMETRY_MESSAGE=false
 
+# --- Memoria ----------------------------------------------------------------
+# Pensado para poder convivir con otro sitio en una máquina chica. En la
+# instancia de la capa gratuita de 1 GB, Enricci ya ocupa unos 234 MB y quedan
+# unos 340 MB libres: sin estos límites, dos aplicaciones .NET con la
+# configuración de fábrica se pelean por la memoria y la que muere es la que
+# está recibiendo tráfico.
+#
+# GC de estación de trabajo en vez de servidor: el de servidor reserva un
+# montón por núcleo y está pensado para máquinas grandes con mucha carga. Acá
+# es justo lo contrario.
+Environment=DOTNET_gcServer=0
+# Devolver memoria al sistema en cuanto se pueda, aunque cueste algo de CPU.
+Environment=DOTNET_GCConserveMemory=9
+
+# Por encima de MemoryHigh el núcleo aprieta y recupera memoria de este
+# servicio. MemoryMax es el techo duro: si lo pasa, se mata ESTE proceso y no
+# el vecino. Es lo que garantiza que un problema de Seguranet no se lleve
+# puesto a un sitio de un cliente real.
+MemoryHigh=180M
+MemoryMax=250M
+
 # --- Endurecimiento ---------------------------------------------------------
 # El proceso no necesita nada de esto, así que se le quita. Si algún día una
 # vulnerabilidad permitiera ejecutar código, se encuentra con una caja vacía.
