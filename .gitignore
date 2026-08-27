@@ -42,3 +42,25 @@ $RECYCLE.BIN/
 *.log
 App_Data/*.mdf
 App_Data/*.ldf
+
+# --- Secretos y datos: nunca al repositorio ---------------------------------
+# El proyecto ya tuvo una contraseña de aplicación de Gmail escrita dentro del
+# código y publicada durante un año. Esto es para que no vuelva a pasar por
+# descuido: el archivo con los secretos reales vive en /etc/seguranet.env, en el
+# servidor, y el ejemplo del repositorio nace con los huecos vacíos.
+*.env
+!*.env.ejemplo
+appsettings.Production.json
+appsettings.Local.json
+
+# La base y sus copias: son datos de personas, no código.
+*.db
+*.db-shm
+*.db-wal
+respaldos/
+
+# Certificados y claves privadas.
+*.pem
+*.pfx
+*.key
+certs/
