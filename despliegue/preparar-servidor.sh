@@ -57,9 +57,25 @@ echo "==> Abriendo los puertos 80 y 443 en el cortafuegos de la máquina"
 # Ubuntu traen reglas de iptables que sólo dejan pasar SSH, así que abrir los
 # puertos en la consola de Oracle no alcanza. Si se abre uno solo, el sitio
 # parece inalcanzable y no hay ningún error que lo explique.
-iptables -I INPUT 5 -p tcp --dport 80  -m state --state NEW,ESTABLISHED -j ACCEPT
-iptables -I INPUT 6 -p tcp --dport 443 -m state --state NEW,ESTABLISHED -j ACCEPT
-netfilter-persistent save
+#
+# Se comprueba antes de agregar: este script se puede correr en una máquina que
+# ya aloja otro sitio —los puertos entonces ya están abiertos— y volver a
+# insertar la regla dejaría duplicados que se acumulan en cada pasada.
+abrir_puerto() {
+    local puerto="$1"
+    if iptables -C INPUT -p tcp --dport "$puerto" -m state --state NEW,ESTABLISHED -j ACCEPT 2>/dev/null; then
+        echo "    el puerto $puerto ya estaba abierto"
+    else
+        iptables -I INPUT 5 -p tcp --dport "$puerto" -m state --state NEW,ESTABLISHED -j ACCEPT
+        echo "    abierto el puerto $puerto"
+        REGLAS_NUEVAS=1
+    fi
+}
+
+REGLAS_NUEVAS=0
+abrir_puerto 80
+abrir_puerto 443
+[ "$REGLAS_NUEVAS" -eq 1 ] && netfilter-persistent save
 
 # Memoria de intercambio, sólo si la máquina tiene poca RAM y todavía no la
 # tiene. En la E2.1.Micro de la capa gratuita (1 GB) hace falta: sin ella, una
