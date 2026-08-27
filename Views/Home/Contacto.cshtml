@@ -6,13 +6,14 @@
 
 @{
     ViewBag.Title = "Contacto";
+    ViewBag.Descripcion = "Escribinos o llamanos: datos de contacto y horarios de atención de Seguranet.";
 }
 
 <main>
     <!-- SECTION: Formulario de Contacto -->
     <section class="contact-form bg-light py-5">
         <div class="container">
-            <h2 class="display-4 text-center mb-4 text-success">@ViewBag.Title</h2>
+            <h1 class="display-4 text-center mb-4 text-success">@ViewBag.Title</h1>
             <div class="row justify-content-center">
                 <div class="col-md-8 col-lg-6">
                     @using (Html.BeginForm("EnviarConsulta", "Home", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
