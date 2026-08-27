@@ -19,6 +19,22 @@ namespace Seguranet.Controllers
             return View();
         }
 
+        /// <summary>
+        /// Cierra la sesión y vuelve a la home.
+        ///
+        /// Va por POST y con token antiforgery a propósito: si fuera un GET,
+        /// bastaría con que alguien indujera al navegador a pedir /Inicio/Salir
+        /// —una imagen, un enlace en otro sitio, el prefetch del propio
+        /// navegador— para dejar afuera a la persona sin que la haya pedido.
+        /// </summary>
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Salir()
+        {
+            SesionServicio.Cerrar(Session);
+            return RedirectToAction("Index", "Home");
+        }
+
         [HttpPost]
         public ActionResult Login(string correo, string clave)
         {
@@ -36,6 +52,10 @@ namespace Seguranet.Controllers
                 }
                 else
                 {
+                    // Acá antes sólo se redirigía. Validar la clave y no dejar
+                    // registro de que la persona entró hacía que el "Cerrar
+                    // sesión" del menú no tuviera nada que cerrar.
+                    SesionServicio.Iniciar(Session, usuario);
                     return RedirectToAction("Index", "Home"); // Redirige a la página de inicio
                 }
             }

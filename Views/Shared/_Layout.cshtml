@@ -1,4 +1,4 @@
-@{
+﻿@{
     // Cada vista pone su propio título y su propia descripción. Los valores de
     // acá abajo son el paracaídas por si alguna se olvida, no el texto de todas:
     // una descripción repetida en trece páginas es una descripción que Google
@@ -147,17 +147,31 @@
                                 <li>@Html.ActionLink("Contacto", "Contacto", "Home", new { area = "" }, new { @class = "nav-link" })</li>
                             </ul>
 
-                            @* "Cerrar sesión" apuntaba a https://localhost:44395/,
-                               el puerto de IIS Express en desarrollo: otra
-                               dirección de máquina propia en el menú de todas las
-                               páginas. Lo que hacía era volver a la raíz, y la
-                               raíz es el login, así que ahora va derecho ahí.
+                            @* Antes acá había un enlace fijo a
+                               https://localhost:44395/ —el puerto de IIS Express
+                               en desarrollo— que además no cerraba nada, porque no
+                               existía ni la sesión ni la acción para cerrarla.
 
-                               OJO: esto no cierra ninguna sesión. No existe una
-                               acción de logout en InicioController — es un enlace,
-                               no un cierre de sesión. Está en AUDITORIA.md. *@
+                               Ahora el bloque cambia según haya alguien adentro o
+                               no, y el cierre va por POST con token antiforgery:
+                               con un GET alcanzaría que alguien indujera al
+                               navegador a pedir esa dirección para dejar afuera a
+                               la persona sin que lo pidiera. *@
                             <ul class="navbar-nav ml-auto">
-                                <li>@Html.ActionLink("Cerrar sesión", "Login", "Inicio", new { area = "" }, new { @class = "nav-link" })</li>
+                                @if (Seguranet.Servicios.SesionServicio.HayUsuario(Session))
+                                {
+                                    <li class="nav-item">
+                                        @using (Html.BeginForm("Salir", "Inicio", FormMethod.Post, new { @class = "form-inline" }))
+                                        {
+                                            @Html.AntiForgeryToken()
+                                            <button type="submit" class="nav-link btn btn-link">Cerrar sesión</button>
+                                        }
+                                    </li>
+                                }
+                                else
+                                {
+                                    <li>@Html.ActionLink("Ingresar", "Login", "Inicio", new { area = "" }, new { @class = "nav-link" })</li>
+                                }
                             </ul>
 
                         </div>

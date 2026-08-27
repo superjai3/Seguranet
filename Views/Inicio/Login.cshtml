@@ -8,12 +8,12 @@
 <html lang="es">
 <head>
     <meta name="viewport" content="width=device-width" />
-    @* Esta vista NO lleva noindex, a diferencia de las otras de Views/Inicio.
-       La ruta por defecto de RouteConfig es Inicio/Login, así que esta página es
-       la raíz del sitio: marcarla sacaría el sitio entero de Google. Que la raíz
-       de un sitio público sea un formulario de acceso es el problema de fondo, y
-       está en AUDITORIA.md. *@
-    <title>Login</title>
+    @* Ahora sí lleva noindex, como sus hermanas de Views/Inicio: desde que la
+       ruta por defecto apunta a Home/Index, esta página dejó de ser la raíz del
+       sitio y marcarla ya no saca nada del índice. Una pantalla de acceso no le
+       aporta nada a quien busca. *@
+    <meta name="robots" content="noindex, follow" />
+    <title>Ingresar</title>
     @Styles.Render("~/Content/css-completo")
     <link href="~/Content/Site.css" rel="stylesheet" />
 

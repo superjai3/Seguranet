@@ -30,10 +30,21 @@ namespace Seguranet
                 defaults: new { controller = "Seo", action = "Sitemap" }
             );
 
+            // La raíz del sitio es la home pública, no la pantalla de acceso.
+            //
+            // Antes esto apuntaba a Inicio/Login: la dirección principal de un
+            // sitio que quiere que lo encuentren era un formulario de usuario y
+            // contraseña, y todo lo que explica el negocio —coberturas,
+            // siniestros, preguntas— colgaba de /Home/. Para un buscador, la
+            // página más importante del sitio era la menos útil de todas, y no
+            // se le podía poner noindex sin sacar el sitio entero del índice.
+            //
+            // Quien quiera entrar a su cuenta sigue teniendo /Inicio/Login, que
+            // es donde estaba y ahora sí puede llevar noindex.
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Inicio", action = "Login", id = UrlParameter.Optional }
+                defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
             );
         }
     }
