@@ -3,7 +3,7 @@
   "fecha": "2026-08-27",
   "stack": "aspnet-mvc5-netframework",
   "modelo": "saas",
-  "commit": "48219db",
+  "commit": "673ea8a",
   "rama": "mejoras/auditoria-web-2026-08-27",
   "puntos": {
     "T1": "falta",
@@ -83,9 +83,10 @@
   },
   "resumen": {
     "aplicables": 60,
-    "ok": 40,
-    "arreglados": 19,
-    "pendientes": 20
+    "ok": 41,
+    "arreglados": 20,
+    "pendientes": 19
   },
-  "verificacion": "Compilado con MSBuild (Visual Studio Community 2022, targeting pack 4.6.2): 0 errores, 1 advertencia anterior (MSB3247). Ejecutado con IIS Express: las 13 paginas, robots.txt y sitemap.xml responden 200; h1 y descripcion unicos por pagina; JSON-LD valido; imagenes servidas como image/webp."
+  "verificacion": "Compilado con MSBuild (Visual Studio Community 2022, targeting pack 4.6.2): 0 errores, 1 advertencia anterior (MSB3247). Ejecutado con IIS Express: las 14 rutas responden 200, no queda ninguna URL de localhost en el HTML servido, h1 y descripcion unicos por pagina, JSON-LD valido, imagenes servidas como image/webp.",
+  "base": "Mezclado con origin/main (af4b37a, \"Cambios realizados para la presentacion final\"), que no compilaba. La auditoria original se hizo sobre 9fcc1ca, dos semanas anterior."
 }

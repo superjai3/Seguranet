@@ -113,7 +113,45 @@ Dos errores propios de esta pasada que sólo aparecieron con el sitio corriendo:
 - Y lo que más riesgo tenía del desdoble de paquetes: `Registrar`, que no usa el
   layout, **sigue recibiendo** `Content/bootstrap.css`, y la home ya no lo repite.
 
+### `673ea8a` · La rama de la presentación final no compilaba
+Al ir a subir esto apareció que `origin/main` tenía un commit de dos semanas
+después de la base sobre la que se hizo la auditoría: **«Cambios realizados para
+la presentación final»**. Trae cosas buenas —el formulario de contacto con envío
+de correo, Bootstrap local a 5.3.3, jQuery a 3.7.1— pero dejó la rama sin
+compilar. Tres motivos:
+
+1. **El `.csproj` referenciaba seis versiones de paquetes que su propio
+   `packages.config` no declaraba** (CodeDom 2.0.1 y 4.1.0, MimeKit 4.0.0,
+   SweetAlert2 1.0.0, Components.Analyzers 3.1.0 y 8.0.10). El restore no las
+   bajaba y la compilación cortaba antes de empezar.
+2. **`Controllers/CotizadorController.cs` estaba escrito con Razor Pages** —
+   hereda de `PageModel`, usa `BindProperty` y devuelve un valor desde un método
+   `void`. En MVC 5 nada de eso existe. Encima duplicaba la acción `CotizadorAuto`
+   que ya tiene `HomeController`. Por lo mismo se fueron
+   `Views/_ViewImports.cshtml` y `Views/_ViewImports.cshtml.cshtml`, que son de
+   ASP.NET Core y acá no los lee nadie.
+3. **Dos desajustes que compilaban y reventaban recién al abrir una página**: la
+   referencia a CodeDom declaraba `Version=2.0.1.0` apuntando al DLL 4.1.0, y
+   `Views/Web.config` pedía `System.Web.Mvc` 5.2.9 cuando `packages.config`
+   declara 5.2.7 y la redirección de enlace sólo llega hasta ahí.
+
+Y algo que estaba mal aunque compilara: **tres enlaces apuntaban a
+`http://127.0.0.1:5500`** —el menú de todas las páginas, el botón principal de la
+home y el de Coberturas—, que es la dirección de Live Server en la máquina de
+quien lo programó. Y **«Cerrar sesión» apuntaba a `https://localhost:44395`**, el
+puerto de IIS Express. Ninguno llevaba a ningún lado para un visitante.
+
+El CDN de Bootstrap pasa a 5.3.3 para coincidir con el local: antes el CDN servía
+5.2.0-beta1 y el paquete local 5.3.3, así que una página se veía con una versión u
+otra según pasara o no por el layout.
+
 ## Pendiente: crítico
+
+### «Cerrar sesión» no cierra ninguna sesión
+El enlace existe en el menú de todas las páginas y ahora lleva al login, que es lo
+que hacía antes de forma indirecta. Pero **no hay ninguna acción de logout en
+`InicioController`**: es un enlace, no un cierre de sesión. Si el sitio maneja
+sesiones de verdad, hace falta la acción que las termine.
 
 ### La raíz del sitio es la pantalla de login
 `RouteConfig` manda `/` a `Inicio/Login`. O sea que la dirección principal de un sitio
