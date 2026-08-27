@@ -27,7 +27,7 @@ builder.Services.AddScoped<DBConsulta>();
 
 builder.Services.AddSingleton<CorreoServicio>();
 builder.Services.AddHttpClient();
-builder.Services.AddTransient<IMercadoLibreService, MercadoLibreService>();
+builder.Services.AddTransient<ICatalogoVehiculos, CatalogoVehiculos>();
 
 // ---------------------------------------------------------------------------
 // Caché
