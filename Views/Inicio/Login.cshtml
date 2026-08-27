@@ -8,52 +8,62 @@
 <html lang="es">
 <head>
     <meta name="viewport" content="width=device-width" />
-    @* OJO: esta vista NO lleva noindex, a diferencia de las otras de Inicio.
-       La ruta por defecto de RouteConfig es Inicio/Login, asi que esta pagina
-       es la raiz del sitio: marcarla noindex sacaria el sitio entero de Google.
-
-       El problema de fondo es ese: la raiz de un sitio publico es una pantalla
-       de login, y las paginas que venden viven colgadas de /Home/. Lo correcto
-       seria que la ruta por defecto apunte a Home/Index, pero eso cambia como
-       se comporta la aplicacion y es una decision, no una correccion. Queda en
-       el informe. *@
+    @* Esta vista NO lleva noindex, a diferencia de las otras de Views/Inicio.
+       La ruta por defecto de RouteConfig es Inicio/Login, así que esta página es
+       la raíz del sitio: marcarla sacaría el sitio entero de Google. Que la raíz
+       de un sitio público sea un formulario de acceso es el problema de fondo, y
+       está en AUDITORIA.md. *@
     <title>Login</title>
     @Styles.Render("~/Content/css-completo")
+    <link href="~/Content/Site.css" rel="stylesheet" />
+
+
 </head>
 <body>
-    <div class="row justify-content-center mt-5">
-        <div class="col-5">
-            <div class="card">
-                <div class="card-header"><h1 class="h3 text-center">Login</h1></div>
-                <div class="card-body">
-                    <form action="@Url.Action("Login","Inicio")" method="post">
-                        <div class="mb-3">
-                            <label>Correo</label>
-                            <input type="email" class="form-control" name="correo" required />
-                        </div>
-                        <div class="mb-3">
-                            <label>Contraseña</label>
-                            <input type="password" class="form-control" name="clave" required />
-                        </div>
+    <!-- Imagen de fondo -->
+    <div class="background"></div>
 
-                        @if (ViewBag.Mensaje != null)
-                        {
-                            <div class="alert alert-danger">
-                                @ViewBag.Mensaje
-                            </div>
-                        }
-                        <div class="mb-3">
-                            <div class="d-grid">
-                                <button class="btn btn-primary" type="submit">Ingresar</button>
-                                <a class="btn btn-link" href="@Url.Action("Registrar","Inicio")">No tienes una cuenta? Registrate!</a>
-                                <a class="btn btn-link" href="@Url.Action("Restablecer","Inicio")">Has olvidado tu contraseña?</a>
-                            </div>
+        <div class="row justify-content-center mt-5">
+                <div class="card">
+                    <div class="card-header">
+                        <div>
+                            @* alt vacío a propósito: el nombre ya lo dice el
+                               encabezado de abajo, y repetirlo hace que un lector
+                               de pantalla lea "Seguranet" dos veces seguidas. *@
+                            <img src="/Imagenes/Logo Seguranet.webp" alt="" class="logo-navbar">
                         </div>
-                    </form>
-                </div>
+                        <h1 class="h3 text-center">Ingresar a Seguranet</h1>
+                    </div>
+                        <div class="card-body">
+                            <form action="@Url.Action("Login","Inicio")" method="post">
+                                <div class="mb-3">
+                                    <label>Correo</label>
+                                    <input type="email" class="form-control" name="correo" required />
+                                </div>
+                                <div class="mb-3">
+                                    <label>Contraseña</label>
+                                    <input type="password" class="form-control" name="clave" required />
+                                </div>
+
+                                @if (ViewBag.Mensaje != null)
+                                {
+                                    <div class="alert alert-danger">
+                                        @ViewBag.Mensaje
+                                    </div>
+                                }
+                                <div class="mb-3">
+                                    <div class="d-grid">
+                                        <button class="btn btn-primary" type="submit">Ingresar</button>
+                                        <a class="btn btn-link" href="@Url.Action("Registrar","Inicio")">No tienes una cuenta? Registrate!</a>
+                                        <a class="btn btn-link" href="@Url.Action("Restablecer","Inicio")">Has olvidado tu contraseña?</a>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
             </div>
         </div>
-    </div>
+
+
     @Scripts.Render("~/bundles/bootstrap")
 </body>
 </html>

@@ -11,6 +11,11 @@ body {
     color: #455060; /* Azul oscuro para el texto */
     line-height: 1.6;
     background-color: #e6eaed; /* Fondo muy claro */
+    background-size: cover; /* Hace que la imagen cubra todo el área disponible */
+    background-position: center center; /* Centra la imagen */
+    background-attachment: fixed; /* Fija la imagen de fondo cuando se haga scroll */
+    background-repeat: no-repeat; /* Evita que la imagen se repita */
+    min-height: 100vh; /* Asegura que el fondo cubra toda la altura de la ventana */
 }
 
 /* Header */
@@ -20,7 +25,11 @@ header {
 }
 
 .navbar {
-    background-color: #455060
+    background-color: #455060;
+    width: 100%; /* Asegura que ocupe todo el ancho */
+    height: 100%;
+    margin: 0;
+    padding: 0;
 }
 
 .navbar-brand {
@@ -36,12 +45,6 @@ header {
     .nav-link:hover {
         color: #b5cae1 !important; /* Color claro para el hover */
     }
-
-.logo-navbar {
-    height: 50px; /* Ajusta la altura según el tamaño del menú */
-    width: auto; /* Mantén la proporción del logo */
-    margin-right: 10px; /* Espacio opcional entre el logo y el resto del menú */
-}
 
 /* Hero Section */
 .hero {
@@ -152,11 +155,19 @@ header {
 .footer {
     background-color: #6c757d; /* Azul muy oscuro para el footer */
     color: #ffffff; /* Blanco para el texto del footer */
+    width: 100%; /* Extiende el ancho para cubrir toda la pantalla */
+    margin: 0;
     padding: 2rem 0;
+    text-align: center; /* Centra el texto */
 }
 
     .footer p {
         margin: 0;
     }
 
+.logo-navbar {
+    max-height: 150px; /* Aumentar la altura para que la imagen sea más grande */
+    width: auto; /* Mantiene la proporción original del logo */
+    margin-right: 10px; /* Espacio opcional entre el logo y el resto del menú */
+}
 

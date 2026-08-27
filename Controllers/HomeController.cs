@@ -1,7 +1,11 @@
-﻿using System;
+﻿using Seguranet.Models;
+using Seguranet.Servicios;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Net;
+using System.Net.Mail;
 using System.Web.Mvc;
 
 namespace Seguranet.Controllers
@@ -36,18 +40,33 @@ namespace Seguranet.Controllers
         {
             return View();
         }
+
+
+
+
+
+
+
+        // Acción para mostrar el formulario
         public ActionResult Contacto()
         {
-            ViewBag.TipoConsulta = new List<SelectListItem>
-                {
-                    new SelectListItem { Value = "1", Text = "Consulta General" },
-                    new SelectListItem { Value = "2", Text = "Soporte Técnico" },
-                    new SelectListItem { Value = "3", Text = "Ventas" },
-                    new SelectListItem { Value = "4", Text = "Sugerencia" }
-                };
             return View();
+        }
+
+        // Acción para manejar el envío del formulario
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Enviar(ContactoViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                // Procesa el formulario (enviar el correo, guardar en base de datos, etc.)
+                TempData["Mensaje"] = "Gracias por tu consulta, nos pondremos en contacto contigo pronto.";
+                return RedirectToAction("Contacto");
+            }
+
+            // Si el formulario no es válido, vuelve a mostrar la vista con los mensajes de error
+            return View("Contacto", model);
         }
     }
 }
-
-

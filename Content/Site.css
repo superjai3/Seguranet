@@ -1,1 +1,55 @@
-﻿
+﻿/* Asegura que el body ocupe todo el alto de la pantalla y centre el contenido */
+body, html {
+    margin: 0;
+    justify-content: center; /* Centra horizontalmente */
+    align-items: center; /* Centra verticalmente */
+    position: relative; /* Necesario para posicionar el fondo */
+}
+
+/* Estilos para el fondo */
+.background {
+    position: fixed; /* Fijo para que no se mueva con el scroll */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('/Imagenes/Fondo-Inicio.jpg'); /* Cambia la ruta si es necesario */
+    background-size: cover;
+    background-position: center;
+    opacity: 0.5; /* Ajusta la opacidad según lo necesites */
+    pointer-events: none; /* Evita que el fondo interfiera con los clics */
+}
+
+/* Estilos para la tarjeta (card) */
+.card {
+    position: relative;
+    z-index: 1; /* Asegura que la tarjeta quede por encima del fondo */
+    width: 100%; /* Asegura que la card ocupe todo el ancho disponible */
+    max-width: 600px; /* Aumenta el ancho máximo de la card */
+    margin: 0 20px; /* Da un pequeño margen en los laterales */
+    padding: 20px; /* Agrega algo de padding para un mejor aspecto */
+    border-radius: 10px; /* Redondea las esquinas de la tarjeta */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Añade sombra para darle profundidad */
+}
+
+/* Centra la imagen dentro del contenedor */
+.card-header > div {
+    display: flex;
+    justify-content: center; /* Centra horizontalmente */
+    align-items: center; /* Centra verticalmente */
+    height: 100%; /* Asegura que el contenedor tenga el mismo alto que el card-header */
+}
+
+/* Asegura que la imagen no sea demasiado grande */
+.logo-navbar {
+    max-width: 100%; /* Ajusta el tamaño de la imagen si es muy grande */
+    height: auto; /* Mantiene la proporción de la imagen */
+}
+
+/* Añadir responsividad para pantallas pequeñas */
+@media (max-width: 576px) {
+    .card {
+        width: 90%; /* Hace que la card ocupe el 90% del ancho en pantallas pequeñas */
+        margin: 0 10px; /* Ajusta los márgenes */
+    }
+}

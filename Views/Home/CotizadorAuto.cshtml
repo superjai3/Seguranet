@@ -5,10 +5,31 @@
 
 <h1 class="display-4 mb-4 text-success">Cotizador de auto</h1>
 
-@* PENDIENTE: esta página es un placeholder. El cotizador —que es la función
-   central del sitio y está en el menú principal— todavía no está implementado.
-   Hasta que lo esté, la página no debería estar enlazada desde la navegación
-   ni figurar en el sitemap: manda a un callejón sin salida. *@
-<div>
-    Aqui va el cotizador
+@* PENDIENTE — esta página todavía no funciona, y es la función central del
+   sitio y está en el menú principal. Hay tres cosas rotas acá:
+
+   1. El botón "Ir a la Cotización" apuntaba a
+      http://127.0.0.1:5500/CotizadorSeguros/html/index.html, que es la
+      dirección de Live Server en la máquina de quien lo programó. Para
+      cualquier otra persona ese enlace no lleva a ningún lado. Se saca: dejar
+      un botón que no funciona es peor que no tener botón.
+
+   2. El otro botón usaba asp-page-handler, que es un atributo de Razor Pages.
+      Este proyecto es MVC 5: ahí ese atributo no hace absolutamente nada, se
+      escribe tal cual en el HTML y el botón queda decorativo.
+
+   3. Controllers/CotizadorController.cs, que es lo que tendría que atender
+      esto, estaba escrito también con Razor Pages (hereda de PageModel, usa
+      BindProperty y devuelve un valor desde un método void). No compilaba, y
+      por eso la solución entera no compilaba.
+
+   Hasta que el cotizador exista de verdad, la página queda fuera del sitemap y
+   bloqueada en robots.txt para no mandar tráfico a un callejón sin salida, y
+   convendría sacarla del menú. *@
+<div class="alert alert-secondary">
+    <p class="mb-0">
+        El cotizador está en desarrollo. Mientras tanto, escribinos por
+        @Html.ActionLink("el formulario de contacto", "Contacto", "Home") y te
+        pasamos el presupuesto.
+    </p>
 </div>
