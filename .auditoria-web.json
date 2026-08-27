@@ -38,7 +38,7 @@
     "C2": "na",
     "C3": "na",
     "C4": "na",
-    "C5": "falta",
+    "C5": "na",
     "C6": "na",
     "C7": "falta",
     "C8": "falta",
@@ -54,7 +54,7 @@
     "V6": "parcial",
     "V7": "ok",
     "V8": "falta",
-    "V9": "falta",
+    "V9": "na",
     "V10": "falta",
     "V11": "na",
     "V12": "na",
@@ -82,16 +82,17 @@
     "M7": "falta"
   },
   "resumen": {
-    "aplicables": 56,
+    "aplicables": 54,
     "ok": 19,
     "parcial": 6,
     "cliente": 1,
-    "falta": 30,
-    "arreglados": 23
+    "falta": 28,
+    "arreglados": 22
   },
   "verificacion": "Compilado con MSBuild (Visual Studio Community 2022, targeting pack 4.6.2): 0 errores, 1 advertencia anterior (MSB3247). Ejecutado con IIS Express: las 14 rutas responden 200, ninguna URL de localhost en el HTML servido, h1 y descripcion unicos por pagina, JSON-LD valido, imagenes como image/webp. Login y cierre de sesion probados de punta a punta contra la base real, con usuario de prueba creado y borrado.",
   "base": "Mezclado con origin/main (af4b37a, \"Cambios realizados para la presentacion final\"), que no compilaba. La auditoria original se hizo sobre 9fcc1ca, dos semanas anterior.",
   "decisiones": {
-    "C1": "27/08/2026, decision del titular: el equipo inventado de Nosotros se deja como esta. Seguranet es un trabajo de catedra, no una empresa que capta clientes, asi que ese bloque es contenido de demostracion. Depende de que el proyecto siga siendo academico: si pasa a uso comercial, vuelve a ser un problema."
+    "C1": "27/08/2026, decision del titular: el equipo inventado de Nosotros se deja como esta. Seguranet es un trabajo de catedra, no una empresa que capta clientes, asi que ese bloque es contenido de demostracion. Depende de que el proyecto siga siendo academico: si pasa a uso comercial, vuelve a ser un problema.",
+    "C5-V9": "27/08/2026, decision del titular: los tres testimonios inventados de la portada vuelven. Mismo criterio que C1 — es contenido de demostracion de un proyecto de catedra, no una afirmacion comercial. Depende de que siga siendo academico."
   }
 }

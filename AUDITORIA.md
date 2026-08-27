@@ -5,16 +5,16 @@ Rama `mejoras/auditoria-web-2026-08-27`
 
 ## Resumen
 
-De los **56 puntos aplicables** al modelo SaaS:
+De los **54 puntos aplicables** al modelo SaaS:
 
 | Estado | Puntos |
 |---|---|
 | **`ok`** — cumplido y verificado | **19** |
 | `parcial` — está pero a medias | 6 |
 | `cliente` — depende de una decisión tuya | 1 |
-| `falta` — no está y se puede hacer | 30 |
+| `falta` — no está y se puede hacer | 28 |
 
-**23 arreglados en esta pasada**, casi todos técnicos: el repositorio, las
+**22 arreglados en esta pasada**, casi todos técnicos: el repositorio, las
 imágenes, los scripts rotos, el SEO y el arranque de la aplicación.
 
 Seguranet es un CRM/cotizador de seguros hecho como proyecto final de cátedra
@@ -30,9 +30,14 @@ rama principal llevaba desde noviembre de 2024 sin compilar.
 > empresa real detrás»; pero el sitio dice vender seguros, así que esos puntos
 > aplican y lo que corresponde es marcarlos como lo que son: **faltantes**.
 >
-> Reevaluados los 21 puntos mal descartados, el número honesto es **19 de 56**. El
-> salto de `falta` de 14 a 30 no es que el sitio haya empeorado: es que antes esos
+> Reevaluados los 21 puntos mal descartados, el número honesto es **19 de 54**. El
+> salto de `falta` de 14 a 28 no es que el sitio haya empeorado: es que antes esos
 > puntos estaban escondidos debajo de un «no aplica» que no correspondía.
+>
+> El total bajó después de 57 a 54 por otro motivo, y este sí legítimo: tres
+> puntos —C1, C5 y V9— pasaron a `na` por decisión del titular, con el motivo y
+> la condición anotados en «Decisiones tomadas». No es lo mismo descartar un
+> punto porque incomoda que descartarlo porque alguien decidió, dejándolo escrito.
 
 > ✅ **Compilado y ejecutado.** Se instaló Visual Studio Community 2022 con la
 > carga de trabajo de ASP.NET y el targeting pack de .NET Framework 4.6.2.
@@ -201,6 +206,26 @@ Ingresar.
 
 ## Decisiones tomadas
 
+Las dos son de la misma fecha y del mismo razonamiento, y **las dos dependen de
+la misma condición**: que Seguranet siga siendo un trabajo de cátedra. El día que
+se use para captar clientes de verdad, vuelven a ser problemas y hay que
+revisarlas juntas.
+
+### C5 y V9 · Los testimonios de la portada se quedan
+«Lo que dicen nuestros clientes» son tres opiniones firmadas por Juan Pérez, Ana
+Gómez y Luis Martínez, etiquetados «Cliente». Son contenido de demostración de la
+plantilla, no clientes reales.
+
+En una primera pasada se quitaron (commit `38c2369`) por la regla de que un
+testimonio inventado es una afirmación falsa sobre personas con nombre y
+apellido. **Decisión del titular (27/08/2026): que vuelvan**, con el mismo
+criterio que la sección de equipo: es material de demostración de un proyecto
+académico, no una afirmación comercial. Repuestos, y anotado en la propia vista
+para que se lea como decisión y no como descuido.
+
+La captura del portafolio de Holding Insurtech no cambia: corta en las tarjetas
+de beneficios, antes de esta sección.
+
 ### C1 · «Conoce a Nuestro Equipo» se queda como está
 En `Views/Home/Nosotros.cshtml` hay seis personas con nombre y apellido —María
 Rodríguez, Carlos Pérez, Lucía Gómez, Silvana Teran, Jose Viñas, Marta Seguias—
@@ -215,11 +240,6 @@ Queda escrito acá porque **la decisión depende de que el proyecto siga siendo
 académico**. El día que Seguranet se use para captar clientes de verdad, esto
 vuelve a ser un problema —y entonces son dos: un equipo inventado presentado
 como real, y el uso de imágenes de una agencia paga sin licencia—.
-
-Nota: **los tres testimonios de la portada sí se quitaron** (commit `38c2369`),
-antes de que esa página pasara a mostrarse en el portafolio comercial de Holding
-Insurtech. Si con el mismo criterio de «es académico» preferís que vuelvan, es
-un revert de un commit.
 
 ## Pendiente: crítico
 
