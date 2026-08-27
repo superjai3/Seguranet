@@ -1,0 +1,55 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <!--
+    El sitio, la API del cotizador y el front del cotizador, en un solo proyecto.
+
+    Antes eran dos repositorios y dos runtimes: el sitio en ASP.NET MVC 5 sobre
+    .NET Framework 4.6.2 —que sólo corre en Windows con IIS— y la API en .NET 8.
+    Eso obligaba a dos servidores, y el de Windows es el que cuesta dinero todos
+    los meses.
+
+    Unificados en .NET 8 corre todo en Linux, en la misma instancia gratuita de
+    Oracle Cloud que ya usa Enricci. Y de paso desaparece el CORS: el front del
+    cotizador y la API pasan a estar en el mismo origen, así que la política de
+    `AllowAnyOrigin` que traía la API deja de hacer falta.
+  -->
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>Seguranet</RootNamespace>
+    <AssemblyName>Seguranet</AssemblyName>
+    <UserSecretsId>seguranet-es</UserSecretsId>
+    <!-- El proyecto viejo convive en la misma carpeta mientras dure el port. -->
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+    <EnableDefaultContentItems>false</EnableDefaultContentItems>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="Program.cs" />
+    <Compile Include="src/**/*.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Views/**/*.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- Correo de confirmación y restablecimiento de clave. Ya lo usaba el
+         proyecto viejo, así que las plantillas y el código se reaprovechan. -->
+    <PackageReference Include="MailKit" Version="4.8.0" />
+
+    <!-- La base pasa de SQL Server a SQLite: son seis tablas y veinte filas en
+         total, y SQLite no necesita un servidor aparte ni licencia. Es lo mismo
+         que usa Enricci en la misma instancia. -->
+    <PackageReference Include="Microsoft.Data.Sqlite" Version="8.0.10" />
+
+    <!-- Caché de las consultas a MercadoLibre. -->
+    <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="8.0.10" />
+
+    <!-- Documentación interactiva de la API. -->
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.9.0" />
+  </ItemGroup>
+
+</Project>

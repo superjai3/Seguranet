@@ -1,4 +1,5 @@
-﻿@{
+﻿@inject Microsoft.Extensions.Options.IOptions<OpcionesSitio> OpcionesDelSitio
+@{
     // Cada vista pone su propio título y su propia descripción. Los valores de
     // acá abajo son el paracaídas por si alguna se olvida, no el texto de todas:
     // una descripción repetida en trece páginas es una descripción que Google
@@ -7,16 +8,17 @@
     var descripcionPagina = (string)(ViewBag.Descripcion
         ?? "Seguranet: cotizá y gestioná seguros de auto en línea. Coberturas, siniestros y atención al cliente en un solo lugar.");
 
-    // Esta misma página sin la cadena de consulta: es lo que declara la
-    // canónica y lo que se comparte en redes.
-    var urlCanonica = Request.Url == null ? "" : Request.Url.GetLeftPart(UriPartial.Path);
-    var raizDelSitio = Request.Url == null ? "" : Request.Url.GetLeftPart(UriPartial.Authority);
-    var urlImagenSocial = Request.Url == null
-        ? ""
-        : new Uri(Request.Url, Url.Content("~/Imagenes/hero-image.png.webp")).AbsoluteUri;
-    var urlLogo = Request.Url == null
-        ? ""
-        : new Uri(Request.Url, Url.Content("~/Imagenes/Logo Seguranet.webp")).AbsoluteUri;
+    // La raíz sale de la configuración, no del host del pedido. Con el dominio
+    // cargado se usa siempre ése, aunque alguien entre por la IP: si no, la
+    // misma página quedaría publicada en dos direcciones y el buscador
+    // repartiría el posicionamiento entre las dos.
+    //
+    // En MVC 5 esto se armaba con Request.Url, que en ASP.NET Core no existe:
+    // ahora el pedido expone Scheme, Host y Path por separado.
+    var raizDelSitio = OpcionesDelSitio.Value.UrlBase(Context.Request);
+    var urlCanonica = raizDelSitio + Context.Request.Path;
+    var urlImagenSocial = raizDelSitio + Url.Content("~/Imagenes/hero-image.png.webp");
+    var urlLogo = raizDelSitio + Url.Content("~/Imagenes/Logo Seguranet.webp");
 }
 <!DOCTYPE html>
 <html lang="es">
@@ -84,8 +86,7 @@
     <!-- CUSTOM CSS -->
     <link rel="stylesheet" type="text/css" href="~/Style/styles.css">
 
-    @Styles.Render("~/Content/css")
-    @Scripts.Render("~/bundles/modernizr")
+    <link rel="stylesheet" href="~/Content/Site.css" />
 
     @* Qué es este sitio, en el vocabulario de schema.org. Sin esto, en los
        resultados de búsqueda es una página más sin identidad. *@
@@ -158,7 +159,7 @@
                                navegador a pedir esa dirección para dejar afuera a
                                la persona sin que lo pidiera. *@
                             <ul class="navbar-nav ml-auto">
-                                @if (Seguranet.Servicios.SesionServicio.HayUsuario(Session))
+                                @if (Seguranet.Servicios.SesionServicio.HayUsuario(Context.Session))
                                 {
                                     <li class="nav-item">
                                         @using (Html.BeginForm("Salir", "Inicio", FormMethod.Post, new { @class = "form-inline" }))
@@ -202,7 +203,7 @@
 
     </div>
 
-    @Scripts.Render("~/bundles/jquery")
+    <script src="~/Scripts/jquery-3.7.1.min.js"></script>
     @* El paquete ~/bundles/bootstrap sirve Scripts/bootstrap.js, el mismo
        Bootstrap que ya baja del CDN acá abajo —y encima sin Popper, que es lo que
        necesitan los menús desplegables—. Las páginas con layout lo toman del CDN
