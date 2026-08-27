@@ -1,17 +1,26 @@
 ﻿@{
-    ViewBag.Title = "Ayuda";
+    ViewBag.Title = "Socios";
+    ViewBag.Descripcion = "Las aseguradoras con las que trabaja Seguranet y cómo se articula la atención con cada una.";
 }
 
 <main>
     <!-- SECTION: Introducción -->
     <section class="intro bg-light py-5">
         <div class="container text-center">
-            <h2 class="display-4 mb-4 text-success">Socios</h2>
+            <h1 class="display-4 mb-4 text-success">Socios</h1>
             <p class="lead">Aquí encontrarás información útil sobre nuestros socios estratégicos.</p>
         </div>
-    </section>
+    </section>${1}<!-- SECTION: Carrusel de Aseguradoras -->${1}@* REVISAR: cinco de estos veinte logos no se pudieron identificar por la
+       URL (venían de gstatic, googleusercontent, behance, licdn y fasecolda) y
+       quedaron con alt genérico. Hay que ponerles el nombre de la aseguradora
+       que sean: un alt equivocado es peor que uno genérico.
 
-    <!-- SECTION: Carrusel de Aseguradoras -->
+       Y algo más gordo: los veinte logos están enlazados desde sitios ajenos
+       —Wikimedia, el WordPress de una concesionaria, LinkedIn, Behance—. Eso
+       es gastar el ancho de banda de otro y quedar a merced de que lo muevan
+       de lugar: el día que alguno cambie la URL, acá queda un hueco. Habría
+       que descargarlos a ~/Imagenes/aseguradoras/ y servirlos desde el sitio,
+       con permiso de uso de marca. *@
     <section class="py-5">
         <div class="container">
             <h3 class="mb-4 text-success">Socios Estratégicos</h3>
@@ -21,19 +30,19 @@
                     <div class="carousel-item active">
                         <div class="d-flex justify-content-center">
                             <a href="https://seguros.lacaja.com.ar/" target="_blank">
-                                <img src="https://upload.wikimedia.org/wikipedia/commons/6/67/Logo_La_Caja_Generali.png" class="img-fluid mx-2" alt="Aseguradora 1" style="width: 150px; height: 150px;">
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/6/67/Logo_La_Caja_Generali.png" class="img-fluid mx-2" alt="La Caja Generali" style="width: 150px; height: 150px;">
                             </a>
                             <a href="https://www.fedpat.com.ar/" target="_blank">
-                                <img src="https://logowik.com/content/uploads/images/147_federacion.jpg" class="img-fluid mx-2" alt="Aseguradora 2" style="width: 150px; height: 150px;">
+                                <img src="https://logowik.com/content/uploads/images/147_federacion.jpg" class="img-fluid mx-2" alt="Federación Patronal Seguros" style="width: 150px; height: 150px;">
                             </a>
                             <a href="https://www.sancorseguros.com.ar/" target="_blank">
-                                <img src="https://davitautomotores.com.ar/wp-content/uploads/2019/12/Logo-Sancor-Seguros-2.png" class="img-fluid mx-2" alt="Aseguradora 3" style="width: 150px; height: 150px;">
+                                <img src="https://davitautomotores.com.ar/wp-content/uploads/2019/12/Logo-Sancor-Seguros-2.png" class="img-fluid mx-2" alt="Sancor Seguros" style="width: 150px; height: 150px;">
                             </a>
                             <a href="https://www.segurosrivadavia.com/personas/" target="_blank">
-                                <img src="https://d1yjjnpx0p53s8.cloudfront.net/styles/logo-thumbnail/s3/012015/seguros_rivadavia1.png?itok=CWyzJlEZ" class="img-fluid mx-2" alt="Aseguradora 4" style="width: 150px; height: 150px;">
+                                <img src="https://d1yjjnpx0p53s8.cloudfront.net/styles/logo-thumbnail/s3/012015/seguros_rivadavia1.png?itok=CWyzJlEZ" class="img-fluid mx-2" alt="Seguros Rivadavia" style="width: 150px; height: 150px;">
                             </a>
                             <a href="https://www.lasegunda.com.ar/home" target="_blank">
-                                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQBB7S85-_3jnP3ycag9i9EqqjUXf-iCAYxng&s" class="img-fluid mx-2" alt="Aseguradora 5" style="width: 150px; height: 150px;">
+                                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQBB7S85-_3jnP3ycag9i9EqqjUXf-iCAYxng&s" class="img-fluid mx-2" alt="Logo de aseguradora" style="width: 150px; height: 150px;">
                             </a>
                         </div>
                     </div>
@@ -41,19 +50,19 @@
                     <div class="carousel-item">
                         <div class="d-flex justify-content-center">
                             <a href="https://www.sancristobal.com.ar/institucional/" target="_blank">
-                                <img src="https://lh6.googleusercontent.com/proxy/O3LNawQR_4gA3FLm4f0TRW4_2UyXRCxE_ptDVdzppgSOQntDjdMyql6gBHWP24vqnYTKcT39jS937a53Ai7glBykH39vnqA5RHZGyuQYcQ2liQvkwiPFv9WaiEt3Ng1G" class="img-fluid mx-2" alt="Aseguradora 6" style="width: 150px; height: 150px;">
+                                <img src="https://lh6.googleusercontent.com/proxy/O3LNawQR_4gA3FLm4f0TRW4_2UyXRCxE_ptDVdzppgSOQntDjdMyql6gBHWP24vqnYTKcT39jS937a53Ai7glBykH39vnqA5RHZGyuQYcQ2liQvkwiPFv9WaiEt3Ng1G" class="img-fluid mx-2" alt="Logo de aseguradora" style="width: 150px; height: 150px;">
                             </a>
                             <a href="https://mercantilandina.com.ar/" target="_blank">
-                                <img src="https://www.todoriesgo.com.ar/wp-content/uploads/2017/03/mercantil.jpg" class="img-fluid mx-2" alt="Aseguradora 7" style="width: 150px; height: 150px;">
+                                <img src="https://www.todoriesgo.com.ar/wp-content/uploads/2017/03/mercantil.jpg" class="img-fluid mx-2" alt="Mercantil Andina" style="width: 150px; height: 150px;">
                             </a>
                             <a href="https://www.nacion-seguros.com.ar/" target="_blank">
-                                <img src="https://www.todoriesgo.com.ar/wp-content/uploads/2024/09/nacion-seguros.png" class="img-fluid mx-2" alt="Aseguradora 8" style="width: 150px; height: 150px;">
+                                <img src="https://www.todoriesgo.com.ar/wp-content/uploads/2024/09/nacion-seguros.png" class="img-fluid mx-2" alt="Nación Seguros" style="width: 150px; height: 150px;">
                             </a>
                             <a href="https://www.provinciaseguros.com.ar/" target="_blank">
-                                <img src="https://d1yjjnpx0p53s8.cloudfront.net/styles/logo-thumbnail/s3/042015/provinicia_seguros.png?itok=S_HyMER7" class="img-fluid mx-2" alt="Aseguradora 9" style="width: 150px; height: 150px;">
+                                <img src="https://d1yjjnpx0p53s8.cloudfront.net/styles/logo-thumbnail/s3/042015/provinicia_seguros.png?itok=S_HyMER7" class="img-fluid mx-2" alt="Provincia Seguros" style="width: 150px; height: 150px;">
                             </a>
                             <a href="https://www.allianz.com.ar/" target="_blank">
-                                <img src="https://mir-s3-cdn-cf.behance.net/projects/404/dedae891458133.Y3JvcCwzMTcwLDI0ODAsMTY0LDA.jpg" class="img-fluid mx-2" alt="Aseguradora 10" style="width: 150px; height: 150px;">
+                                <img src="https://mir-s3-cdn-cf.behance.net/projects/404/dedae891458133.Y3JvcCwzMTcwLDI0ODAsMTY0LDA.jpg" class="img-fluid mx-2" alt="Logo de aseguradora" style="width: 150px; height: 150px;">
                             </a>
                         </div>
                     </div>
@@ -61,19 +70,19 @@
                     <div class="carousel-item">
                         <div class="d-flex justify-content-center">
                             <a href="https://www.zurich.com.ar/" target="_blank">
-                                <img src="https://moncadaasesores.com/wp-content/uploads/2012/04/Zurich.png" class="img-fluid mx-2" alt="Aseguradora 11" style="width: 150px; height: 150px;">
+                                <img src="https://moncadaasesores.com/wp-content/uploads/2012/04/Zurich.png" class="img-fluid mx-2" alt="Zurich" style="width: 150px; height: 150px;">
                             </a>
                             <a href="https://www.meridionalseguros.seg.ar/" target="_blank">
-                                <img src="https://media.licdn.com/dms/image/v2/C560BAQGWs5hVNmV94A/company-logo_200_200/company-logo_200_200/0/1631333874421?e=2147483647&v=beta&t=-r3IvvxKHCpY4rl2EjVr2_mQn4KDdfD3oQuVm79BZ-A" class="img-fluid mx-2" alt="Aseguradora 12" style="width: 150px; height: 150px;">
+                                <img src="https://media.licdn.com/dms/image/v2/C560BAQGWs5hVNmV94A/company-logo_200_200/company-logo_200_200/0/1631333874421?e=2147483647&v=beta&t=-r3IvvxKHCpY4rl2EjVr2_mQn4KDdfD3oQuVm79BZ-A" class="img-fluid mx-2" alt="Logo de aseguradora" style="width: 150px; height: 150px;">
                             </a>
                             <a href="https://www.riouruguay.com.ar/" target="_blank">
-                                <img src="https://puntoapunto.com.ar/wp-content/uploads/2022/05/Logo-RUS-2019-RGB.jpg" class="img-fluid mx-2" alt="Aseguradora 13" style="width: 150px; height: 150px;">
+                                <img src="https://puntoapunto.com.ar/wp-content/uploads/2022/05/Logo-RUS-2019-RGB.jpg" class="img-fluid mx-2" alt="Río Uruguay Seguros" style="width: 150px; height: 150px;">
                             </a>
                             <a href="https://www.chubb.com/ar-es/" target="_blank">
-                                <img src="https://www.todoriesgo.com.ar/wp-content/uploads/2017/04/chubb.jpg" class="img-fluid mx-2" alt="Aseguradora 14" style="width: 150px; height: 150px;">
+                                <img src="https://www.todoriesgo.com.ar/wp-content/uploads/2017/04/chubb.jpg" class="img-fluid mx-2" alt="Chubb" style="width: 150px; height: 150px;">
                             </a>
                             <a href="https://www.mapfre.com.ar/" target="_blank">
-                                <img src="https://i0.wp.com/www.vectorizando.com/wp-content/uploads/2021/05/mapfre-vector-logo-1b1cf2ac.png?fit=500%2C500&ssl=1" class="img-fluid mx-2" alt="Aseguradora 15" style="width: 150px; height: 150px;">
+                                <img src="https://i0.wp.com/www.vectorizando.com/wp-content/uploads/2021/05/mapfre-vector-logo-1b1cf2ac.png?fit=500%2C500&ssl=1" class="img-fluid mx-2" alt="Mapfre" style="width: 150px; height: 150px;">
                             </a>
                         </div>
                     </div>
@@ -81,19 +90,19 @@
                     <div class="carousel-item">
                         <div class="d-flex justify-content-center">
                             <a href="https://www.galiciaseguros.com.ar/" target="_blank">
-                                <img src="https://segurocelular.com.ar/wp-content/uploads/2021/10/Galicia-logo-seguro-celu.png" class="img-fluid mx-2" alt="Aseguradora 16" style="width: 150px; height: 150px;">
+                                <img src="https://segurocelular.com.ar/wp-content/uploads/2021/10/Galicia-logo-seguro-celu.png" class="img-fluid mx-2" alt="Galicia Seguros" style="width: 150px; height: 150px;">
                             </a>
                             <a href="https://www.swissmedicalseguros.com/" target="_blank">
-                                <img src="https://www.segurline.com.ar/blog/wp-content/uploads/2019/10/LOGO-Swiss-Medical-Seguros-Horizontal-ALTA-scaled.jpg" class="img-fluid mx-2" alt="Aseguradora 17" style="width: 150px; height: 150px;">
+                                <img src="https://www.segurline.com.ar/blog/wp-content/uploads/2019/10/LOGO-Swiss-Medical-Seguros-Horizontal-ALTA-scaled.jpg" class="img-fluid mx-2" alt="Swiss Medical Seguros" style="width: 150px; height: 150px;">
                             </a>
                             <a href="https://www.laholando.com/" target="_blank">
-                                <img src="https://media.licdn.com/dms/image/v2/C4D0BAQENbxFzf1KwkA/company-logo_200_200/company-logo_200_200/0/1630525642706/la_holando_sudamericana_c_a_de_seguros_logo?e=2147483647&v=beta&t=17xBEQo2sVv7fpJE06xkhhu6Z-vG8s33_VzvwNy1UX0" class="img-fluid mx-2" alt="Aseguradora 18" style="width: 150px; height: 150px;">
+                                <img src="https://media.licdn.com/dms/image/v2/C4D0BAQENbxFzf1KwkA/company-logo_200_200/company-logo_200_200/0/1630525642706/la_holando_sudamericana_c_a_de_seguros_logo?e=2147483647&v=beta&t=17xBEQo2sVv7fpJE06xkhhu6Z-vG8s33_VzvwNy1UX0" class="img-fluid mx-2" alt="La Holando Sudamericana" style="width: 150px; height: 150px;">
                             </a>
                             <a href="https://orbiseguros.com.ar/" target="_blank">
-                                <img src="https://orbiseguros.com.ar/wp-content/uploads/2021/07/foto-prensa-orbis.jpg" class="img-fluid mx-2" alt="Aseguradora 19" style="width: 150px; height: 150px;">
+                                <img src="https://orbiseguros.com.ar/wp-content/uploads/2021/07/foto-prensa-orbis.jpg" class="img-fluid mx-2" alt="Orbis Seguros" style="width: 150px; height: 150px;">
                             </a>
                             <a href="https://www.berkley.com.ar/" target="_blank">
-                                <img src="https://eventos.fasecolda.com/assets/upload/sponsor/5ad4f0b21db18.jpg" class="img-fluid mx-2" alt="Aseguradora 20" style="width: 150px; height: 150px;">
+                                <img src="https://eventos.fasecolda.com/assets/upload/sponsor/5ad4f0b21db18.jpg" class="img-fluid mx-2" alt="Logo de aseguradora" style="width: 150px; height: 150px;">
                             </a>
                         </div>
                     </div>
@@ -130,5 +139,7 @@
 <!-- Agregar Bootstrap JS para interactividad (opcional) -->
 @section Scripts {
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    @* El layout ya carga Bootstrap 5.2.0 con Popper. Acá se volvía a cargar
+       5.3.0 encima: dos versiones distintas de la misma biblioteca peleando
+       por los mismos componentes. *@
 }

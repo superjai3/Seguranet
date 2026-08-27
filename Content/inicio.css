@@ -3,7 +3,7 @@ body, html {
     height: 100%;
     margin: 0;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: url('/Imagenes/Fondo-Inicio.jpg') no-repeat center center fixed;
+    background: url('/Imagenes/Fondo-Inicio.webp') no-repeat center center fixed;
     background-size: cover;
     display: flex;
     align-items: center;

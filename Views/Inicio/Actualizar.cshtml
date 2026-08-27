@@ -5,17 +5,18 @@
 
 <!DOCTYPE html>
 
-<html>
+<html lang="es">
 <head>
     <meta name="viewport" content="width=device-width" />
+    <meta name="robots" content="noindex, follow" />
     <title>Actualizar</title>
-    @Styles.Render("~/Content/css")
+    @Styles.Render("~/Content/css-completo")
 </head>
 <body>
     <div class="row justify-content-center mt-5">
         <div class="col-5">
             <div class="card">
-                <div class="card-header"><h3 class="text-center">Restablecer Contraseña</h3></div>
+                <div class="card-header"><h1 class="h3 text-center">Restablecer Contraseña</h1></div>
                 <div class="card-body">
                     @if (ViewBag.Restablecido == null)
                     {

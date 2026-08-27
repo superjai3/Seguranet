@@ -1,12 +1,13 @@
 ﻿@{
     ViewBag.Title = "Siniestros";
+    ViewBag.Descripcion = "Qué hacer si tuviste un siniestro: los pasos a seguir, la documentación necesaria y cómo hacer la denuncia en Seguranet.";
 }
 
 <main>
     <!-- SECTION: Introducción -->
     <section class="intro bg-light py-5">
         <div class="container text-center">
-            <h2 class="display-4 mb-4 text-success">Siniestros</h2>
+            <h1 class="display-4 mb-4 text-success">Siniestros</h1>
             <p class="lead">Aquí te explicamos cómo gestionar un siniestro y qué pasos seguir para presentar un reclamo de manera efectiva.</p>
         </div>
     </section>
@@ -65,5 +66,7 @@
 <!-- Agregar Bootstrap JS para interactividad (opcional) -->
 @section Scripts {
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    @* El layout ya carga Bootstrap 5.2.0 con Popper. Acá se volvía a cargar
+       5.3.0 encima: dos versiones distintas de la misma biblioteca peleando
+       por los mismos componentes. *@
 }
