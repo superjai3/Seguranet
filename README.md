@@ -1,6 +1,26 @@
 # Seguranet
 Desarrollo de CRM para la gestión de pólizas para Productores y Brokers de seguros.
 
+## Cómo compilarlo
+
+ASP.NET MVC 5 sobre .NET Framework 4.6.2. Hace falta Visual Studio 2022 con la
+carga de trabajo **ASP.NET y desarrollo web** y el **targeting pack de .NET
+Framework 4.6.2**.
+
+Los paquetes de NuGet **no están versionados** —antes sí lo estaban, y eran 590 MB—,
+así que después de clonar hay que restaurarlos una vez:
+
+```
+nuget restore Seguranet.sln
+```
+
+Desde Visual Studio alcanza con abrir la solución: restaura solo al compilar.
+
+Si aparece *«Este proyecto hace referencia a los paquetes NuGet que faltan»*, es
+eso: falta el restore.
+
+El estado del sitio y lo que queda por hacer está en [AUDITORIA.md](AUDITORIA.md).
+
 ![image](https://github.com/user-attachments/assets/e1e84ed3-b511-40ed-9aae-38d8caa66404)
 
 ![image](https://github.com/user-attachments/assets/377584e1-93b3-4e1c-96ed-2bb0847dad6e)
