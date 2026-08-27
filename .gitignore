@@ -64,3 +64,9 @@ respaldos/
 *.pfx
 *.key
 certs/
+
+# Documentación de la API de InfoAuto —el catálogo de vehículos de Argentina—
+# que trajo el cliente. Es material de referencia de un tercero: se conserva
+# al lado del proyecto para consultarlo, pero no se publica en un repositorio
+# público.
+InfoAutos/

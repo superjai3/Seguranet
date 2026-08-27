@@ -166,7 +166,7 @@ unas horas. **Hasta que no dé la IP correcta, no seguir al paso 6.**
 Desde tu PC, en PowerShell, en la carpeta del proyecto:
 
 ```powershell
-cd C:\Users\jaime\source\repos\Seguranet
+cd E:\Proyectos\Seguranet
 .\despliegue\publicar.ps1
 ```
 
@@ -216,7 +216,7 @@ curl -I http://seguranet.es    # tiene que redirigir con 301 a https
 **Publicar un cambio**, desde tu PC:
 
 ```powershell
-cd C:\Users\jaime\source\repos\Seguranet
+cd E:\Proyectos\Seguranet
 .\despliegue\publicar.ps1
 ```
 
