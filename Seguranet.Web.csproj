@@ -33,6 +33,24 @@
 
   <ItemGroup>
     <Content Include="Views/**/*.cshtml" />
+
+    <!--
+      wwwroot y Plantilla hay que declararlos a mano por culpa del
+      EnableDefaultContentItems de arriba: apagarlo para que no chocaran los
+      archivos del proyecto viejo apagó también la inclusión automática de los
+      estáticos.
+
+      Sin esto el proyecto compila, arranca y sirve las páginas —y en la máquina
+      de desarrollo se ve perfecto, porque `dotnet run` lee de la carpeta del
+      proyecto—, pero al publicar viaja sin imágenes, sin hojas de estilo, sin
+      JavaScript y sin el front del cotizador. Es un fallo que sólo se ve en el
+      servidor, y así se encontró.
+
+      Plantilla/ son los HTML de los correos de confirmación y restablecimiento,
+      que el código lee del disco en tiempo de ejecución.
+    -->
+    <Content Include="wwwroot/**/*" CopyToPublishDirectory="PreserveNewest" />
+    <Content Include="Plantilla/**/*" CopyToPublishDirectory="PreserveNewest" />
   </ItemGroup>
 
   <ItemGroup>
