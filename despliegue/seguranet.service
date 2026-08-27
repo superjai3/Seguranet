@@ -1,0 +1,55 @@
+# Servicio de systemd para Seguranet.
+#
+#   sudo cp seguranet.service /etc/systemd/system/
+#   sudo systemctl daemon-reload
+#   sudo systemctl enable --now seguranet
+#
+# Para ver qué está pasando:
+#   sudo systemctl status seguranet
+#   sudo journalctl -u seguranet -f
+
+[Unit]
+Description=Seguranet — sitio, API del cotizador y cotizador
+After=network.target
+
+[Service]
+WorkingDirectory=/var/www/seguranet
+ExecStart=/usr/bin/dotnet /var/www/seguranet/Seguranet.dll
+
+# Si el proceso se cae, systemd lo vuelve a levantar. RestartSec evita que un
+# fallo de arranque se convierta en un bucle que consume la máquina entera.
+Restart=always
+RestartSec=10
+
+User=seguranet
+Group=seguranet
+
+# Los secretos entran por acá: el archivo es de root con permisos 600, así que
+# ni siquiera el usuario del servicio puede leerlo — lo lee systemd y se lo pasa
+# al proceso como variables de entorno.
+EnvironmentFile=/etc/seguranet.env
+
+# La aplicación escucha sólo en localhost. Quien atiende desde fuera es nginx,
+# que termina el TLS y reenvía. Sin esto el sitio quedaría accesible por el
+# puerto 5080 sin certificado, saltándose nginx.
+Environment=ASPNETCORE_URLS=http://127.0.0.1:5080
+Environment=DOTNET_PRINT_TELEMETRY_MESSAGE=false
+
+# --- Endurecimiento ---------------------------------------------------------
+# El proceso no necesita nada de esto, así que se le quita. Si algún día una
+# vulnerabilidad permitiera ejecutar código, se encuentra con una caja vacía.
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ProtectKernelTunables=true
+ProtectControlGroups=true
+RestrictSUIDSGID=true
+
+# Lo único que puede escribir: la carpeta de datos. Con ProtectSystem=strict el
+# resto del disco queda de sólo lectura para este servicio, incluida su propia
+# carpeta de aplicación.
+ReadWritePaths=/var/lib/seguranet
+
+[Install]
+WantedBy=multi-user.target
