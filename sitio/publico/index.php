@@ -20,6 +20,7 @@ $raizApp = dirname(__DIR__) . '/app';
 $config = require $raizApp . '/config.php';
 $ramos  = require $raizApp . '/ramos.php';
 require $raizApp . '/ayudas.php';
+require $raizApp . '/usuarios.php';
 
 error_reporting($config['depuracion'] ? E_ALL : 0);
 ini_set('display_errors', $config['depuracion'] ? '1' : '0');
@@ -138,6 +139,80 @@ if ($ruta === '/contacto' && $metodo === 'POST') {
         'ruta'        => '/contacto',
     ], $config, $ramos, ['resultado' => $resultado]);
     exit;
+}
+
+// --- Área de cuenta --------------------------------------------------------
+if (str_starts_with($ruta, '/cuenta')) {
+    $paginaCuenta = static function (string $vista, string $titulo, string $ruta) use ($config, $ramos) {
+        return ['vista' => $vista, 'titulo' => $titulo, 'ruta' => $ruta,
+                // Las páginas de cuenta no aportan nada a quien busca, y el
+                // panel es privado: fuera del índice.
+                'descripcion' => 'Área de cuenta de Seguranet.'];
+    };
+
+    switch ($ruta) {
+        case '/cuenta/registrar':
+            $resultado = $metodo === 'POST' ? sn_registrar($config) : null;
+            sn_responder('cuenta-registrar', ['titulo' => 'Crear una cuenta', 'ruta' => $ruta,
+                'descripcion' => 'Creá tu cuenta en Seguranet.', 'noindex' => true],
+                $config, $ramos, ['resultado' => $resultado]);
+            exit;
+
+        case '/cuenta/ingresar':
+            if ($metodo === 'POST') {
+                $resultado = sn_ingresar($config);
+                if ($resultado['ok']) {
+                    header('Location: /cuenta', true, 303);
+                    exit;
+                }
+            } else {
+                $resultado = null;
+            }
+            sn_responder('cuenta-ingresar', ['titulo' => 'Ingresar', 'ruta' => $ruta,
+                'descripcion' => 'Ingresá a tu cuenta de Seguranet.', 'noindex' => true],
+                $config, $ramos, ['resultado' => $resultado]);
+            exit;
+
+        case '/cuenta/confirmar':
+            $resultado = sn_confirmar($config, (string) ($_GET['t'] ?? ''));
+            sn_responder('cuenta-confirmar', ['titulo' => 'Confirmar la cuenta', 'ruta' => $ruta,
+                'descripcion' => 'Confirmación de la cuenta.', 'noindex' => true],
+                $config, $ramos, ['resultado' => $resultado]);
+            exit;
+
+        case '/cuenta/olvide':
+            $resultado = $metodo === 'POST' ? sn_pedir_restablecer($config) : null;
+            sn_responder('cuenta-olvide', ['titulo' => 'Olvidé mi contraseña', 'ruta' => $ruta,
+                'descripcion' => 'Recuperá el acceso a tu cuenta.', 'noindex' => true],
+                $config, $ramos, ['resultado' => $resultado]);
+            exit;
+
+        case '/cuenta/restablecer':
+            $tokenCrudo = (string) ($_GET['t'] ?? '');
+            $resultado = $metodo === 'POST' ? sn_restablecer($config, $tokenCrudo) : null;
+            sn_responder('cuenta-restablecer', ['titulo' => 'Contraseña nueva', 'ruta' => $ruta,
+                'descripcion' => 'Elegí una contraseña nueva.', 'noindex' => true],
+                $config, $ramos, ['resultado' => $resultado, 'tokenCrudo' => $tokenCrudo]);
+            exit;
+
+        case '/cuenta/salir':
+            // Sólo por POST y con token: con un GET bastaría con inducir al
+            // navegador a pedir esa dirección para sacar a alguien de su sesión.
+            if ($metodo === 'POST' && sn_token_valido($_POST['token'] ?? null)) {
+                sn_salir();
+            }
+            header('Location: /', true, 303);
+            exit;
+
+        case '/cuenta':
+            if (sn_usuario() === null) {
+                header('Location: /cuenta/ingresar', true, 303);
+                exit;
+            }
+            sn_responder('cuenta-panel', ['titulo' => 'Mi cuenta', 'ruta' => $ruta,
+                'descripcion' => 'Tu cuenta en Seguranet.', 'noindex' => true], $config, $ramos);
+            exit;
+    }
 }
 
 // --- Rutas simples ---------------------------------------------------------

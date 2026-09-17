@@ -72,7 +72,7 @@ function sn_procesar_consulta(array $config, array $ramos): array
     if ($pdo instanceof PDO) {
         try {
             $sql = 'INSERT INTO consultas (nombre, correo, telefono, ramo, mensaje, origen_ip, agente, creada_en)
-                    VALUES (:nombre, :correo, :telefono, :ramo, :mensaje, :ip, :agente, NOW())';
+                    VALUES (:nombre, :correo, :telefono, :ramo, :mensaje, :ip, :agente, :ahora)';
             $pdo->prepare($sql)->execute([
                 ':nombre'   => $valores['nombre'],
                 ':correo'   => $valores['correo'],
@@ -83,6 +83,7 @@ function sn_procesar_consulta(array $config, array $ramos): array
                 // frenar abuso; se borra con el resto según la política.
                 ':ip'       => substr((string) ($_SERVER['REMOTE_ADDR'] ?? ''), 0, 45),
                 ':agente'   => substr((string) ($_SERVER['HTTP_USER_AGENT'] ?? ''), 0, 255),
+                ':ahora'    => sn_ahora(),
             ]);
             $guardada = true;
         } catch (PDOException $e) {

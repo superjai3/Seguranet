@@ -330,3 +330,15 @@ html, body { overflow-x: hidden; max-width: 100%; }
 @media print {
     .sn-cabecera, .sn-pie, .sn-portada__acciones { display: none; }
 }
+
+/* Acceso a la cuenta en la barra: se distingue del resto de la navegación
+   porque no es una sección del sitio, es una acción. */
+.sn-nav__cuenta {
+    display: inline-flex; align-items: center; gap: var(--sn-esp-2);
+    border: 1px solid var(--sn-gris-300);
+    margin-left: var(--sn-esp-2);
+}
+.sn-nav__cuenta:hover { border-color: var(--sn-azul-500); }
+@media (max-width: 960px) {
+    .sn-nav__cuenta { margin-left: 0; margin-top: var(--sn-esp-2); justify-content: center; }
+}

@@ -13,6 +13,11 @@
 
 declare(strict_types=1);
 
+// El servidor de IONOS está en Europa y el negocio es argentino. Sin esto,
+// "creada_en" de una consulta de las 21 h de Buenos Aires quedaría con fecha
+// del día siguiente. Se fija acá y no se discute más.
+date_default_timezone_set('America/Argentina/Buenos_Aires');
+
 /** Lee una variable de entorno, con valor por defecto. */
 function sn_env(string $clave, string $porDefecto = ''): string
 {

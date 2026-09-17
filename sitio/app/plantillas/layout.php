@@ -23,7 +23,11 @@ $matriculado = $config['registro']['matriculado'] === true;
 
 <?php /* Geolocalización: le dice a Google que esto es para Argentina, aunque
          el dominio sea .es. Sin esto, un .es se interpreta como sitio español. */ ?>
+<?php if (!empty($pagina['noindex'])): ?>
+<meta name="robots" content="noindex, follow">
+<?php else: ?>
 <meta name="robots" content="index, follow, max-image-preview:large">
+<?php endif; ?>
 <link rel="alternate" hreflang="es-AR" href="<?= e($canonica) ?>">
 <link rel="alternate" hreflang="x-default" href="<?= e($canonica) ?>">
 <meta name="geo.region" content="AR">
@@ -90,6 +94,19 @@ $matriculado = $config['registro']['matriculado'] === true;
             <a href="/preguntas"<?= $ruta === '/preguntas' ? ' aria-current="page"' : '' ?>>Preguntas</a>
             <a href="/nosotros"<?= $ruta === '/nosotros' ? ' aria-current="page"' : '' ?>>Nosotros</a>
             <a href="/contacto"<?= $ruta === '/contacto' ? ' aria-current="page"' : '' ?>>Contacto</a>
+
+            <?php $usuario = sn_usuario(); ?>
+            <?php if ($usuario !== null): ?>
+                <a href="/cuenta" class="sn-nav__cuenta"<?= str_starts_with($ruta, '/cuenta') ? ' aria-current="page"' : '' ?>>
+                    <?= sn_icono('usuario') ?>
+                    <span><?= e(explode(' ', $usuario['nombre'])[0]) ?></span>
+                </a>
+            <?php else: ?>
+                <a href="/cuenta/ingresar" class="sn-nav__cuenta">
+                    <?= sn_icono('usuario') ?>
+                    <span>Ingresar</span>
+                </a>
+            <?php endif; ?>
         </nav>
     </div>
 </header>

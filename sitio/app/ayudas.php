@@ -46,9 +46,15 @@ function sn_token_valido(?string $enviado): bool
  * la base no esté: una web institucional que se cae entera porque no hay base
  * de datos es una web mal hecha.
  */
-function sn_bd(array $config): ?PDO
+function sn_bd(array $config, ?PDO $inyectada = null): ?PDO
 {
     static $pdo = null;
+    // Permite enchufar una conexión distinta: es lo que usan las pruebas para
+    // ejercitar el registro y el ingreso sin levantar un MySQL.
+    if ($inyectada instanceof PDO) {
+        $pdo = $inyectada;
+        return $pdo;
+    }
     if ($pdo instanceof PDO) {
         return $pdo;
     }
@@ -86,6 +92,16 @@ function sn_enviar_correo(array $config, string $para, string $asunto, string $c
         'X-Mailer: Seguranet',
     ];
     return @mail($para, '=?UTF-8?B?' . base64_encode($asunto) . '?=', $cuerpoHtml, implode("\r\n", $cabeceras));
+}
+
+/**
+ * Marca de tiempo actual, en el huso del negocio.
+ * Se usa en vez de NOW() de MySQL: NOW() devuelve la hora del servidor de base
+ * de datos, que en IONOS no es la de Argentina. Además hace el SQL portable.
+ */
+function sn_ahora(string $desplazamiento = 'now'): string
+{
+    return (new DateTimeImmutable($desplazamiento))->format('Y-m-d H:i:s');
 }
 
 /** Número de WhatsApp en formato de enlace. */
