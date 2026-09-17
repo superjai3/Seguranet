@@ -83,6 +83,26 @@ $rutas = [
         'Tus derechos como consumidor y dónde reclamar.'],
 ];
 
+// --- Localidades para los formularios --------------------------------------
+// El navegador le pregunta a este sitio y este sitio a georef, en vez de que el
+// navegador llame a georef directo: así la respuesta se cachea una vez para
+// todos los visitantes y no hay que depender de que georef habilite CORS.
+if ($ruta === '/api/localidades') {
+    require $raizApp . '/georef.php';
+    header('Content-Type: application/json; charset=UTF-8');
+    header('Cache-Control: public, max-age=86400');
+    $provincia = preg_replace('/\D/', '', (string) ($_GET['provincia'] ?? ''));
+    $localidades = $provincia !== '' ? sn_localidades($provincia) : [];
+    echo json_encode([
+        'provincia'   => $provincia,
+        'localidades' => $localidades,
+        // El navegador necesita saber si la lista vino vacía porque georef no
+        // respondió, para ofrecer escribir la localidad a mano.
+        'disponible'  => $localidades !== [],
+    ], JSON_UNESCAPED_UNICODE);
+    exit;
+}
+
 // --- Recursos generados ----------------------------------------------------
 if ($ruta === '/robots.txt') {
     header('Content-Type: text/plain; charset=UTF-8');
@@ -132,12 +152,13 @@ if (preg_match('#^/seguros/([a-z-]+)$#', $ruta, $coincide)) {
 // --- Envío del formulario de contacto --------------------------------------
 if ($ruta === '/contacto' && $metodo === 'POST') {
     require $raizApp . '/consultas.php';
+    require $raizApp . '/georef.php';
     $resultado = sn_procesar_consulta($config, $ramos);
     sn_responder('contacto', [
         'titulo'      => $rutas['/contacto'][1],
         'descripcion' => $rutas['/contacto'][2],
         'ruta'        => '/contacto',
-    ], $config, $ramos, ['resultado' => $resultado]);
+    ], $config, $ramos, ['resultado' => $resultado, 'provincias' => sn_provincias()]);
     exit;
 }
 
@@ -218,7 +239,12 @@ if (str_starts_with($ruta, '/cuenta')) {
 // --- Rutas simples ---------------------------------------------------------
 if (isset($rutas[$ruta])) {
     [$vista, $titulo, $descripcion] = $rutas[$ruta];
-    sn_responder($vista, compact('titulo', 'descripcion') + ['ruta' => $ruta], $config, $ramos);
+    $extra = [];
+    if ($ruta === '/contacto') {
+        require $raizApp . '/georef.php';
+        $extra['provincias'] = sn_provincias();
+    }
+    sn_responder($vista, compact('titulo', 'descripcion') + ['ruta' => $ruta], $config, $ramos, $extra);
     exit;
 }
 

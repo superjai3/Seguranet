@@ -45,3 +45,6 @@ App_Data/*.ldf
 
 # Credenciales reales del sitio PHP: nunca se versionan.
 sitio/app/config.local.php
+
+# Caché de georef: se regenera solo.
+sitio/app/cache/

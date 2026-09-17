@@ -84,6 +84,55 @@ $marcar = static function (string $campo) use ($errores): string {
                         </select>
                     </div>
 
+                    <?php /* Zona del riesgo. Opcional en una consulta, pero es lo que
+                             más ajusta un precio: la aseguradora tarifa por dónde
+                             duerme el auto o dónde está el inmueble. */ ?>
+                    <fieldset style="border:1px solid var(--sn-gris-300);border-radius:var(--sn-radio);padding:var(--sn-esp-4);margin-bottom:var(--sn-esp-4)">
+                        <legend style="font-size:var(--sn-txt-sm);font-weight:600;color:var(--sn-azul-900);padding-inline:var(--sn-esp-2)">
+                            ¿Dónde? <span style="font-weight:400;color:var(--sn-gris-500)">(opcional, pero ajusta el precio)</span>
+                        </legend>
+
+                        <div class="sn-campo">
+                            <label for="provincia">Provincia</label>
+                            <select id="provincia" name="provincia" data-provincia>
+                                <option value="">Elegí una</option>
+                                <?php foreach (($provincias ?? []) as $id => $nombre): ?>
+                                    <option value="<?= e((string) $id) ?>"<?= ($v['provincia'] ?? '') === (string) $id ? ' selected' : '' ?>>
+                                        <?= e($nombre) ?>
+                                    </option>
+                                <?php endforeach; ?>
+                            </select>
+                            <?php if (isset($errores['provincia'])): ?>
+                                <p class="sn-campo__error"><?= e($errores['provincia']) ?></p>
+                            <?php endif; ?>
+                        </div>
+
+                        <div class="sn-campo">
+                            <label for="localidad">Localidad</label>
+                            <input type="text" id="localidad" name="localidad" list="lista-localidades"
+                                   autocomplete="address-level2" value="<?= e($v['localidad'] ?? '') ?>"
+                                   placeholder="Elegí la provincia primero" data-localidad>
+                            <datalist id="lista-localidades"></datalist>
+                            <p class="sn-campo__ayuda" data-localidad-ayuda>
+                                Las localidades salen del servicio oficial de datos geográficos del Estado.
+                            </p>
+                        </div>
+
+                        <div class="sn-campo" style="margin-bottom:0">
+                            <label for="cp">Código postal</label>
+                            <input type="text" id="cp" name="cp" inputmode="text" maxlength="8"
+                                   autocomplete="postal-code" value="<?= e($v['cp'] ?? '') ?>"
+                                   placeholder="1636 o B1636FDA"
+                                   <?= isset($errores['cp']) ? 'aria-invalid="true"' : '' ?>>
+                            <p class="sn-campo__ayuda">
+                                Sirven los cuatro dígitos de siempre o el CPA completo.
+                            </p>
+                            <?php if (isset($errores['cp'])): ?>
+                                <p class="sn-campo__error"><?= e($errores['cp']) ?></p>
+                            <?php endif; ?>
+                        </div>
+                    </fieldset>
+
                     <div class="sn-campo">
                         <label for="mensaje">Tu consulta</label>
                         <textarea id="mensaje" name="mensaje" rows="5" required<?= $marcar('mensaje') ?>><?= e($v['mensaje'] ?? '') ?></textarea>

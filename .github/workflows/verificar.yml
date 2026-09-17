@@ -35,6 +35,9 @@ jobs:
       - name: Probar el área de cuenta
         run: php sitio/pruebas/cuentas.php
 
+      - name: Probar la validación de zona y código postal
+        run: php sitio/pruebas/zona.php
+
       - name: Levantar el sitio y pedir todas las rutas
         run: |
           php -S 127.0.0.1:8080 -t sitio/publico sitio/publico/index.php &
@@ -45,7 +48,8 @@ jobs:
                       /legales/terminos /legales/privacidad /legales/cookies \
                       /legales/arrepentimiento /legales/defensa-consumidor \
                       /cuenta/ingresar /cuenta/registrar \
-                      /sitemap.xml /robots.txt; do
+                      /sitemap.xml /robots.txt \
+                      '/api/localidades?provincia=06'; do
             codigo=$(curl -s -o /dev/null -w '%{http_code}' "http://127.0.0.1:8080$ruta")
             if [ "$codigo" != "200" ]; then
               echo "FALLA  $ruta respondió $codigo"

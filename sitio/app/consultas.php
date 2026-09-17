@@ -26,6 +26,9 @@ function sn_procesar_consulta(array $config, array $ramos): array
         'telefono' => trim((string) ($_POST['telefono'] ?? '')),
         'ramo'     => trim((string) ($_POST['ramo'] ?? '')),
         'mensaje'  => trim((string) ($_POST['mensaje'] ?? '')),
+        'provincia'=> preg_replace('/\D/', '', (string) ($_POST['provincia'] ?? '')),
+        'localidad'=> trim((string) ($_POST['localidad'] ?? '')),
+        'cp'       => trim((string) ($_POST['cp'] ?? '')),
     ];
     $errores = [];
 
@@ -57,6 +60,21 @@ function sn_procesar_consulta(array $config, array $ramos): array
     if (mb_strlen($valores['mensaje']) > 4000) {
         $errores['mensaje'] = 'El mensaje es demasiado largo. Resumilo en 4000 caracteres.';
     }
+    // La zona es opcional, pero si la cargan tiene que ser coherente: un CP de
+    // otra provincia es el error más común y el que más desvía una cotización.
+    if ($valores['cp'] !== '') {
+        $cp = sn_cp_validar($valores['cp'], $valores['provincia']);
+        if (!$cp['ok']) {
+            $errores['cp'] = $cp['error']
+                . ($cp['sugerencia'] !== '' ? ' ¿Quisiste poner ' . $cp['sugerencia'] . '?' : '');
+        } else {
+            $valores['cp'] = $cp['cpa'];
+        }
+    }
+    if ($valores['provincia'] !== '' && !isset(SN_PROVINCIAS[$valores['provincia']])) {
+        $errores['provincia'] = 'Elegí una provincia de la lista.';
+    }
+
     if (empty($_POST['consentimiento'])) {
         $errores['consentimiento'] = 'Necesitamos tu conformidad para poder tratar tus datos y responderte.';
     }
@@ -71,14 +89,19 @@ function sn_procesar_consulta(array $config, array $ramos): array
     $pdo = sn_bd($config);
     if ($pdo instanceof PDO) {
         try {
-            $sql = 'INSERT INTO consultas (nombre, correo, telefono, ramo, mensaje, origen_ip, agente, creada_en)
-                    VALUES (:nombre, :correo, :telefono, :ramo, :mensaje, :ip, :agente, :ahora)';
+            $sql = 'INSERT INTO consultas (nombre, correo, telefono, ramo, mensaje,
+                                          provincia, localidad, cp, origen_ip, agente, creada_en)
+                    VALUES (:nombre, :correo, :telefono, :ramo, :mensaje,
+                            :provincia, :localidad, :cp, :ip, :agente, :ahora)';
             $pdo->prepare($sql)->execute([
                 ':nombre'   => $valores['nombre'],
                 ':correo'   => $valores['correo'],
                 ':telefono' => $valores['telefono'],
                 ':ramo'     => $valores['ramo'],
                 ':mensaje'  => $valores['mensaje'],
+                ':provincia'=> $valores['provincia'],
+                ':localidad'=> $valores['localidad'],
+                ':cp'       => $valores['cp'],
                 // La IP se guarda para poder acreditar el consentimiento y
                 // frenar abuso; se borra con el resto según la política.
                 ':ip'       => substr((string) ($_SERVER['REMOTE_ADDR'] ?? ''), 0, 45),
@@ -98,6 +121,10 @@ function sn_procesar_consulta(array $config, array $ramos): array
         . '<p><strong>Correo:</strong> ' . e($valores['correo']) . '</p>'
         . '<p><strong>Teléfono:</strong> ' . e($valores['telefono'] ?: '—') . '</p>'
         . '<p><strong>Seguro:</strong> ' . e($nombreRamo) . '</p>'
+        . '<p><strong>Zona:</strong> '
+            . e($valores['localidad'] !== '' ? $valores['localidad'] : '—')
+            . (isset(SN_PROVINCIAS[$valores['provincia']]) ? ', ' . e(SN_PROVINCIAS[$valores['provincia']]['nombre']) : '')
+            . ($valores['cp'] !== '' ? ' (CP ' . e($valores['cp']) . ')' : '') . '</p>'
         . '<p><strong>Mensaje:</strong><br>' . nl2br(e($valores['mensaje'])) . '</p>'
         . '<p><small>Guardada en la base: ' . ($guardada ? 'sí' : 'NO — revisar') . '</small></p>';
     sn_enviar_correo($config, $config['sitio']['correo'], 'Consulta de ' . $valores['nombre'], $aviso);

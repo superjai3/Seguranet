@@ -14,6 +14,12 @@ CREATE TABLE IF NOT EXISTS consultas (
     telefono    VARCHAR(40)     NOT NULL DEFAULT '',
     ramo        VARCHAR(40)     NOT NULL DEFAULT '',
     mensaje     TEXT            NOT NULL,
+    -- Zona del riesgo. Opcional en una consulta, imprescindible para cotizar:
+    -- provincia y localidad vienen normalizadas de georef; cp se valida por
+    -- estructura contra la provincia.
+    provincia   CHAR(2)         NOT NULL DEFAULT '',
+    localidad   VARCHAR(120)    NOT NULL DEFAULT '',
+    cp          VARCHAR(8)      NOT NULL DEFAULT '',
     -- Para acreditar el consentimiento y frenar abuso. Se purga junto con el
     -- resto del registro según el plazo de la política de privacidad.
     origen_ip   VARCHAR(45)     NOT NULL DEFAULT '',
