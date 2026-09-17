@@ -77,6 +77,22 @@ Sin base de datos configurada el sitio funciona igual: las consultas se envían
 por correo y se registra el fallo de guardado en el log. Que falte la base no
 tira abajo el sitio.
 
+## Avisos de vencimiento (tarea programada)
+
+El diferencial del proyecto es avisarle al cliente antes de que venza su
+póliza, aunque sea de otra compañía. Eso lo hace un script que se corre una vez
+por día desde *IONOS → Tareas cron*:
+
+```
+/usr/bin/php /ruta/al/sitio/tareas/avisar-vencimientos.php
+```
+
+Conviene programarlo a la mañana temprano, hora argentina. Manda un aviso 60,
+30, 15 y 7 días antes del vencimiento, y **uno solo por póliza por corrida**:
+si el cron estuvo caído una semana, al volver no vomita los avisos atrasados.
+Cada aviso queda registrado con una clave única, así que ejecutarlo dos veces
+el mismo día no duplica correos.
+
 ## Qué falta
 
 - Área de cuenta (registro, confirmación por correo, ingreso). Las tablas ya

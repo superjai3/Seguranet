@@ -296,12 +296,76 @@ if (str_starts_with($ruta, '/cuenta')) {
             exit;
 
         case '/cuenta':
+        case '/cuenta/polizas':
             if (sn_usuario() === null) {
                 header('Location: /cuenta/ingresar', true, 303);
                 exit;
             }
-            sn_responder('cuenta-panel', ['titulo' => 'Mi cuenta', 'ruta' => $ruta,
-                'descripcion' => 'Tu cuenta en Seguranet.', 'noindex' => true], $config, $ramos);
+            require $raizApp . '/polizas.php';
+            require $raizApp . '/cotizador.php';   // para sn_pesos()
+            $pdo = sn_bd($config);
+            $lista = $pdo instanceof PDO ? sn_polizas_de($pdo, sn_usuario()['id']) : [];
+            sn_responder('cuenta-polizas', ['titulo' => 'Mis pólizas', 'ruta' => $ruta,
+                'descripcion' => 'Tus pólizas y sus vencimientos.', 'noindex' => true],
+                $config, $ramos, ['polizas' => $lista]);
+            exit;
+
+        case '/cuenta/polizas/nueva':
+            if (sn_usuario() === null) {
+                header('Location: /cuenta/ingresar', true, 303);
+                exit;
+            }
+            require $raizApp . '/polizas.php';
+            $vista = ['valores' => [], 'errores' => []];
+
+            if ($metodo === 'POST') {
+                if (!sn_token_valido($_POST['token'] ?? null)) {
+                    $vista['errores'] = ['ramo' => 'El formulario venció. Volvé a enviarlo.'];
+                    $vista['valores'] = $_POST;
+                } else {
+                    $entrada = [
+                        'ramo'           => trim((string) ($_POST['ramo'] ?? '')),
+                        'aseguradora'    => trim((string) ($_POST['aseguradora'] ?? '')),
+                        'numero'         => trim((string) ($_POST['numero'] ?? '')),
+                        'detalle'        => trim((string) ($_POST['detalle'] ?? '')),
+                        'vigencia_desde' => trim((string) ($_POST['vigencia_desde'] ?? '')),
+                        'vigencia_hasta' => trim((string) ($_POST['vigencia_hasta'] ?? '')),
+                        'prima_mensual'  => trim((string) ($_POST['prima_mensual'] ?? '')),
+                        'notas'          => '',
+                    ];
+                    $errores = sn_poliza_errores($entrada, $ramos);
+                    $vista = ['valores' => $entrada, 'errores' => $errores];
+
+                    if ($errores === []) {
+                        $pdo = sn_bd($config);
+                        if ($pdo instanceof PDO && sn_guardar_poliza($pdo, sn_usuario()['id'], $entrada) !== null) {
+                            header('Location: /cuenta/polizas?guardada=1', true, 303);
+                            exit;
+                        }
+                        $vista['errores'] = ['ramo' => 'No pudimos guardarla en este momento. Probá de nuevo.'];
+                    }
+                }
+            }
+
+            sn_responder('cuenta-poliza-nueva', ['titulo' => 'Registrar una póliza', 'ruta' => $ruta,
+                'descripcion' => 'Registrá una póliza para recibir avisos de vencimiento.', 'noindex' => true],
+                $config, $ramos, $vista);
+            exit;
+
+        case '/cuenta/polizas/estado':
+            if (sn_usuario() !== null && $metodo === 'POST' && sn_token_valido($_POST['token'] ?? null)) {
+                require $raizApp . '/polizas.php';
+                $pdo = sn_bd($config);
+                if ($pdo instanceof PDO) {
+                    sn_cambiar_estado_poliza(
+                        $pdo,
+                        (int) ($_POST['poliza'] ?? 0),
+                        sn_usuario()['id'],
+                        (string) ($_POST['estado'] ?? '')
+                    );
+                }
+            }
+            header('Location: /cuenta/polizas', true, 303);
             exit;
     }
 }
