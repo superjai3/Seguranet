@@ -1,0 +1,33 @@
+{
+  "_nota": "Catálogo semilla del parque automotor argentino. Es una lista curada, no un catálogo oficial: no tiene códigos INFOAUTO ni valores de mercado, porque esa base es paga. Reemplaza a las APIs de NHTSA y fueleconomy.gov, que son estadounidenses y no conocen lo que se vende acá. El día que se contrate InfoAuto, este archivo se cambia por su API sin tocar la interfaz.",
+  "_actualizado": "2026-09",
+  "marcas": {
+    "Chevrolet": ["Onix", "Onix Plus", "Cruze", "Tracker", "S10", "Spin", "Montana", "Prisma", "Classic", "Corsa", "Agile", "Aveo", "Captiva", "Trailblazer"],
+    "Citroën": ["C3", "C3 Aircross", "C4 Cactus", "C4 Lounge", "Berlingo", "C-Elysée", "DS3", "Xsara Picasso"],
+    "Fiat": ["Cronos", "Argo", "Mobi", "Pulse", "Fastback", "Toro", "Strada", "Fiorino", "Palio", "Siena", "Uno", "Punto", "Idea", "Ducato", "Titano"],
+    "Ford": ["Ka", "Fiesta", "Focus", "EcoSport", "Territory", "Ranger", "Maverick", "Bronco Sport", "Mondeo", "Escort", "F-100", "Transit", "Kuga"],
+    "Honda": ["Fit", "City", "Civic", "HR-V", "CR-V", "WR-V", "ZR-V", "Accord"],
+    "Hyundai": ["HB20", "Creta", "Tucson", "Santa Fe", "i10", "i30", "Elantra", "Kona", "H1", "Accent"],
+    "Jeep": ["Renegade", "Compass", "Commander", "Grand Cherokee", "Wrangler", "Avenger"],
+    "Kia": ["Picanto", "Rio", "Cerato", "Sportage", "Sorento", "Seltos", "Soul", "Carnival"],
+    "Mercedes-Benz": ["Clase A", "Clase C", "Clase E", "GLA", "GLB", "GLC", "GLE", "Sprinter", "Vito"],
+    "Nissan": ["March", "Versa", "Sentra", "Kicks", "X-Trail", "Frontier", "Note", "Tiida"],
+    "Peugeot": ["208", "2008", "3008", "5008", "308", "408", "Partner", "Expert", "Boxer", "207", "206", "Hoggar"],
+    "Renault": ["Kwid", "Sandero", "Stepway", "Logan", "Duster", "Oroch", "Captur", "Kangoo", "Alaskan", "Clio", "Symbol", "Fluence", "Master", "Koleos"],
+    "Toyota": ["Etios", "Yaris", "Corolla", "Corolla Cross", "Hilux", "SW4", "RAV4", "Corolla Hybrid", "Hiace", "Camry", "Land Cruiser"],
+    "Volkswagen": ["Gol", "Gol Trend", "Polo", "Virtus", "Voyage", "T-Cross", "Nivus", "Taos", "Amarok", "Saveiro", "Suran", "Vento", "Passat", "Tiguan", "Up!", "Fox", "Bora", "Crafter"],
+    "Audi": ["A1", "A3", "A4", "A5", "Q2", "Q3", "Q5", "Q7"],
+    "BMW": ["Serie 1", "Serie 3", "Serie 5", "X1", "X2", "X3", "X4", "X5"],
+    "Chery": ["Tiggo 2", "Tiggo 3", "Tiggo 4", "Tiggo 5", "Tiggo 7", "Tiggo 8", "QQ", "Arrizo 5"],
+    "DS": ["DS3", "DS4", "DS7"],
+    "Fiat Professional": ["Ducato", "Scudo"],
+    "Haval": ["H6", "Jolion"],
+    "Iveco": ["Daily", "Tector", "Stralis"],
+    "Jetour": ["X70", "Dashing", "T2"],
+    "Lifan": ["X60", "620", "530"],
+    "Mitsubishi": ["L200", "Outlander", "ASX", "Montero"],
+    "RAM": ["1500", "2500", "Rampage", "700"],
+    "Suzuki": ["Swift", "Vitara", "Jimny", "Baleno", "S-Cross"],
+    "Volvo": ["XC40", "XC60", "XC90", "S60"]
+  }
+}

@@ -12,11 +12,12 @@
             <div class="sn-tarjeta">
                 <span class="sn-icono"><?= sn_icono('auto') ?></span>
                 <h2 style="font-size:var(--sn-txt-xl)">Seguro de auto</h2>
-                <p>Elegí año, marca, modelo y versión, sumá los adicionales que tengas
-                   —GNC, rastreo, cláusula de ajuste— y compará los cuatro planes.</p>
+                <p>Elegí marca, modelo y año, decinos dónde duerme el auto y sumá los
+                   adicionales que tengas —GNC, rastreo, cláusula de ajuste—.
+                   Compará los cuatro planes en el momento.</p>
                 <div class="sn-mt-6">
                     <a class="sn-boton sn-boton--primario sn-boton--bloque"
-                       href="https://superjai3.github.io/seguranet-cotizador/">Abrir el cotizador</a>
+                       href="/cotizar/auto">Cotizar mi auto</a>
                 </div>
             </div>
 

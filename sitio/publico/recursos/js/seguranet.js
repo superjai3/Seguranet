@@ -68,3 +68,44 @@
     provincia.addEventListener("change", cargar);
     if (provincia.value) { cargar(); }
 })();
+
+/* Modelos por marca. El catálogo viene en la página, así que esto no toca la
+   red: cambiar de marca repuebla la lista en el acto. Sin JavaScript, el campo
+   sigue siendo texto libre y el formulario se envía igual. */
+(function () {
+    "use strict";
+
+    var marca = document.querySelector("[data-marca]");
+    var modelo = document.querySelector("[data-modelo]");
+    var lista = document.getElementById("lista-modelos");
+    var ayuda = document.querySelector("[data-modelo-ayuda]");
+    if (!marca || !modelo || !lista || !window.SN_CATALOGO) { return; }
+
+    function cargar(conservar) {
+        var modelos = window.SN_CATALOGO[marca.value] || [];
+        lista.innerHTML = "";
+        if (!conservar) { modelo.value = ""; }
+
+        if (!marca.value) {
+            modelo.placeholder = "Elegí la marca primero";
+            return;
+        }
+        var fragmento = document.createDocumentFragment();
+        modelos.forEach(function (nombre) {
+            var opcion = document.createElement("option");
+            opcion.value = nombre;
+            fragmento.appendChild(opcion);
+        });
+        lista.appendChild(fragmento);
+        modelo.placeholder = "Empezá a escribir y elegí de la lista";
+        if (ayuda) {
+            ayuda.textContent = modelos.length
+                ? modelos.length + " modelos de " + marca.value + ". Si el tuyo no está, escribilo igual."
+                : "No tenemos modelos cargados de esa marca: escribilo a mano.";
+        }
+    }
+
+    marca.addEventListener("change", function () { cargar(false); });
+    // Al volver de un error de validación, el modelo ya elegido no se pierde.
+    if (marca.value) { cargar(true); }
+})();

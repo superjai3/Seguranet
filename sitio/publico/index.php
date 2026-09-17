@@ -119,6 +119,9 @@ if ($ruta === '/sitemap.xml') {
     echo '<?xml version="1.0" encoding="UTF-8"?>' . "\n";
     echo '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' . "\n";
     $prioridades = ['/' => '1.0', '/cotizar' => '0.9', '/seguros' => '0.9', '/contacto' => '0.8'];
+    // El cotizador no está en $rutas porque tiene su propio manejo; va aparte.
+    printf("  <url><loc>%s</loc><lastmod>%s</lastmod><priority>0.9</priority></url>\n",
+        e(url('/cotizar/auto', $config)), $hoy);
     foreach (array_keys($rutas) as $r) {
         printf("  <url><loc>%s</loc><lastmod>%s</lastmod><priority>%s</priority></url>\n",
             e(url($r, $config)), $hoy, $prioridades[$r] ?? '0.6');
@@ -159,6 +162,73 @@ if ($ruta === '/contacto' && $metodo === 'POST') {
         'descripcion' => $rutas['/contacto'][2],
         'ruta'        => '/contacto',
     ], $config, $ramos, ['resultado' => $resultado, 'provincias' => sn_provincias()]);
+    exit;
+}
+
+// --- Cotizador de automotor ------------------------------------------------
+if ($ruta === '/cotizar/auto') {
+    require $raizApp . '/georef.php';
+    require $raizApp . '/cotizador.php';
+
+    $anioActual = (int) date('Y');
+    $datosVista = ['provincias' => sn_provincias()];
+
+    if ($metodo === 'POST') {
+        if (!sn_token_valido($_POST['token'] ?? null)) {
+            $datosVista['errores'] = ['marca' => 'El formulario venció. Volvé a enviarlo.'];
+            $datosVista['valores'] = $_POST;
+        } else {
+            $entrada = [
+                'marca'     => trim((string) ($_POST['marca'] ?? '')),
+                'modelo'    => trim((string) ($_POST['modelo'] ?? '')),
+                'anio'      => (int) ($_POST['anio'] ?? 0),
+                'valor'     => (float) ($_POST['valor'] ?? 0),
+                'provincia' => preg_replace('/\D/', '', (string) ($_POST['provincia'] ?? '')),
+                'localidad' => trim((string) ($_POST['localidad'] ?? '')),
+                'cp'        => trim((string) ($_POST['cp'] ?? '')),
+                'edad'      => (int) ($_POST['edad'] ?? 0),
+                'uso'       => ($_POST['uso'] ?? '') === 'comercial' ? 'comercial' : 'particular',
+                'gnc'       => !empty($_POST['gnc']),
+                'rastreo'   => !empty($_POST['rastreo']),
+                'ajuste'    => !empty($_POST['ajuste']),
+            ];
+            $errores = sn_cotizacion_errores($entrada, $anioActual);
+            $datosVista['valores'] = $entrada;
+            $datosVista['errores'] = $errores;
+
+            if ($errores === []) {
+                $cotizacion = sn_cotizar($entrada, $anioActual);
+                $datosVista['cotizacion'] = $cotizacion;
+
+                // Si hay sesión, queda guardada para que pueda recuperarla.
+                $usuario = sn_usuario();
+                $pdo = sn_bd($config);
+                if ($usuario !== null && $pdo instanceof PDO) {
+                    try {
+                        $pdo->prepare(
+                            'INSERT INTO cotizaciones (usuario_id, ramo, datos, resultado, creada_en)
+                             VALUES (?, "automotor", ?, ?, ?)'
+                        )->execute([
+                            $usuario['id'],
+                            json_encode($entrada, JSON_UNESCAPED_UNICODE),
+                            json_encode($cotizacion['planes'], JSON_UNESCAPED_UNICODE),
+                            sn_ahora(),
+                        ]);
+                    } catch (PDOException $ex) {
+                        // Que no se pueda guardar no puede impedir ver el precio.
+                        error_log('Seguranet cotizacion: ' . $ex->getMessage());
+                    }
+                }
+            }
+        }
+    }
+
+    sn_responder('cotizar-auto', [
+        'titulo'      => 'Cotizador de auto',
+        'descripcion' => 'Calculá en línea cuánto sale tu seguro de auto y compará los cuatro '
+                       . 'planes de Seguranet según el vehículo, la zona y el conductor.',
+        'ruta'        => '/cotizar/auto',
+    ], $config, $ramos, $datosVista);
     exit;
 }
 
