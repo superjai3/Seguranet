@@ -1,0 +1,43 @@
+<section class="sn-seccion">
+    <div class="sn-contenedor">
+        <div class="sn-medido">
+            <h1>Cotizar un seguro</h1>
+            <p style="font-size:var(--sn-txt-lg)">
+                El cotizador en línea está disponible para automotor. Para el resto de
+                los ramos, contanos tu caso y te armamos una propuesta.
+            </p>
+        </div>
+
+        <div class="sn-rejilla sn-rejilla--2 sn-mt-8">
+            <div class="sn-tarjeta">
+                <span class="sn-icono"><?= sn_icono('auto') ?></span>
+                <h2 style="font-size:var(--sn-txt-xl)">Seguro de auto</h2>
+                <p>Elegí año, marca, modelo y versión, sumá los adicionales que tengas
+                   —GNC, rastreo, cláusula de ajuste— y compará los cuatro planes.</p>
+                <div class="sn-mt-6">
+                    <a class="sn-boton sn-boton--primario sn-boton--bloque"
+                       href="https://superjai3.github.io/seguranet-cotizador/">Abrir el cotizador</a>
+                </div>
+            </div>
+
+            <div class="sn-tarjeta">
+                <span class="sn-icono"><?= sn_icono('escudo') ?></span>
+                <h2 style="font-size:var(--sn-txt-xl)">El resto de los ramos</h2>
+                <p>Hogar, consorcio, vida, ART, comercio y caución se cotizan con datos
+                   que conviene conversar. Es más rápido que llenar veinte campos.</p>
+                <div class="sn-mt-6">
+                    <a class="sn-boton sn-boton--secundario sn-boton--bloque" href="/contacto">Pedir una propuesta</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="sn-aviso sn-aviso--legal sn-mt-8 sn-medido">
+            <strong>Sobre las estimaciones.</strong>
+            El cotizador calcula un valor orientativo con una tabla de ejemplo y no
+            constituye una oferta: conforme el art. 4 de la Ley 17.418, el contrato de
+            seguro se perfecciona con la propuesta aceptada por la aseguradora, y una
+            propuesta no obliga a ninguna de las partes hasta ese momento. El precio en
+            firme siempre lo emite la aseguradora sobre tus datos reales.
+        </div>
+    </div>
+</section>

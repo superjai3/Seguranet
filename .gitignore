@@ -42,3 +42,6 @@ $RECYCLE.BIN/
 *.log
 App_Data/*.mdf
 App_Data/*.ldf
+
+# Credenciales reales del sitio PHP: nunca se versionan.
+sitio/app/config.local.php
