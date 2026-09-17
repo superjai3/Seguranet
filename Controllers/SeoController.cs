@@ -18,20 +18,21 @@ namespace Seguranet.Controllers
     {
         /// <summary>
         /// Las páginas públicas, con la prioridad relativa y cada cuánto suelen
-        /// cambiar. No están ni las de cuenta (/Inicio) ni el cotizador, que
-        /// hoy es un placeholder: un sitemap que promete páginas vacías es peor
-        /// que no tener sitemap.
+        /// cambiar. Las de cuenta (/Inicio) no están: a quien busca no le
+        /// aportan nada. El cotizador sí, desde que dejó de ser un placeholder
+        /// y pasó a llevar al cotizador publicado.
         /// </summary>
         private static readonly List<Tuple<string, string, string, string>> Paginas =
             new List<Tuple<string, string, string, string>>
             {
-                Tuple.Create("Index",      "Home", "1.0", "weekly"),
-                Tuple.Create("Coberturas", "Home", "0.9", "monthly"),
-                Tuple.Create("Preguntas",  "Home", "0.8", "monthly"),
-                Tuple.Create("Siniestros", "Home", "0.8", "monthly"),
-                Tuple.Create("Contacto",   "Home", "0.7", "monthly"),
-                Tuple.Create("Nosotros",   "Home", "0.6", "yearly"),
-                Tuple.Create("Ayuda",      "Home", "0.6", "monthly"),
+                Tuple.Create("Index",         "Home", "1.0", "weekly"),
+                Tuple.Create("CotizadorAuto", "Home", "0.9", "monthly"),
+                Tuple.Create("Coberturas",    "Home", "0.9", "monthly"),
+                Tuple.Create("Preguntas",     "Home", "0.8", "monthly"),
+                Tuple.Create("Siniestros",    "Home", "0.8", "monthly"),
+                Tuple.Create("Contacto",      "Home", "0.7", "monthly"),
+                Tuple.Create("Nosotros",      "Home", "0.6", "yearly"),
+                Tuple.Create("Ayuda",         "Home", "0.6", "monthly"),
             };
 
         private string RaizDelSitio()
@@ -55,10 +56,6 @@ namespace Seguranet.Controllers
             texto.AppendLine("Disallow: /Inicio/Restablecer");
             texto.AppendLine("Disallow: /Inicio/Actualizar");
             texto.AppendLine("Disallow: /Inicio/Confirmar");
-            texto.AppendLine();
-            texto.AppendLine("# El cotizador es todavía un placeholder: hasta que exista, mandar");
-            texto.AppendLine("# tráfico ahí es mandarlo a un callejón sin salida.");
-            texto.AppendLine("Disallow: /Home/CotizadorAuto");
             texto.AppendLine();
             texto.AppendLine("# El CSS y el JavaScript tienen que quedar accesibles: Google los");
             texto.AppendLine("# descarga para ver la página como la ve una persona, y si los bloqueás");
