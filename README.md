@@ -1,6 +1,34 @@
 # Seguranet
 Desarrollo de CRM para la gestión de pólizas para Productores y Brokers de seguros.
 
+## Verlo en línea
+
+Hay una **demo estática** de las páginas públicas en
+
+**https://superjai3.github.io/Seguranet/**
+
+Es lo que el sitio se ve, no lo que el sitio hace: GitHub Pages sólo sirve
+archivos, y esto es ASP.NET MVC 5, que necesita IIS. Queda afuera todo lo que
+depende del servidor —el área de cuenta, que además consulta SQL Server, y el
+POST del formulario de contacto—. El formulario de la página de Contacto es un
+iframe de un servicio externo, así que ahí sí funciona.
+
+Las páginas viven en `docs/` y **no se editan a mano**: salen de las vistas
+Razor con
+
+```
+python3 tools/exportar-demo.py
+```
+
+Después de tocar algo en `Views/Home/` o en `Views/Shared/_Layout.cshtml`, hay
+que volver a correrlo y comitear `docs/`, o la demo queda vieja.
+
+Para publicarla: *Settings → Pages → Source: Deploy from a branch*, rama `main`
+y carpeta `/docs`.
+
+Si lo que se quiere es el sitio completo andando —cotizador, cuentas, base—, eso
+no es Pages: va a un App Service de Windows en Azure, o a cualquier IIS.
+
 ## Cómo compilarlo
 
 ASP.NET MVC 5 sobre .NET Framework 4.6.2. Hace falta Visual Studio 2022 con la
