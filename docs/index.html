@@ -1,0 +1,356 @@
+
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <title>Seguros de auto en línea · Seguranet</title>
+
+    <!-- Primary metatags -->
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+    <!--SEO-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Cotizá tu seguro de auto en minutos y gestioná tu póliza en línea. Coberturas desde responsabilidad civil hasta todo riesgo, con atención de siniestros." />
+    <meta name="author" content="Seguranet" />
+    
+    <meta name="robots" content="noindex, nofollow" />
+    <!-- El sitio real declara index, follow, max-image-preview:large.
+         Acá va noindex porque esto es una demo, no la aseguradora. -->
+
+    <link rel="canonical" href="https://superjai3.github.io/Seguranet/" />
+
+    <!--Redes: sin esto, el enlace compartido sale gris y sin imagen-->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Seguranet" />
+    <meta property="og:title" content="Seguros de auto en línea" />
+    <meta property="og:description" content="Cotizá tu seguro de auto en minutos y gestioná tu póliza en línea. Coberturas desde responsabilidad civil hasta todo riesgo, con atención de siniestros." />
+    <meta property="og:locale" content="es_AR" />
+    <meta property="og:url" content="https://superjai3.github.io/Seguranet/" />
+    <meta property="og:image" content="https://superjai3.github.io/Seguranet/Imagenes/hero-image.png.webp" />
+    <meta property="og:image:alt" content="Seguranet, cotizador de seguros de auto en línea" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <!--FAVICON-->
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+    <link rel="preconnect" href="https://use.fontawesome.com" crossorigin>
+
+    <!-- ICONOS-->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"
+          integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous" />
+
+    <!--GOOGLE FONTS-->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,700;0,800;0,900;1,600&display=swap"
+          rel="stylesheet" />
+
+    <!--ANIMATE CSS-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
+    <!-- CUSTOM CSS -->
+    <link rel="stylesheet" type="text/css" href="Style/styles.css">
+
+    <link rel="stylesheet" type="text/css" href="Content/Site.css">
+    
+
+    
+    <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "WebSite",
+          "name": "Seguranet",
+          "url": "https://superjai3.github.io/Seguranet",
+          "inLanguage": "es-AR",
+          "description": "Cotizador y gestor de seguros de auto en línea.",
+          "publisher": {
+            "@type": "Organization",
+            "name": "Seguranet",
+            "logo": {
+              "@type": "ImageObject",
+              "url": "https://superjai3.github.io/Seguranet/Imagenes/Logo%20Seguranet.webp"
+            }
+          }
+        }
+    </script>
+
+    <!-- Sólo de la demo: no existe en el sitio real. -->
+    <style>
+        .demo-aviso {
+            background: #0b3d2c;
+            color: #fff;
+            padding: .75rem 1rem;
+            font-size: .95rem;
+            line-height: 1.5;
+            text-align: center;
+        }
+        .demo-aviso a { color: #9fe8c4; }
+    </style>
+</head>
+
+<body>
+    <div class="demo-aviso" role="note">
+      <strong>Demo estática.</strong>
+      Reproduce las páginas públicas de Seguranet, que es una aplicación
+      ASP.NET&nbsp;MVC&nbsp;5. El área de cuenta y el envío de formularios
+      necesitan el servidor y no están en esta versión.
+      <a href="https://github.com/superjai3/Seguranet">Ver el código en GitHub</a>
+    </div>
+    <div class="container body-content">
+
+        <!--HEADER-->
+
+            <header>
+                <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-secondary">
+                    <div class="container">
+                        
+                        <a href="index.html" aria-label="Seguranet, inicio">
+                            <img src="Imagenes/Logo Seguranet.webp" alt="" class="logo-navbar">
+                        </a>
+
+                        <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" title="Alternar navegación" aria-controls="navbarSupportedContent"
+                                aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                        <div class="collapse navbar-collapse d-sm-inline-flex justify-content-between">
+                            <ul class="navbar-nav flex-grow-1">
+                                <li><a href="index.html" class="nav-link">Inicio</a></li>
+                                <li><a href="nosotros.html" class="nav-link">Nosotros</a></li>
+                                <li><a href="coberturas.html" class="nav-link">Coberturas</a></li>
+                                
+                                <li><a href="cotizadorauto.html" class="nav-link">Cotizador</a></li>
+                                <li><a href="preguntas.html" class="nav-link">Preguntas</a></li>
+                                <li><a href="ayuda.html" class="nav-link">Socios</a></li>
+                                <li><a href="siniestros.html" class="nav-link">Siniestros</a></li>
+                                <li><a href="contacto.html" class="nav-link">Contacto</a></li>
+                            </ul>
+
+                            
+                            <ul class="navbar-nav ml-auto">
+                                <li class="nav-item">
+                                        <span class="nav-link disabled" aria-disabled="true"
+                                              title="El área de cuenta necesita el servidor y la base de datos: no está en la demo.">Ingresar</span>
+                                    </li>
+                            </ul>
+
+                        </div>
+                    </div>
+                </nav>
+            </header>
+
+
+            <main>
+    <!-- HERO SECTION -->
+    <section class="hero bg-light py-5" data-aos="fade-up">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 d-flex flex-column justify-content-center">
+                    <h1 class="display-4 text-success">Protege tu futuro con confianza</h1>
+                    <p class="lead">En Seguranet, te ofrecemos seguros personalizados para proteger lo que más valoras. Descubre nuestros servicios y obtén la tranquilidad que necesitas.</p>
+                    <br />
+                    <div class="text-center">
+                        <a href="cotizadorauto.html" class="btn btn-success btn-lg btn-hover">
+                            Cotiza tu Auto Ya!!!
+                        </a>
+                    </div>
+                </div>
+                <div class="col-md-6 d-flex align-items-center">
+                    <img src="Imagenes/al-volante.webp" alt="Seguros de calidad" class="img-fluid img-hover">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ABOUT SECTION -->
+    <section class="about bg-light py-5" data-aos="fade-up" data-aos-delay="200">
+        <div class="container">
+            <div class="row text-center">
+                <div class="col">
+                    <h2 class="display-4 text-success">¿Quiénes somos?</h2>
+                    <p class="lead">En Seguranet, somos un equipo de expertos en seguros comprometidos con ofrecerte las mejores opciones para proteger tus bienes y tu familia. Nuestra misión es brindarte confianza y seguridad con soluciones personalizadas y un servicio excepcional.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SERVICES SECTION -->
+    <section class="services bg-white py-5" data-aos="fade-up" data-aos-delay="400">
+        <div class="container">
+            <div class="row text-center">
+                <div class="col-md-4">
+                    <div class="service-item">
+                        <i class="fas fa-shield-alt fa-3x mb-3 text-success"></i>
+                        <h3 class="h4 text-success">Seguros Personalizados</h3>
+                        <p>Ofrecemos seguros adaptados a tus necesidades específicas para garantizar la mejor protección para ti y tu familia.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="service-item">
+                        <i class="fas fa-user-tie fa-3x mb-3 text-success"></i>
+                        <h3 class="h4 text-success">Asesoría Experta</h3>
+                        <p>Contamos con un equipo de asesores con amplia experiencia en el sector que te guiarán en la elección del seguro más adecuado.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="service-item">
+                        <i class="fas fa-thumbs-up fa-3x mb-3 text-success"></i>
+                        <h3 class="h4 text-success">Tranquilidad Garantizada</h3>
+                        <p>Te ofrecemos tranquilidad con coberturas que protegen lo que más valoras, para que puedas estar seguro en cualquier situación.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    
+    <!-- TESTIMONIALS SECTION -->
+    <section class="testimonials bg-light py-5" data-aos="fade-up" data-aos-delay="600">
+        <div class="container">
+            <h2 class="text-center display-4 mb-4 text-success">Lo que dicen nuestros clientes</h2>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="testimonial text-center p-4 bg-white shadow-sm">
+                        <p class="lead">"Excelente servicio y atención. Me ayudaron a encontrar el seguro perfecto para mi familia con una gran profesionalidad."</p>
+                        <h5 class="font-weight-bold text-success">Juan Pérez</h5>
+                        <p class="text-muted">Cliente</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="testimonial text-center p-4 bg-white shadow-sm">
+                        <p class="lead">"La asesoría fue clara y me dieron todas las opciones posibles. Ahora me siento seguro y protegido con mi nuevo seguro."</p>
+                        <h5 class="font-weight-bold text-success">Ana Gómez</h5>
+                        <p class="text-muted">Cliente</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="testimonial text-center p-4 bg-white shadow-sm">
+                        <p class="lead">"Muy satisfecho con el servicio. La atención personalizada y el asesoramiento me dieron la tranquilidad que buscaba."</p>
+                        <h5 class="font-weight-bold text-success">Luis Martínez</h5>
+                        <p class="text-muted">Cliente</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA SECTION -->
+    <section id="cta" class="cta bg-success text-white text-center py-5" data-aos="fade-up" data-aos-delay="800">
+        <div class="container">
+            <h2 class="display-4">¿Listo para proteger lo que más valoras?</h2>
+            <p class="lead">Solicita tu asesoramiento personalizado hoy mismo y descubre cómo podemos ayudarte a asegurar tu futuro.</p>
+            <a href="contacto.html" class="btn btn-light btn-lg text-success btn-hover">Contáctanos</a>
+        </div>
+    </section>
+
+    <!-- Benefits Section -->
+    <section class="benefits bg-light py-5" data-aos="fade-up" data-aos-delay="1000">
+        <div class="container">
+            <h2 class="text-center display-4 mb-4 text-success">Beneficios de elegir Seguranet</h2>
+            <div class="row">
+                <div class="col-md-4 text-center">
+                    <i class="fas fa-lock fa-3x mb-3 text-success"></i>
+                    <h3 class="h4 text-success">Protección Completa</h3>
+                    <p>Ofrecemos una amplia gama de coberturas para protegerte contra cualquier eventualidad.</p>
+                </div>
+                <div class="col-md-4 text-center">
+                    <i class="fas fa-star fa-3x mb-3 text-success"></i>
+                    <h3 class="h4 text-success">Servicio Personalizado</h3>
+                    <p>Nuestros asesores te brindan atención personalizada para encontrar el seguro que mejor se adapte a tus necesidades.</p>
+                </div>
+                <div class="col-md-4 text-center">
+                    <i class="fas fa-check-circle fa-3x mb-3 text-success"></i>
+                    <h3 class="h4 text-success">Garantía de Calidad</h3>
+                    <p>Con nuestra experiencia y compromiso, garantizamos un servicio de alta calidad y confianza.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+<!-- Include AOS library -->
+<script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+<script>
+    AOS.init({
+        duration: 1000,  // Duration of animations
+        easing: 'ease-in-out',  // Smooth easing for animations
+        once: true,  // Make the animations occur only once
+    });
+</script>
+
+<!-- Custom styles -->
+<style>
+    .btn-hover:hover {
+        background-color: #004d00 !important;
+        color: white !important;
+    }
+
+    .img-hover:hover {
+        transform: scale(1.1);
+        transition: transform 0.3s ease-in-out;
+    }
+
+    .service-item {
+        transition: transform 0.3s ease-in-out;
+    }
+
+        .service-item:hover {
+            transform: translateY(-10px);
+        }
+
+    .testimonial {
+        transition: transform 0.3s ease-in-out;
+    }
+
+        .testimonial:hover {
+            transform: translateY(-10px);
+        }
+
+    .cta .btn-light:hover {
+        background-color: #fff;
+        color: #28a745;
+    }
+</style>
+
+
+            <!-- COMIENZA EL FOOTER -->
+            <footer class="footer">
+                <div class="container body-content">
+                    <div class="footer-sm">
+                        <div class="footer-bottom">
+                            <div class="container">
+                                <div class="row footer-bottom__copyright">
+                                    <div class="col">
+                                        <p>&copy; Copyright 2026  |  Proyecto Final  |  Integración de Sistemas - ISTEA | SEGURANET.COM.AR </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+
+    </div>
+
+    
+    
+    
+
+    <!--Bootstrap-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+            crossorigin="anonymous"></script>
+
+    <!-- JavaScript -->
+    <script src="https://kit.fontawesome.com/66003e86ce.js" crossorigin="anonymous" defer></script>
+
+    
+</body>
+</html>
