@@ -1,35 +1,98 @@
-﻿@{
+@{
     ViewBag.Title = "Cotizador de auto";
-    ViewBag.Descripcion = "Calculá en línea cuánto te sale el seguro de tu auto según modelo, año y cobertura.";
+    ViewBag.Descripcion = "Cotizá tu seguro de auto en línea: elegí año, marca, modelo y versión, sumá los adicionales y compará los cuatro planes de Seguranet.";
 }
 
-<h1 class="display-4 mb-4 text-success">Cotizador de auto</h1>
+@* Esta página era un placeholder con un cartel de "en desarrollo", y el botón
+   que tenía antes apuntaba a http://127.0.0.1:5500/CotizadorSeguros/html/index.html,
+   la dirección de Live Server en la máquina de quien lo programó.
 
-@* PENDIENTE — esta página todavía no funciona, y es la función central del
-   sitio y está en el menú principal. Hay tres cosas rotas acá:
+   El cotizador existe: es superjai3/seguranet-cotizador, una aplicación aparte
+   —HTML, CSS y JavaScript, más una API en .NET 8 que hoy no hace falta para
+   cotizar—. Estaba sin publicar, y encima no cargaba: su index.html pedía el
+   CSS y el JavaScript con una carpeta de más. Eso se arregló en ese
+   repositorio, que ahora se publica en Pages, y acá quedó el enlace que
+   corresponde.
 
-   1. El botón "Ir a la Cotización" apuntaba a
-      http://127.0.0.1:5500/CotizadorSeguros/html/index.html, que es la
-      dirección de Live Server en la máquina de quien lo programó. Para
-      cualquier otra persona ese enlace no lleva a ningún lado. Se saca: dejar
-      un botón que no funciona es peor que no tener botón.
+   Es un enlace y no un iframe a propósito: el cotizador ocupa una pantalla
+   entera, tiene su propio diseño y su propio botón para volver acá. Meterlo en
+   un marco lo dejaría con dos encabezados y una barra de scroll adentro de
+   otra. *@
 
-   2. El otro botón usaba asp-page-handler, que es un atributo de Razor Pages.
-      Este proyecto es MVC 5: ahí ese atributo no hace absolutamente nada, se
-      escribe tal cual en el HTML y el botón queda decorativo.
+<main>
+    <!-- SECTION: Introducción -->
+    <section class="intro bg-light py-5">
+        <div class="container text-center">
+            <h1 class="display-4 mb-3 text-success">Cotizador de auto</h1>
+            <p class="lead mb-4">
+                Elegí año, marca, modelo y versión de tu vehículo, sumá los adicionales
+                que tengas y compará en el momento los cuatro planes.
+            </p>
+            <a href="https://superjai3.github.io/seguranet-cotizador/"
+               class="btn btn-success btn-lg btn-hover">
+                Cotizá tu auto ahora
+            </a>
+        </div>
+    </section>
 
-   3. Controllers/CotizadorController.cs, que es lo que tendría que atender
-      esto, estaba escrito también con Razor Pages (hereda de PageModel, usa
-      BindProperty y devuelve un valor desde un método void). No compilaba, y
-      por eso la solución entera no compilaba.
+    <!-- SECTION: Qué hace el cotizador -->
+    <section class="py-5">
+        <div class="container">
+            <div class="row text-center">
+                <div class="col-md-4 mb-4">
+                    <i class="fas fa-car fa-3x mb-3 text-success"></i>
+                    <h2 class="h4 text-success">Tu vehículo, por su ficha</h2>
+                    <p>
+                        Las listas de año, marca, modelo y versión no se escriben a mano:
+                        salen de bases públicas del rubro, así que la suma asegurada
+                        arranca del valor que tiene tu auto y no de una estimación.
+                    </p>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <i class="fas fa-sliders-h fa-3x mb-3 text-success"></i>
+                    <h2 class="h4 text-success">Con tus adicionales</h2>
+                    <p>
+                        Equipo de GNC, rastreo satelital, cláusula de ajuste automático y
+                        uso particular o comercial. Cada uno mueve el premio y se ve
+                        cuánto, en el momento.
+                    </p>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <i class="fas fa-list-ol fa-3x mb-3 text-success"></i>
+                    <h2 class="h4 text-success">Los cuatro planes</h2>
+                    <p>
+                        El mismo vehículo cotizado con los cuatro planes de
+                        <a href="@Url.Action("Coberturas", "Home")">nuestras coberturas</a>,
+                        uno al lado del otro, para comparar antes de decidir.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
 
-   Hasta que el cotizador exista de verdad, la página queda fuera del sitemap y
-   bloqueada en robots.txt para no mandar tráfico a un callejón sin salida, y
-   convendría sacarla del menú. *@
-<div class="alert alert-secondary">
-    <p class="mb-0">
-        El cotizador está en desarrollo. Mientras tanto, escribinos por
-        @Html.ActionLink("el formulario de contacto", "Contacto", "Home") y te
-        pasamos el presupuesto.
-    </p>
-</div>
+    <!-- SECTION: Llamado a la acción -->
+    <section class="cta bg-success text-white text-center py-5">
+        <div class="container">
+            <h2 class="display-5">¿Preferís que lo hagamos nosotros?</h2>
+            <p class="lead">
+                Si tenés dudas con alguna cobertura o querés un precio en firme,
+                escribinos y te armamos el presupuesto.
+            </p>
+            <a href="@Url.Action("Contacto", "Home")" class="btn btn-light btn-lg text-success btn-hover">
+                Contactanos
+            </a>
+        </div>
+    </section>
+</main>
+
+<style>
+    .btn-hover:hover {
+        background-color: #004d00 !important;
+        color: white !important;
+    }
+
+    .cta .btn-light:hover {
+        background-color: #fff;
+        color: #28a745;
+    }
+</style>

@@ -274,12 +274,23 @@ está construida para algo que todavía no existe.
 cotizador con sus cotizaciones guardadas, un panel de pólizas— y protegerlas. Sin esa
 decisión, el login es un trámite que no da acceso a nada.
 
-### El cotizador no existe
-`CotizadorAuto.cshtml` es un placeholder de tres líneas que dice *"Aqui va el
-cotizador"* — y es la función central del sitio, y está en el menú principal. Se le
-puso título, descripción y `<h1>`, y quedó fuera del sitemap y bloqueado en
-`robots.txt` para no mandar tráfico a un callejón sin salida. Pero el trabajo real está
-por hacerse.
+### El cotizador ya no es un callejón sin salida — resuelto
+`CotizadorAuto.cshtml` era un placeholder, y el botón que había apuntaba a
+`http://127.0.0.1:5500/CotizadorSeguros/html/index.html`: la dirección de Live Server
+en la máquina de quien lo programó.
+
+El cotizador existía todo este tiempo, en
+[superjai3/seguranet-cotizador](https://github.com/superjai3/seguranet-cotizador), una
+aplicación aparte. Estaba sin publicar y, además, roto: su `index.html` pedía el CSS y
+el JavaScript con una carpeta de más (`../css/`, `../js/`, restos de cuando el archivo
+vivía en `CotizadorSeguros/html/`), así que abría sin estilos y sin JavaScript. Se
+arregló en ese repositorio, que ahora se publica en Pages, y esta página pasó a ser lo
+que corresponde: una landing que explica qué hace y lleva ahí.
+
+Con eso, el cotizador vuelve al sitemap y se levantó su `Disallow` de `robots.txt`.
+
+Lo que sigue pendiente es la integración de verdad: que la cotización quede guardada
+contra la cuenta del usuario, que es lo que le daría sentido al login (ver más arriba).
 
 ### La cadena de conexión apunta a una máquina de desarrollo
 `Server=MITO` en `Web.config`. No hay credenciales expuestas — usa `Integrated
@@ -325,7 +336,8 @@ Este proyecto no tiene cliente: las decisiones son tuyas.
    (`.gitignore` e imágenes) alcanza y el resto no vale la pena.
 2. **Compilar y probar en Visual Studio.** Es el paso que no pude dar acá.
 3. **¿Se cambia la ruta por defecto a `Home/Index`?**
-4. **¿Se implementa el cotizador o se saca del menú?**
+4. ~~**¿Se implementa el cotizador o se saca del menú?**~~ Resuelto: se enlaza al
+   cotizador publicado. Queda pendiente guardarle las cotizaciones al usuario.
 5. **Permiso de uso de los logos** de aseguradoras, o reemplazo por genéricos.
 6. **Dónde se publicaría**, para poder cerrar HTTPS, analítica y Search Console.
 7. **¿Se limpia el historial de git** de los 590 MB de paquetes? Obliga a reescribir la

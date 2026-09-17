@@ -26,6 +26,11 @@ que volver a correrlo y comitear `docs/`, o la demo queda vieja.
 Para publicarla: *Settings → Pages → Source: Deploy from a branch*, rama `main`
 y carpeta `/docs`.
 
+El **cotizador** no está en este repositorio: vive en
+[superjai3/seguranet-cotizador](https://github.com/superjai3/seguranet-cotizador) y se
+publica en https://superjai3.github.io/seguranet-cotizador/ . La página *Cotizador* de
+este sitio enlaza ahí.
+
 Si lo que se quiere es el sitio completo andando —cotizador, cuentas, base—, eso
 no es Pages: va a un App Service de Windows en Azure, o a cualquier IIS.
 
