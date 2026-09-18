@@ -93,9 +93,25 @@ si el cron estuvo caído una semana, al volver no vomita los avisos atrasados.
 Cada aviso queda registrado con una clave única, así que ejecutarlo dos veces
 el mismo día no duplica correos.
 
+## Qué hay
+
+- Sitio institucional con los ocho ramos y las cinco páginas legales.
+- Formulario de consulta que guarda en base, avisa por correo y manda acuse.
+- Área de cuenta: registro, confirmación por correo, ingreso, salida y
+  restablecimiento de contraseña.
+- Cotizador de automotor con catálogo argentino y tarifación por zona.
+- Seguimiento de pólizas con avisos de vencimiento a 60, 30, 15 y 7 días.
+
+Todo con pruebas: `php sitio/pruebas/cuentas.php`, `zona.php`, `cotizador.php`
+y `polizas.php`. Las corre también el workflow de GitHub Actions en cada push.
+
 ## Qué falta
 
-- Área de cuenta (registro, confirmación por correo, ingreso). Las tablas ya
-  están en `bd/esquema.sql`.
-- Cotizador de automotor integrado al sitio, con catálogo argentino.
-- Medición de audiencia, previo aviso de cookies.
+- Medición de audiencia, con aviso de cookies previo (hoy no hay ninguna).
+- Cotizadores de hogar y consorcio, que son los otros dos ramos cotizables sin
+  demasiados datos.
+- Panel interno para ver y responder las consultas sin entrar a phpMyAdmin.
+- Tarifas reales: la tabla del cotizador es de ejemplo hasta que haya acuerdo
+  con aseguradoras.
+- Correo por SMTP autenticado de IONOS en vez de `mail()`, para que no caiga en
+  spam cuando el volumen crezca.
