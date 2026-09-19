@@ -328,6 +328,30 @@ levantar el sitio.
   animate.css, jsDelivr). Se les puso `preconnect`, que ayuda, pero lo que de verdad
   serviría es servir esas hojas desde el propio sitio.
 
+## Dos decisiones que se revirtieron, porque cambió su premisa
+
+En agosto de 2026 el titular decidió **conservar los tres testimonios** de la
+portada y **los veinte logos** de aseguradoras de la página de Socios. La
+decisión quedó anotada con una condición explícita: valía mientras Seguranet
+fuera un trabajo de cátedra y no una empresa que capta clientes.
+
+En septiembre de 2026 esa condición dejó de cumplirse: el proyecto pasó a ser
+una insurtech destinada a vender seguros en Argentina. Con esa premisa:
+
+- **Los testimonios** firmados por personas que no existen dejan de ser relleno
+  de plantilla y pasan a ser publicidad engañosa (Decreto 274/2019 de Lealtad
+  Comercial). Se reemplazaron por una sección que dice qué hace Seguranet
+  cuando el cliente la necesita, que es verdad y además vende mejor.
+- **Los logos**, además de estar hotlinkeados desde dieciséis servidores
+  ajenos, usaban marcas de terceros sin autorización bajo el título "Socios
+  estratégicos", insinuando una relación comercial inexistente (Ley 22.362).
+  Se reemplazaron por una declaración de en qué situación está Seguranet y por
+  criterios para que el visitante evalúe cualquier aseguradora.
+
+Ninguna de las dos se puede reponer sin que vuelva a cambiar la premisa: los
+testimonios, con clientes reales que quieran darlos; los logos, con
+autorización de uso de marca por escrito.
+
 ## Necesita decisión tuya
 
 Este proyecto no tiene cliente: las decisiones son tuyas.
@@ -338,7 +362,8 @@ Este proyecto no tiene cliente: las decisiones son tuyas.
 3. **¿Se cambia la ruta por defecto a `Home/Index`?**
 4. ~~**¿Se implementa el cotizador o se saca del menú?**~~ Resuelto: se enlaza al
    cotizador publicado. Queda pendiente guardarle las cotizaciones al usuario.
-5. **Permiso de uso de los logos** de aseguradoras, o reemplazo por genéricos.
+5. ~~**Permiso de uso de los logos** de aseguradoras, o reemplazo por genéricos.~~
+   Resuelto: se quitaron. Vuelven sólo con autorización por escrito.
 6. **Dónde se publicaría**, para poder cerrar HTTPS, analítica y Search Console.
 7. **¿Se limpia el historial de git** de los 590 MB de paquetes? Obliga a reescribir la
    rama remota.

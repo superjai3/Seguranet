@@ -36,10 +36,24 @@
             provenga de este sitio.
         </p>
 
-        <h2>Si más adelante sumamos analítica</h2>
+        <h2>Medición de audiencia</h2>
         <p>
-            El día que incorporemos medición de audiencia, se pedirá tu consentimiento previo mediante
-            un aviso, con la opción de rechazarla, y esta página se actualizará antes de activarla.
+            Si está activada, usamos <strong>Plausible</strong>, que mide visitas de forma agregada:
+            no instala cookies de seguimiento, no te identifica y no te sigue por otros sitios.
+            Aun así <strong>te pedimos permiso antes de cargarla</strong>, porque es lo que corresponde.
+        </p>
+        <p>
+            Si aceptás o rechazás, guardamos esa única decisión en una cookie propia
+            (<code>sn_medicion</code>) que dura un año, para no volver a preguntarte en cada página.
+            Pasado ese plazo te preguntamos de nuevo.
+        </p>
+        <p>
+            <strong>Rechazar es tan fácil como aceptar</strong>: los dos botones del aviso son
+            iguales. Si rechazás, no se carga absolutamente nada de medición.
+        </p>
+        <p>
+            ¿Querés cambiar tu elección? Borrá la cookie <code>sn_medicion</code> desde tu navegador
+            y el aviso vuelve a aparecer.
         </p>
     </div>
 </section>

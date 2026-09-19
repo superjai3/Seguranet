@@ -342,3 +342,24 @@ html, body { overflow-x: hidden; max-width: 100%; }
 @media (max-width: 960px) {
     .sn-nav__cuenta { margin-left: 0; margin-top: var(--sn-esp-2); justify-content: center; }
 }
+
+/* Aviso de medición. Abajo y discreto, pero con los dos botones del mismo
+   tamaño: si rechazar cuesta más que aceptar, el consentimiento no es libre. */
+.sn-cookies {
+    position: fixed; inset-inline: 0; bottom: 0; z-index: 90;
+    background: var(--sn-blanco);
+    border-top: 3px solid var(--sn-azul-500);
+    box-shadow: 0 -4px 24px rgba(10, 37, 64, .12);
+    padding: var(--sn-esp-4);
+    display: flex; flex-wrap: wrap; align-items: center;
+    gap: var(--sn-esp-4);
+    justify-content: center;
+}
+.sn-cookies__texto { flex: 1 1 380px; max-width: 60ch; font-size: var(--sn-txt-sm); }
+.sn-cookies__texto p { margin: var(--sn-esp-1) 0 0; }
+.sn-cookies__acciones { display: flex; gap: var(--sn-esp-3); flex: 0 0 auto; }
+.sn-cookies__acciones .sn-boton { flex: 1 1 auto; white-space: nowrap; }
+
+@media (max-width: 640px) {
+    .sn-cookies__acciones { width: 100%; }
+}
