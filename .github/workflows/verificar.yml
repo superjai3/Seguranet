@@ -1,0 +1,77 @@
+# Reemplaza al pipeline de Azure DevOps, que corría `echo Hello, world!` y
+# fallaba en todos los commits. Esto verifica lo que de verdad importa antes
+# de que un cambio llegue al sitio.
+name: Verificar
+
+on:
+  pull_request:
+    paths: ['sitio/**', '.github/workflows/**']
+  push:
+    branches: [main]
+    paths: ['sitio/**', '.github/workflows/**']
+
+jobs:
+  php:
+    name: Sintaxis y arranque
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Instalar PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          # La misma versión que se va a configurar en IONOS: verificar con
+          # otra no verifica nada.
+          php-version: '8.1'
+
+      - name: Revisar la sintaxis de todos los archivos
+        run: |
+          errores=0
+          while IFS= read -r archivo; do
+            php -l "$archivo" > /dev/null || { php -l "$archivo"; errores=1; }
+          done < <(find sitio -name '*.php')
+          exit $errores
+
+      - name: Probar el área de cuenta
+        run: php sitio/pruebas/cuentas.php
+
+      - name: Probar la validación de zona y código postal
+        run: php sitio/pruebas/zona.php
+
+      - name: Probar el cotizador
+        run: php sitio/pruebas/cotizador.php
+
+      - name: Probar pólizas y avisos de vencimiento
+        run: php sitio/pruebas/polizas.php
+
+      - name: Levantar el sitio y pedir todas las rutas
+        run: |
+          php -S 127.0.0.1:8080 -t sitio/publico sitio/publico/index.php &
+          sleep 3
+          fallos=0
+          for ruta in / /seguros /seguros/automotor /seguros/consorcio /cotizar \
+                      /contacto /siniestros /preguntas /nosotros \
+                      /legales/terminos /legales/privacidad /legales/cookies \
+                      /legales/arrepentimiento /legales/defensa-consumidor \
+                      /cuenta/ingresar /cuenta/registrar /cotizar/auto \
+                      /sitemap.xml /robots.txt \
+                      '/api/localidades?provincia=06'; do
+            codigo=$(curl -s -o /dev/null -w '%{http_code}' "http://127.0.0.1:8080$ruta")
+            if [ "$codigo" != "200" ]; then
+              echo "FALLA  $ruta respondió $codigo"
+              fallos=1
+            else
+              echo "ok     $ruta"
+            fi
+          done
+          # Una ruta inexistente tiene que dar 404, no 200.
+          codigo=$(curl -s -o /dev/null -w '%{http_code}' "http://127.0.0.1:8080/no-existe")
+          [ "$codigo" = "404" ] || { echo "FALLA  /no-existe respondió $codigo y debía ser 404"; fallos=1; }
+          exit $fallos
+
+      - name: Que no se cuelen credenciales
+        run: |
+          if [ -f sitio/app/config.local.php ]; then
+            echo "config.local.php no puede estar versionado: ahí van las credenciales."
+            exit 1
+          fi

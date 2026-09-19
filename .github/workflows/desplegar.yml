@@ -1,0 +1,84 @@
+# Despliegue a IONOS por SFTP.
+#
+# Se usa lftp y no una acción de terceros a propósito: una acción del
+# marketplace con acceso a las credenciales del hosting es una dependencia de
+# confianza que no hace falta asumir para copiar archivos.
+#
+# Secrets que hay que cargar en el repositorio
+# (Settings → Secrets and variables → Actions):
+#
+#   IONOS_SFTP_HOST      access-XXXXXXXXXX.webspace-host.com
+#   IONOS_SFTP_USUARIO   el usuario SFTP del panel de IONOS
+#   IONOS_SFTP_CLAVE     su contraseña
+#   IONOS_RUTA           ruta de destino en el servidor, por ejemplo /seguranet
+#
+# El despliegue NO toca app/config.local.php: ese archivo vive sólo en el
+# servidor y se excluye explícitamente. Si se borrara, el sitio se quedaría
+# sin credenciales de base de datos.
+name: Desplegar a IONOS
+
+on:
+  push:
+    branches: [main]
+    paths: ['sitio/**']
+  workflow_dispatch:
+
+concurrency:
+  group: despliegue-ionos
+  cancel-in-progress: false
+
+jobs:
+  desplegar:
+    name: Subir por SFTP
+    runs-on: ubuntu-latest
+    environment: produccion
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Instalar PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.1'
+
+      - name: Verificar la sintaxis antes de subir nada
+        run: |
+          errores=0
+          while IFS= read -r archivo; do
+            php -l "$archivo" > /dev/null || { php -l "$archivo"; errores=1; }
+          done < <(find sitio -name '*.php')
+          exit $errores
+
+      - name: Instalar lftp
+        run: sudo apt-get update && sudo apt-get install -y lftp
+
+      - name: Subir
+        env:
+          HOST: ${{ secrets.IONOS_SFTP_HOST }}
+          USUARIO: ${{ secrets.IONOS_SFTP_USUARIO }}
+          CLAVE: ${{ secrets.IONOS_SFTP_CLAVE }}
+          RUTA: ${{ secrets.IONOS_RUTA }}
+        run: |
+          if [ -z "$HOST" ] || [ -z "$USUARIO" ] || [ -z "$CLAVE" ] || [ -z "$RUTA" ]; then
+            echo "Faltan secrets. Cargá IONOS_SFTP_HOST, IONOS_SFTP_USUARIO,"
+            echo "IONOS_SFTP_CLAVE y IONOS_RUTA en Settings → Secrets → Actions."
+            exit 1
+          fi
+          lftp -c "
+            set sftp:auto-confirm yes;
+            set net:max-retries 3;
+            set net:timeout 20;
+            open -u '$USUARIO','$CLAVE' sftp://$HOST;
+            mirror --reverse --delete --verbose --parallel=4 \
+                   --exclude-glob config.local.php \
+                   --exclude-glob .git/ \
+                   sitio/ '$RUTA/';
+          "
+
+      - name: Comprobar que el sitio responde
+        run: |
+          codigo=$(curl -s -o /dev/null -w '%{http_code}' --max-time 30 https://seguranet.es/ || echo 000)
+          echo "La portada respondió $codigo"
+          # No falla el despliegue si el dominio todavía no apunta acá.
+          if [ "$codigo" != "200" ]; then
+            echo "::warning::La portada no respondió 200. Revisá el apuntado del dominio y el document root."
+          fi
