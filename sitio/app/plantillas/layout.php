@@ -199,6 +199,39 @@ $matriculado = $config['registro']['matriculado'] === true;
     </div>
 </footer>
 
+<?php /* Analítica: sólo si hay identificador configurado Y la persona aceptó.
+         Se usa Plausible, que no instala cookies ni sigue a nadie entre sitios
+         —pero igual se pide permiso, porque es lo que corresponde—. */ ?>
+<?php if (sn_medicion_activa($config)): ?>
+    <?php if ($config['medicion']['proveedor'] === 'plausible'): ?>
+        <script defer data-domain="<?= e(parse_url($config['sitio']['url'], PHP_URL_HOST) ?: '') ?>"
+                src="https://plausible.io/js/script.js"></script>
+    <?php endif; ?>
+<?php endif; ?>
+
+<?php if (sn_mostrar_aviso_cookies($config)): ?>
+    <div class="sn-cookies" role="dialog" aria-live="polite"
+         aria-labelledby="sn-cookies-titulo">
+        <div class="sn-cookies__texto">
+            <strong id="sn-cookies-titulo">¿Nos dejás medir cómo se usa el sitio?</strong>
+            <p>
+                Nos sirve para saber qué páginas ayudan y cuáles no. No compartimos
+                los datos con nadie ni te seguimos por otros sitios.
+                <a href="/legales/cookies">Cómo funciona</a>.
+            </p>
+        </div>
+        <form method="post" action="/cookies" class="sn-cookies__acciones">
+            <input type="hidden" name="token" value="<?= e(sn_token()) ?>">
+            <input type="hidden" name="volver" value="<?= e($ruta) ?>">
+            <?php /* Los dos botones son iguales en tamaño y peso visual a
+                     propósito: si rechazar cuesta más que aceptar, el
+                     consentimiento no es libre. */ ?>
+            <button class="sn-boton sn-boton--linea" type="submit" name="eleccion" value="no">No, gracias</button>
+            <button class="sn-boton sn-boton--primario" type="submit" name="eleccion" value="si">Aceptar</button>
+        </form>
+    </div>
+<?php endif; ?>
+
 <script src="/recursos/js/seguranet.js" defer></script>
 </body>
 </html>
