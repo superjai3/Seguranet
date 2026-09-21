@@ -74,6 +74,15 @@ $config = [
         'desde'  => sn_env('SN_SMTP_DESDE', 'no-responder@seguranet.es'),
     ],
 
+    // --- Medición de audiencia -------------------------------------------
+    // Vacío = no se mide nada y no se muestra ningún aviso de cookies. Al
+    // cargar un identificador, el sitio empieza a pedir consentimiento ANTES
+    // de cargar nada: esa es la única forma de hacerlo bien.
+    'medicion' => [
+        'id'        => sn_env('SN_MEDICION_ID', ''),
+        'proveedor' => sn_env('SN_MEDICION_PROVEEDOR', 'plausible'),
+    ],
+
     // Poner en true sólo en desarrollo.
     'depuracion' => sn_env('SN_DEPURACION', '0') === '1',
 ];

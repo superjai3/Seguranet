@@ -21,6 +21,7 @@ $config = require $raizApp . '/config.php';
 $ramos  = require $raizApp . '/ramos.php';
 require $raizApp . '/ayudas.php';
 require $raizApp . '/usuarios.php';
+require $raizApp . '/medicion.php';
 
 error_reporting($config['depuracion'] ? E_ALL : 0);
 ini_set('display_errors', $config['depuracion'] ? '1' : '0');
@@ -82,6 +83,22 @@ $rutas = [
     '/legales/defensa-consumidor' => ['legales-consumidor', 'Defensa del consumidor',
         'Tus derechos como consumidor y dónde reclamar.'],
 ];
+
+// --- Elección sobre la medición --------------------------------------------
+if ($ruta === '/cookies' && $metodo === 'POST') {
+    if (sn_token_valido($_POST['token'] ?? null)) {
+        sn_guardar_consentimiento((string) ($_POST['eleccion'] ?? ''));
+    }
+    // Se vuelve a donde estaba, no a la portada: que elegir no te saque de lo
+    // que estabas leyendo. Sólo rutas internas, para que nadie use esto como
+    // redirector hacia otro sitio.
+    $volver = (string) ($_POST['volver'] ?? '/');
+    if ($volver === '' || $volver[0] !== '/' || str_starts_with($volver, '//')) {
+        $volver = '/';
+    }
+    header('Location: ' . $volver, true, 303);
+    exit;
+}
 
 // --- Localidades para los formularios --------------------------------------
 // El navegador le pregunta a este sitio y este sitio a georef, en vez de que el

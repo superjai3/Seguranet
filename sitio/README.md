@@ -102,12 +102,16 @@ el mismo día no duplica correos.
 - Cotizador de automotor con catálogo argentino y tarifación por zona.
 - Seguimiento de pólizas con avisos de vencimiento a 60, 30, 15 y 7 días.
 
+- Aviso de cookies con consentimiento previo: nada de analítica se carga hasta
+  que la persona acepta, y rechazar cuesta lo mismo que aceptar. Se activa
+  poniendo `SN_MEDICION_ID` en la configuración; vacío, no se mide ni se
+  pregunta nada.
+
 Todo con pruebas: `php sitio/pruebas/cuentas.php`, `zona.php`, `cotizador.php`
 y `polizas.php`. Las corre también el workflow de GitHub Actions en cada push.
 
 ## Qué falta
 
-- Medición de audiencia, con aviso de cookies previo (hoy no hay ninguna).
 - Cotizadores de hogar y consorcio, que son los otros dos ramos cotizables sin
   demasiados datos.
 - Panel interno para ver y responder las consultas sin entrar a phpMyAdmin.
