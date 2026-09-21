@@ -226,7 +226,7 @@ para que se lea como decisión y no como descuido.
 La captura del portafolio de Holding Insurtech no cambia: corta en las tarjetas
 de beneficios, antes de esta sección.
 
-### C1 · «Conoce a Nuestro Equipo» se queda como está
+### C1 · «Conoce a Nuestro Equipo» se quitó (revertido en septiembre de 2026)
 En `Views/Home/Nosotros.cshtml` hay seis personas con nombre y apellido —María
 Rodríguez, Carlos Pérez, Lucía Gómez, Silvana Teran, Jose Viñas, Marta Seguias—
 y foto. Ninguna existe: las fotos son de iStock, enlazadas al servidor de vistas
@@ -236,6 +236,9 @@ previas de la agencia.
 es un trabajo de cátedra y no una empresa que capta clientes, así que ese bloque
 es contenido de demostración y no una afirmación comercial sobre un equipo real.
 
+> **Revertido el 21/09/2026**, por lo que avisa el párrafo siguiente: la premisa
+> cambió. Ver «Tres decisiones que se revirtieron», más abajo.
+
 Queda escrito acá porque **la decisión depende de que el proyecto siga siendo
 académico**. El día que Seguranet se use para captar clientes de verdad, esto
 vuelve a ser un problema —y entonces son dos: un equipo inventado presentado
@@ -243,21 +246,27 @@ como real, y el uso de imágenes de una agencia paga sin licencia—.
 
 ## Pendiente: crítico
 
-### 34 imágenes enlazadas desde sitios ajenos
-Ninguna imagen que no sea de la carpeta `Imagenes/` está alojada en el sitio. Están
-tomadas de veintiún dominios distintos:
+### 34 imágenes enlazadas desde sitios ajenos — resuelto
+Ninguna imagen que no fuera de la carpeta `Imagenes/` estaba alojada en el sitio:
+venían de veintiún dominios distintos. Ya no queda ninguna.
 
-| De dónde | Cuántas | Qué son |
-|---|---|---|
-| `media.istockphoto.com` | 7 | el «equipo» y fotos de sección |
-| `www.todoriesgo.com.ar` | 3 | logos de aseguradoras |
-| `upload.wikimedia.org`, `media.licdn.com`, `cloudfront` … | 19 | el resto de los logos |
-| `2u2yqkbs.forms.app` | 1 | el formulario de contacto entero, en un iframe |
+| De dónde | Cuántas | Qué eran | Cómo quedó |
+|---|---|---|---|
+| `media.istockphoto.com` | 7 | el «equipo» y la foto de siniestros | seis salieron con la sección inventada; la de siniestros se reemplazó por `Imagenes/mecanico.webp` |
+| `www.todoriesgo.com.ar`, `upload.wikimedia.org`, `media.licdn.com`, `cloudfront` … | 22 | logos de aseguradoras y de «socios» | salieron con la sección de socios |
+| `cdn-icons-png.flaticon.com`, `upload.wikimedia.org` | 2 | iconos de correo y WhatsApp en Contacto | dibujados en SVG dentro de la página |
 
-Eso gasta el ancho de banda de otros y deja el sitio a merced de que muevan un
-archivo: el día que alguno cambie la URL, acá queda un hueco y nadie se entera.
-**Qué hace falta:** descargarlas a `~/Imagenes/`, con permiso de uso donde
-corresponda, y servirlas desde el sitio.
+Además de gastar el ancho de banda de otros y dejar el sitio a merced de que
+muevan un archivo, casi todas tenían un problema de derechos: las de iStock son
+de licencia paga y se usaban sin licencia, el icono de Flaticon exige atribución
+y el logo de WhatsApp es marca registrada de Meta.
+
+Queda un solo recurso de un tercero en la demo: el **iframe de `forms.app`** con
+el formulario de contacto. No es una imagen sino un servicio, y sí recoge datos
+personales, así que se le agregó el aviso que pide la Ley 25.326 (art. 6): para
+qué se usan los datos, que los aloja un tercero, y cómo pedir verlos, corregirlos
+o borrarlos. El sitio nuevo en PHP no lo usa: tiene su propio formulario, que
+guarda en la base.
 
 ### Nada del sitio está protegido
 Esto salió a la luz al implementar la sesión, y es el punto más serio que queda.
@@ -328,11 +337,12 @@ levantar el sitio.
   animate.css, jsDelivr). Se les puso `preconnect`, que ayuda, pero lo que de verdad
   serviría es servir esas hojas desde el propio sitio.
 
-## Dos decisiones que se revirtieron, porque cambió su premisa
+## Tres decisiones que se revirtieron, porque cambió su premisa
 
 En agosto de 2026 el titular decidió **conservar los tres testimonios** de la
-portada y **los veinte logos** de aseguradoras de la página de Socios. La
-decisión quedó anotada con una condición explícita: valía mientras Seguranet
+portada, **los veinte logos** de aseguradoras de la página de Socios y **el
+equipo de seis personas** de la página Nosotros (C1). Las tres decisiones
+quedaron anotadas con la misma condición explícita: valían mientras Seguranet
 fuera un trabajo de cátedra y no una empresa que capta clientes.
 
 En septiembre de 2026 esa condición dejó de cumplirse: el proyecto pasó a ser
@@ -347,10 +357,24 @@ una insurtech destinada a vender seguros en Argentina. Con esa premisa:
   estratégicos", insinuando una relación comercial inexistente (Ley 22.362).
   Se reemplazaron por una declaración de en qué situación está Seguranet y por
   criterios para que el visitante evalúe cualquier aseguradora.
+- **El equipo inventado** era el caso más serio de los tres, y el propio C1 lo
+  anticipaba: "el día que Seguranet se use para captar clientes de verdad, esto
+  vuelve a ser un problema —y entonces son dos: un equipo inventado presentado
+  como real, y el uso de imágenes de una agencia paga sin licencia—". Las dos
+  cosas pasaron a la vez. Inventar un testimonio exagera lo que opinan los
+  clientes; inventar un directorio de seis personas con cargos describe una
+  estructura que no existe, justo cuando lo que se vende es a quién llamar el
+  día del siniestro. Se reemplazó por un párrafo que dice lo que hay: un
+  proyecto chico con un titular que responde.
 
-Ninguna de las dos se puede reponer sin que vuelva a cambiar la premisa: los
+Ninguna de las tres se puede reponer sin que vuelva a cambiar la premisa: los
 testimonios, con clientes reales que quieran darlos; los logos, con
-autorización de uso de marca por escrito.
+autorización de uso de marca por escrito; el equipo, cuando haya equipo.
+
+Con eso se cerró también el punto crítico de las imágenes ajenas: las **siete
+fotos de iStock** —las seis del equipo y la del siniestro— salieron de la demo.
+La del siniestro se reemplazó por `Imagenes/mecanico.webp`, que es nuestra. Ya
+no queda ninguna imagen de terceros en el sitio publicado.
 
 ## Necesita decisión tuya
 

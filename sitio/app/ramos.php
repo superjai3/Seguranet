@@ -6,8 +6,10 @@
  * lugares a la vez: el menú, su propia página y el desplegable del formulario
  * de contacto. Con una sola fuente, agregar un ramo es agregar una entrada.
  *
- * 'cotizable' marca los que tienen cotizador propio. Hoy sólo automotor; el
- * resto se asesora por consulta, que es como se venden de verdad.
+ * 'cotizador' guarda la ruta del cotizador propio, o '' si no tiene. Antes era
+ * un booleano 'cotizable', pero con dos cotizadores hace falta saber a cuál ir:
+ * la clave del ramo no sirve de ruta (el de automotor vive en /cotizar/auto).
+ * El resto se asesora por consulta, que es como se venden de verdad.
  */
 
 declare(strict_types=1);
@@ -17,7 +19,7 @@ return [
         'nombre'    => 'Automotor',
         'titulo'    => 'Seguro de auto',
         'resumen'   => 'Desde responsabilidad civil obligatoria hasta todo riesgo con franquicia.',
-        'cotizable' => true,
+        'cotizador' => '/cotizar/auto',
         'icono'     => 'auto',
         'detalle'   => [
             'Responsabilidad civil hacia terceros, que es lo que exige la ley para circular.',
@@ -30,7 +32,7 @@ return [
         'nombre'    => 'Hogar',
         'titulo'    => 'Combinado familiar',
         'resumen'   => 'Incendio, robo, daños por agua y responsabilidad civil de la vivienda.',
-        'cotizable' => false,
+        'cotizador' => '/cotizar/hogar',
         'icono'     => 'hogar',
         'detalle'   => [
             'Incendio del edificio y del contenido.',
@@ -43,7 +45,7 @@ return [
         'nombre'    => 'Consorcio',
         'titulo'    => 'Seguro integral de consorcio',
         'resumen'   => 'La cobertura que la ley exige a todo edificio en propiedad horizontal.',
-        'cotizable' => false,
+        'cotizador' => '/cotizar/consorcio',
         'icono'     => 'edificio',
         'detalle'   => [
             'Incendio del edificio, obligatorio por el Código Civil y Comercial.',
@@ -56,7 +58,7 @@ return [
         'nombre'    => 'Vida',
         'titulo'    => 'Vida individual y colectivo',
         'resumen'   => 'Protección económica para tu familia o para el personal de tu empresa.',
-        'cotizable' => false,
+        'cotizador' => '',
         'icono'     => 'vida',
         'detalle'   => [
             'Vida individual, con capital asegurado a tu medida.',
@@ -69,7 +71,7 @@ return [
         'nombre'    => 'Accidentes personales',
         'titulo'    => 'Accidentes personales',
         'resumen'   => 'Para actividades, eventos y personas que no encuadran en ART.',
-        'cotizable' => false,
+        'cotizador' => '',
         'icono'     => 'salud',
         'detalle'   => [
             'Muerte accidental e invalidez permanente.',
@@ -82,7 +84,7 @@ return [
         'nombre'    => 'ART',
         'titulo'    => 'Riesgos del trabajo',
         'resumen'   => 'Obligatoria para todo empleador con personal en relación de dependencia.',
-        'cotizable' => false,
+        'cotizador' => '',
         'icono'     => 'trabajo',
         'detalle'   => [
             'Prestaciones médicas y dinerarias según la Ley 24.557 y sus modificatorias.',
@@ -95,7 +97,7 @@ return [
         'nombre'    => 'Comercio',
         'titulo'    => 'Integral de comercio',
         'resumen'   => 'El local, la mercadería y la responsabilidad frente a tus clientes.',
-        'cotizable' => false,
+        'cotizador' => '',
         'icono'     => 'comercio',
         'detalle'   => [
             'Incendio del local y de las existencias.',
@@ -108,7 +110,7 @@ return [
         'nombre'    => 'Caución',
         'titulo'    => 'Seguro de caución',
         'resumen'   => 'La garantía que te piden para contratar con el Estado o alquilar.',
-        'cotizable' => false,
+        'cotizador' => '',
         'icono'     => 'garantia',
         'detalle'   => [
             'Garantía de mantenimiento de oferta y de ejecución de contrato.',

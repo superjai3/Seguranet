@@ -96,6 +96,18 @@ $matriculado = $config['registro']['matriculado'] === true;
             <a href="/contacto"<?= $ruta === '/contacto' ? ' aria-current="page"' : '' ?>>Contacto</a>
 
             <?php $usuario = sn_usuario(); ?>
+            <?php
+            /* El enlace al panel sólo aparece para quien puede entrar. No es la
+               protección —de eso se encarga la ruta, que devuelve 404— sino que
+               no tiene sentido mostrarle a un cliente un enlace que para él no
+               existe. panel.php se carga acá porque el layout lo dibuja todo. */
+            if (sn_usuario() !== null) {
+                require_once dirname(__DIR__) . '/panel.php';
+            }
+            ?>
+            <?php if ($usuario !== null && sn_es_admin($config, $usuario)): ?>
+                <a href="/panel"<?= $ruta === '/panel' ? ' aria-current="page"' : '' ?>>Consultas</a>
+            <?php endif; ?>
             <?php if ($usuario !== null): ?>
                 <a href="/cuenta" class="sn-nav__cuenta"<?= str_starts_with($ruta, '/cuenta') ? ' aria-current="page"' : '' ?>>
                     <?= sn_icono('usuario') ?>

@@ -44,6 +44,18 @@ jobs:
       - name: Probar pólizas y avisos de vencimiento
         run: php sitio/pruebas/polizas.php
 
+      - name: Probar el envío de correo
+        run: php sitio/pruebas/correo.php
+
+      - name: Probar el panel interno
+        run: php sitio/pruebas/panel.php
+
+      - name: Probar el cotizador de hogar
+        run: php sitio/pruebas/cotizador-hogar.php
+
+      - name: Probar el cotizador de consorcio
+        run: php sitio/pruebas/cotizador-consorcio.php
+
       - name: Levantar el sitio y pedir todas las rutas
         run: |
           php -S 127.0.0.1:8080 -t sitio/publico sitio/publico/index.php &
@@ -53,7 +65,8 @@ jobs:
                       /contacto /siniestros /preguntas /nosotros \
                       /legales/terminos /legales/privacidad /legales/cookies \
                       /legales/arrepentimiento /legales/defensa-consumidor \
-                      /cuenta/ingresar /cuenta/registrar /cotizar/auto \
+                      /cuenta/ingresar /cuenta/registrar \
+                      /cotizar/auto /cotizar/hogar /cotizar/consorcio /seguros/hogar \
                       /sitemap.xml /robots.txt \
                       '/api/localidades?provincia=06'; do
             codigo=$(curl -s -o /dev/null -w '%{http_code}' "http://127.0.0.1:8080$ruta")

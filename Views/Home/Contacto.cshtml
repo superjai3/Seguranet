@@ -38,8 +38,16 @@
                         <!-- Email -->
                         <div class="d-flex justify-content-center mb-3">
                             <strong class="mr-2">Email: </strong>
-                            <a href="mailto:contacto@seguranet.com.ar" class="btn btn-outline-primary btn-lg">
-                                <img src="https://cdn-icons-png.flaticon.com/512/732/732200.png" alt="Correo Electrónico" width="30" height="30">
+                            @*  El icono va dibujado acá adentro y no traído de un servidor
+                                ajeno: antes se pedía a cdn-icons-png.flaticon.com, que además
+                                de gastar ancho de banda de otro exige atribución por licencia.
+                                Y el correo era @@seguranet.com.ar, un dominio que todavía no
+                                está comprado: cualquiera que escribiera recibía un rebote.  *@
+                            <a href="mailto:contacto@@seguranet.es" class="btn btn-outline-primary btn-lg">
+                                <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                    <rect x="2" y="4" width="20" height="16" rx="2"></rect>
+                                    <path d="m2 7 10 6 10-6"></path>
+                                </svg>
                                 Enviar Email
                             </a>
                         </div>
@@ -48,7 +56,12 @@
                         <div class="d-flex justify-content-center">
                             <strong class="mr-2">Teléfono:  </strong>
                             <a href="https://wa.me/34632638449" target="_blank" rel="noopener" class="btn btn-outline-success btn-lg">
-                                <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp" width="30" height="30">
+                                @*  Globo de chat genérico en vez del logo de WhatsApp: el logo
+                                    es marca registrada de Meta y usarlo necesita permiso. Nombrar
+                                    el servicio en el texto del botón sí se puede.  *@
+                                <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                    <path d="M21 11.5a8.4 8.4 0 0 1-9 8.4 8.5 8.5 0 0 1-3.9-.9L3 20.5l1.5-4.4A8.4 8.4 0 0 1 12 3.1a8.4 8.4 0 0 1 9 8.4z"></path>
+                                </svg>
                                 Enviar WhatsApp
                             </a>
                         </div>
@@ -77,6 +90,20 @@
                 <a href="https://2u2yqkbs.forms.app/form/674203e6abf58c3603bcd878" target="_blank" rel="noopener">
                     Abrilo en una pestaña nueva
                 </a>.
+            </p>
+            @*  La Ley 25.326 (art. 6) pide avisar ANTES de recoger un dato personal
+                para qué se usa, quién lo trata y cómo se lo borra. El formulario no
+                vive en este servidor sino en forms.app, así que además hay que
+                decirlo: el visitante tiene derecho a saber a dónde va lo que
+                escribe. Antes no se avisaba nada.  *@
+            <p class="small text-muted text-center mb-4">
+                Lo que escribas se usa sólo para responderte tu consulta y no se cede
+                a terceros con fines comerciales. El formulario lo presta
+                <strong>forms.app</strong>, un servicio externo que aloja las respuestas.
+                Podés pedir ver, corregir o borrar tus datos escribiendo a
+                <a href="mailto:contacto@@seguranet.es">contacto@@seguranet.es</a>.
+                La Agencia de Acceso a la Información Pública es el organismo de control
+                y atiende reclamos sobre protección de datos personales.
             </p>
             <iframe title="Formulario de contacto de Seguranet"
                     loading="lazy"

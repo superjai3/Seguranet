@@ -25,6 +25,11 @@ CREATE TABLE IF NOT EXISTS consultas (
     origen_ip   VARCHAR(45)     NOT NULL DEFAULT '',
     agente      VARCHAR(255)    NOT NULL DEFAULT '',
     estado      ENUM('nueva','en_curso','respondida','descartada') NOT NULL DEFAULT 'nueva',
+    -- Nota interna del panel: para quien atiende, no para el cliente.
+    -- "Llamé y no atendió", "pide que lo llamen después de las 18". Sin esto
+    -- el panel muestra estados pero no explica por qué una consulta lleva
+    -- cuatro días en curso.
+    nota        VARCHAR(1000)   NOT NULL DEFAULT '',
     creada_en   DATETIME        NOT NULL,
     PRIMARY KEY (id),
     KEY idx_consultas_creada (creada_en),

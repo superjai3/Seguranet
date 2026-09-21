@@ -26,11 +26,11 @@
 
             <div class="sn-tarjeta">
                 <h2 style="font-size:var(--sn-txt-xl)">Cómo seguimos</h2>
-                <?php if ($ramo['cotizable']): ?>
+                <?php if ($ramo['cotizador'] !== ''): ?>
                     <p>Podés calcular una estimación en el momento, sin dejar datos personales,
                        y después pedirnos la propuesta en firme.</p>
                     <div class="sn-mt-6">
-                        <a class="sn-boton sn-boton--primario sn-boton--bloque" href="/cotizar">Cotizar ahora</a>
+                        <a class="sn-boton sn-boton--primario sn-boton--bloque" href="<?= e($ramo['cotizador']) ?>">Cotizar ahora</a>
                     </div>
                 <?php else: ?>
                     <p>Este ramo se arma a medida: el precio depende de datos que conviene

@@ -126,6 +126,10 @@ if ($ruta === '/robots.txt') {
     echo "User-agent: *\n\n";
     echo "# El área de cuenta no le aporta nada a quien busca.\n";
     echo "Disallow: /cuenta/\n\n";
+    // /panel NO va acá, y no es un olvido: robots.txt lo lee cualquiera, así
+    // que listarlo sería anunciar que existe un panel de consultas. Como a
+    // quien no es administrador le devuelve 404, para un buscador la ruta no
+    // existe, que es exactamente lo que se busca.
     echo "Sitemap: " . url('/sitemap.xml', $config) . "\n";
     exit;
 }
@@ -136,9 +140,14 @@ if ($ruta === '/sitemap.xml') {
     echo '<?xml version="1.0" encoding="UTF-8"?>' . "\n";
     echo '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' . "\n";
     $prioridades = ['/' => '1.0', '/cotizar' => '0.9', '/seguros' => '0.9', '/contacto' => '0.8'];
-    // El cotizador no está en $rutas porque tiene su propio manejo; va aparte.
-    printf("  <url><loc>%s</loc><lastmod>%s</lastmod><priority>0.9</priority></url>\n",
-        e(url('/cotizar/auto', $config)), $hoy);
+    // Los cotizadores no están en $rutas porque tienen su propio manejo. Se
+    // sacan de los ramos, así el día que haya un tercero aparece solo.
+    foreach ($ramos as $ramo) {
+        if ($ramo['cotizador'] !== '') {
+            printf("  <url><loc>%s</loc><lastmod>%s</lastmod><priority>0.9</priority></url>\n",
+                e(url($ramo['cotizador'], $config)), $hoy);
+        }
+    }
     foreach (array_keys($rutas) as $r) {
         printf("  <url><loc>%s</loc><lastmod>%s</lastmod><priority>%s</priority></url>\n",
             e(url($r, $config)), $hoy, $prioridades[$r] ?? '0.6');
@@ -249,6 +258,203 @@ if ($ruta === '/cotizar/auto') {
     exit;
 }
 
+// --- Cotizador de hogar ----------------------------------------------------
+if ($ruta === '/cotizar/hogar') {
+    require $raizApp . '/georef.php';
+    require $raizApp . '/cotizador-hogar.php';
+
+    $datosVista = ['provincias' => sn_provincias()];
+
+    if ($metodo === 'POST') {
+        if (!sn_token_valido($_POST['token'] ?? null)) {
+            $datosVista['errores'] = ['tipo' => 'El formulario venció. Volvé a enviarlo.'];
+            $datosVista['valores'] = $_POST;
+        } else {
+            $entrada = [
+                'tipo'           => trim((string) ($_POST['tipo'] ?? '')),
+                'condicion'      => trim((string) ($_POST['condicion'] ?? '')),
+                'suma_edificio'  => (float) ($_POST['suma_edificio'] ?? 0),
+                'suma_contenido' => (float) ($_POST['suma_contenido'] ?? 0),
+                'antiguedad'     => (int) ($_POST['antiguedad'] ?? -1),
+                'seguridad'      => trim((string) ($_POST['seguridad'] ?? '')),
+                'planta_baja'    => !empty($_POST['planta_baja']),
+                'provincia'      => preg_replace('/\D/', '', (string) ($_POST['provincia'] ?? '')),
+                'localidad'      => trim((string) ($_POST['localidad'] ?? '')),
+                'cp'             => trim((string) ($_POST['cp'] ?? '')),
+            ];
+            $errores = sn_hogar_errores($entrada);
+            $datosVista['valores'] = $entrada;
+            $datosVista['errores'] = $errores;
+
+            if ($errores === []) {
+                $cotizacion = sn_cotizar_hogar($entrada);
+                $datosVista['cotizacion'] = $cotizacion;
+
+                $usuario = sn_usuario();
+                $pdo = sn_bd($config);
+                if ($usuario !== null && $pdo instanceof PDO) {
+                    try {
+                        $pdo->prepare(
+                            'INSERT INTO cotizaciones (usuario_id, ramo, datos, resultado, creada_en)
+                             VALUES (?, "hogar", ?, ?, ?)'
+                        )->execute([
+                            $usuario['id'],
+                            json_encode($entrada, JSON_UNESCAPED_UNICODE),
+                            json_encode($cotizacion['planes'], JSON_UNESCAPED_UNICODE),
+                            sn_ahora(),
+                        ]);
+                    } catch (PDOException $ex) {
+                        // Que no se pueda guardar no puede impedir ver el precio.
+                        error_log('Seguranet cotizacion hogar: ' . $ex->getMessage());
+                    }
+                }
+            }
+        }
+    }
+
+    sn_responder('cotizar-hogar', [
+        'titulo'      => 'Cotizador de hogar',
+        'descripcion' => 'Calculá en línea cuánto sale el seguro de tu casa o departamento '
+                       . 'y compará los tres planes. Si alquilás, no pagás el edificio.',
+        'ruta'        => '/cotizar/hogar',
+    ], $config, $ramos, $datosVista);
+    exit;
+}
+
+// --- Cotizador de consorcio ------------------------------------------------
+if ($ruta === '/cotizar/consorcio') {
+    require $raizApp . '/georef.php';
+    require $raizApp . '/cotizador-consorcio.php';
+
+    $datosVista = ['provincias' => sn_provincias()];
+
+    if ($metodo === 'POST') {
+        if (!sn_token_valido($_POST['token'] ?? null)) {
+            $datosVista['errores'] = ['unidades' => 'El formulario venció. Volvé a enviarlo.'];
+            $datosVista['valores'] = $_POST;
+        } else {
+            $entrada = [
+                'unidades'      => (int) ($_POST['unidades'] ?? 0),
+                'pisos'         => (int) ($_POST['pisos'] ?? 0),
+                'antiguedad'    => (int) ($_POST['antiguedad'] ?? -1),
+                'suma_edificio' => (float) ($_POST['suma_edificio'] ?? 0),
+                'limite_rc'     => (int) ($_POST['limite_rc'] ?? 0),
+                'ascensores'    => (int) ($_POST['ascensores'] ?? 0),
+                'amenities'     => !empty($_POST['amenities']),
+                'provincia'     => preg_replace('/\D/', '', (string) ($_POST['provincia'] ?? '')),
+                'localidad'     => trim((string) ($_POST['localidad'] ?? '')),
+                'cp'            => trim((string) ($_POST['cp'] ?? '')),
+            ];
+            $errores = sn_consorcio_errores($entrada);
+            $datosVista['valores'] = $entrada;
+            $datosVista['errores'] = $errores;
+
+            if ($errores === []) {
+                $cotizacion = sn_cotizar_consorcio($entrada);
+                $datosVista['cotizacion'] = $cotizacion;
+
+                $usuario = sn_usuario();
+                $pdo = sn_bd($config);
+                if ($usuario !== null && $pdo instanceof PDO) {
+                    try {
+                        $pdo->prepare(
+                            'INSERT INTO cotizaciones (usuario_id, ramo, datos, resultado, creada_en)
+                             VALUES (?, "consorcio", ?, ?, ?)'
+                        )->execute([
+                            $usuario['id'],
+                            json_encode($entrada, JSON_UNESCAPED_UNICODE),
+                            json_encode($cotizacion['planes'], JSON_UNESCAPED_UNICODE),
+                            sn_ahora(),
+                        ]);
+                    } catch (PDOException $ex) {
+                        error_log('Seguranet cotizacion consorcio: ' . $ex->getMessage());
+                    }
+                }
+            }
+        }
+    }
+
+    sn_responder('cotizar-consorcio', [
+        'titulo'      => 'Cotizador de consorcio',
+        'descripcion' => 'Calculá el seguro integral de tu consorcio y compará los tres '
+                       . 'planes, con el costo por unidad y por mes para llevar a la asamblea.',
+        'ruta'        => '/cotizar/consorcio',
+    ], $config, $ramos, $datosVista);
+    exit;
+}
+
+// --- Panel interno ---------------------------------------------------------
+// Devuelve 404 y no 403 a quien no tiene permiso, a propósito: un 403 confirma
+// que la ruta existe, y que exista un panel de consultas es justamente lo que
+// no hace falta contarle a nadie. Para quien no es administrador, /panel es
+// una página que no está.
+if ($ruta === '/panel') {
+    require $raizApp . '/panel.php';
+    require $raizApp . '/georef.php';   // para el nombre de la provincia
+
+    if (!sn_es_admin($config, sn_usuario())) {
+        http_response_code(404);
+        sn_responder('error-404', ['titulo' => 'Página no encontrada', 'ruta' => $ruta,
+            'descripcion' => 'La página que buscás no existe.', 'noindex' => true], $config, $ramos);
+        exit;
+    }
+
+    $pdo = sn_bd($config);
+    $datosVista = ['hayBase' => $pdo instanceof PDO, 'mensaje' => '', 'error' => ''];
+
+    if ($pdo instanceof PDO) {
+        if ($metodo === 'POST') {
+            if (!sn_token_valido($_POST['token'] ?? null)) {
+                $datosVista['error'] = 'El formulario venció. Volvé a enviarlo.';
+            } else {
+                $id = (int) ($_POST['id'] ?? 0);
+                $estado = (string) ($_POST['estado'] ?? '');
+                $cambios = [];
+                if (sn_panel_cambiar_estado($pdo, $id, $estado)) {
+                    $cambios[] = 'el estado';
+                }
+                if (sn_panel_guardar_nota($pdo, $id, (string) ($_POST['nota'] ?? ''))) {
+                    $cambios[] = 'la nota';
+                }
+                // Patrón POST-Redirect-GET: sin esto, recargar la página vuelve
+                // a mandar el formulario y el navegador pregunta si reenviar.
+                $volver = (string) ($_POST['volver'] ?? '/panel');
+                // Sólo destinos internos del panel: si no, esto sería un
+                // redirector abierto con el que mandar gente a cualquier lado.
+                if (!preg_match('#^/panel(\?[a-z0-9=&_-]*)?$#i', $volver)) {
+                    $volver = '/panel';
+                }
+                $_SESSION['sn_panel_mensaje'] = $cambios === []
+                    ? 'No hubo cambios que guardar.'
+                    : 'Guardado: ' . implode(' y ', $cambios) . '.';
+                header('Location: ' . $volver, true, 303);
+                exit;
+            }
+        }
+
+        if (isset($_SESSION['sn_panel_mensaje'])) {
+            $datosVista['mensaje'] = (string) $_SESSION['sn_panel_mensaje'];
+            unset($_SESSION['sn_panel_mensaje']);
+        }
+
+        $datosVista['filtro']  = (string) ($_GET['estado'] ?? '');
+        $datosVista['resumen'] = sn_panel_resumen($pdo);
+        $datosVista['listado'] = sn_panel_consultas(
+            $pdo,
+            $datosVista['filtro'],
+            (int) ($_GET['pagina'] ?? 1)
+        );
+    }
+
+    sn_responder('panel', [
+        'titulo'      => 'Consultas',
+        'ruta'        => $ruta,
+        'descripcion' => 'Panel interno de Seguranet.',
+        'noindex'     => true,
+    ], $config, $ramos, $datosVista);
+    exit;
+}
+
 // --- Área de cuenta --------------------------------------------------------
 if (str_starts_with($ruta, '/cuenta')) {
     $paginaCuenta = static function (string $vista, string $titulo, string $ruta) use ($config, $ramos) {
@@ -319,7 +525,6 @@ if (str_starts_with($ruta, '/cuenta')) {
                 exit;
             }
             require $raizApp . '/polizas.php';
-            require $raizApp . '/cotizador.php';   // para sn_pesos()
             $pdo = sn_bd($config);
             $lista = $pdo instanceof PDO ? sn_polizas_de($pdo, sn_usuario()['id']) : [];
             sn_responder('cuenta-polizas', ['titulo' => 'Mis pólizas', 'ruta' => $ruta,

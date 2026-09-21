@@ -57,9 +57,26 @@ sitio/
            'usuario' => 'dboxxxxxxx',
            'clave' => '...',
        ],
-       'correo' => ['desde' => 'no-responder@seguranet.es'],
+       // Quién entra al panel de consultas (/panel). Vacío = nadie, ni vos.
+       // Hace falta además que esa cuenta esté registrada y confirmada.
+       'panel'  => ['admins' => ['jaime@seguranet.es']],
+       'correo' => [
+           'host'    => 'smtp.ionos.es',
+           'puerto'  => 587,
+           'usuario' => 'no-responder@seguranet.es',
+           'clave'   => '...',
+           'desde'   => 'no-responder@seguranet.es',
+       ],
    ];
    ```
+
+   El buzón `no-responder@` se crea antes en *Correo → Crear dirección*: el
+   usuario de SMTP es la dirección completa y la clave es la del buzón, no la
+   de la cuenta de IONOS.
+
+   Sin `host` el sitio se cae a `mail()`, que sirve para probar en local pero
+   no para producción: el mensaje sale con el dominio del servidor compartido,
+   así que no lo respaldan ni SPF ni DKIM y termina en spam.
 
 5. **PHP 8.1 o superior.** En *PHP → Gestionar versiones*, asignale 8.1+ al
    dominio.
@@ -100,22 +117,31 @@ el mismo día no duplica correos.
 - Área de cuenta: registro, confirmación por correo, ingreso, salida y
   restablecimiento de contraseña.
 - Cotizador de automotor con catálogo argentino y tarifación por zona.
+- Cotizador de hogar (combinado familiar) con tres planes. Distingue propietario
+  de inquilino: al inquilino no se le cobra el edificio, que no es suyo.
+- Cotizador de consorcio con tres planes, el costo por unidad y por mes —el
+  número que se lleva a la asamblea— y avisos cuando el límite de
+  responsabilidad civil elegido queda corto para el edificio.
 - Seguimiento de pólizas con avisos de vencimiento a 60, 30, 15 y 7 días.
+- Correo saliente por SMTP autenticado con STARTTLS. Si el servidor no ofrece
+  cifrado, el envío se cancela antes de mandar la clave.
+- Panel interno en `/panel` para trabajar las consultas: filtrar por estado,
+  cambiar el estado y dejar una nota. Las más viejas arriba. A quien no es
+  administrador le devuelve 404, no 403: un 403 confirmaría que existe.
 
 - Aviso de cookies con consentimiento previo: nada de analítica se carga hasta
   que la persona acepta, y rechazar cuesta lo mismo que aceptar. Se activa
   poniendo `SN_MEDICION_ID` en la configuración; vacío, no se mide ni se
   pregunta nada.
 
-Todo con pruebas: `php sitio/pruebas/cuentas.php`, `zona.php`, `cotizador.php`
-y `polizas.php`. Las corre también el workflow de GitHub Actions en cada push.
+Todo con pruebas: 305 aserciones en `sitio/pruebas/`. Las corre también el
+workflow de GitHub Actions en cada push.
 
 ## Qué falta
 
-- Cotizadores de hogar y consorcio, que son los otros dos ramos cotizables sin
-  demasiados datos.
-- Panel interno para ver y responder las consultas sin entrar a phpMyAdmin.
 - Tarifas reales: la tabla del cotizador es de ejemplo hasta que haya acuerdo
   con aseguradoras.
-- Correo por SMTP autenticado de IONOS en vez de `mail()`, para que no caiga en
-  spam cuando el volumen crezca.
+- Registros SPF, DKIM y DMARC del dominio en Hostalia, que es donde está el
+  DNS de `seguranet.es`. El envío ya sale por SMTP autenticado de IONOS, pero
+  sin esos tres registros el buzón del destinatario no puede comprobar que el
+  correo sea nuestro.

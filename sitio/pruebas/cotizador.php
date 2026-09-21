@@ -12,6 +12,7 @@
 
 declare(strict_types=1);
 
+require dirname(__DIR__) . '/app/ayudas.php';   // sn_pesos() vive acá
 require dirname(__DIR__) . '/app/georef.php';
 require dirname(__DIR__) . '/app/cotizador.php';
 

@@ -6,6 +6,10 @@
 
 declare(strict_types=1);
 
+// El envío de correo es lo bastante grande como para vivir aparte, pero
+// todo el que usa ayudas.php termina mandando algún mensaje.
+require_once __DIR__ . '/correo.php';
+
 /**
  * Escapa texto para HTML. Se usa en TODA salida: es la defensa contra XSS y
  * no tiene excepciones "porque este dato es nuestro".
@@ -77,24 +81,6 @@ function sn_bd(array $config, ?PDO $inyectada = null): ?PDO
 }
 
 /**
- * Envía un correo por SMTP del hosting.
- * Sin biblioteca externa: mail() alcanza para el volumen de un sitio de
- * captación, y en IONOS sale por su propio servidor.
- */
-function sn_enviar_correo(array $config, string $para, string $asunto, string $cuerpoHtml): bool
-{
-    $desde = $config['correo']['desde'];
-    $cabeceras = [
-        'MIME-Version: 1.0',
-        'Content-Type: text/html; charset=UTF-8',
-        'From: Seguranet <' . $desde . '>',
-        'Reply-To: ' . $config['sitio']['correo'],
-        'X-Mailer: Seguranet',
-    ];
-    return @mail($para, '=?UTF-8?B?' . base64_encode($asunto) . '?=', $cuerpoHtml, implode("\r\n", $cabeceras));
-}
-
-/**
  * Marca de tiempo actual, en el huso del negocio.
  * Se usa en vez de NOW() de MySQL: NOW() devuelve la hora del servidor de base
  * de datos, que en IONOS no es la de Argentina. Además hace el SQL portable.
@@ -137,4 +123,16 @@ function sn_icono(string $nombre): string
     return '<svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.7" '
          . 'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">'
          . $d . '</svg>';
+}
+
+/**
+ * Formatea un importe en pesos, sin centavos.
+ *
+ * Vivía dentro del cotizador de automotor, pero de tarifa no tiene nada: lo
+ * usan las pólizas y ahora también el cotizador de hogar. Cargar el tarifario
+ * del auto para escribir un precio no tenía sentido.
+ */
+function sn_pesos(int $monto): string
+{
+    return '$ ' . number_format((float) $monto, 0, ',', '.');
 }

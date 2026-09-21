@@ -74,6 +74,20 @@ $config = [
         'desde'  => sn_env('SN_SMTP_DESDE', 'no-responder@seguranet.es'),
     ],
 
+    // --- Panel interno ----------------------------------------------------
+    // Quién puede ver y trabajar las consultas. Es una lista de correos y no
+    // una columna en `usuarios` a propósito: así no existe ninguna ruta del
+    // sitio que otorgue el permiso —no es que esté bien protegida, es que no
+    // existe—, y un fallo que permita escribir en la base no se convierte en
+    // escalada de privilegios. Además del correo hace falta cuenta confirmada.
+    // Vacío = el panel no existe para nadie, ni siquiera para vos.
+    'panel' => [
+        'admins' => array_values(array_filter(array_map(
+            'trim',
+            explode(',', sn_env('SN_ADMINS', ''))
+        ))),
+    ],
+
     // --- Medición de audiencia -------------------------------------------
     // Vacío = no se mide nada y no se muestra ningún aviso de cookies. Al
     // cargar un identificador, el sitio empieza a pedir consentimiento ANTES

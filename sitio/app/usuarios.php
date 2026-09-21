@@ -230,7 +230,16 @@ function sn_ingresar(array $config): array
             ->execute([sn_ahora(), $u['id']]);
 
         session_regenerate_id(true);
-        $_SESSION['sn_usuario'] = ['id' => (int) $u['id'], 'nombre' => $u['nombre'], 'correo' => $u['correo']];
+        // correo_confirmado se guarda aunque acá arriba ya se haya rechazado a
+        // quien no confirmó: el panel interno lo exige para dar permiso, y no
+        // puede depender en silencio de una comprobación que vive en otra
+        // función. Si algún día esta guarda se relaja, el panel no se entera.
+        $_SESSION['sn_usuario'] = [
+            'id'                => (int) $u['id'],
+            'nombre'            => $u['nombre'],
+            'correo'            => $u['correo'],
+            'correo_confirmado' => 1,
+        ];
         unset($_SESSION['sn_token']);
 
         return ['ok' => true, 'valores' => [], 'mensaje' => ''];
