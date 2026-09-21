@@ -45,7 +45,7 @@ return [
         'nombre'    => 'Consorcio',
         'titulo'    => 'Seguro integral de consorcio',
         'resumen'   => 'La cobertura que la ley exige a todo edificio en propiedad horizontal.',
-        'cotizador' => '',
+        'cotizador' => '/cotizar/consorcio',
         'icono'     => 'edificio',
         'detalle'   => [
             'Incendio del edificio, obligatorio por el Código Civil y Comercial.',

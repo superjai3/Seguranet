@@ -12,12 +12,22 @@
  *   $cotizacion    lo que devuelve sn_cotizar() o sn_cotizar_hogar()
  *   $resumen       la línea que describe lo cotizado, en palabras
  *   $ramoCotizado  la clave del ramo, para el enlace a contacto
+ *
+ * Dos cosas son opcionales y sólo las usa consorcio:
+ *   $cotizacion['avisos']             advertencias sobre la cobertura elegida
+ *   $cotizacion['planes'][x]['por_unidad']  el costo prorrateado por unidad
  */
 ?>
         <h2 style="font-size:var(--sn-txt-xl)">Tu estimación</h2>
         <p style="color:var(--sn-gris-500);font-size:var(--sn-txt-sm)">
             <?= e($resumen) ?>
         </p>
+
+        <?php foreach (($cotizacion['avisos'] ?? []) as $aviso): ?>
+            <div class="sn-aviso sn-aviso--dato" style="margin-bottom:var(--sn-esp-3)">
+                <?= e($aviso) ?>
+            </div>
+        <?php endforeach; ?>
 
         <?php foreach ($cotizacion['planes'] as $plan): ?>
             <div class="sn-tarjeta plan-fila<?= $plan['destacado'] ? ' plan-fila--destacado' : '' ?>"
@@ -41,6 +51,12 @@
                         </div>
                         <div style="font-size:var(--sn-txt-sm);color:var(--sn-gris-500)">por mes</div>
                         <div style="font-size:var(--sn-txt-xs);color:var(--sn-gris-500)"><?= e(sn_pesos($plan['anual'])) ?> al año</div>
+                        <?php if (isset($plan['por_unidad'])): ?>
+                            <div style="font-size:var(--sn-txt-sm);color:var(--sn-azul-900);margin-top:var(--sn-esp-2);font-weight:600">
+                                <?= e(sn_pesos($plan['por_unidad'])) ?>
+                            </div>
+                            <div style="font-size:var(--sn-txt-xs);color:var(--sn-gris-500)">por unidad, por mes</div>
+                        <?php endif; ?>
                     </div>
                 </div>
             </div>

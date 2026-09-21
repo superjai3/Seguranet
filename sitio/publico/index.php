@@ -317,6 +317,68 @@ if ($ruta === '/cotizar/hogar') {
     exit;
 }
 
+// --- Cotizador de consorcio ------------------------------------------------
+if ($ruta === '/cotizar/consorcio') {
+    require $raizApp . '/georef.php';
+    require $raizApp . '/cotizador-consorcio.php';
+
+    $datosVista = ['provincias' => sn_provincias()];
+
+    if ($metodo === 'POST') {
+        if (!sn_token_valido($_POST['token'] ?? null)) {
+            $datosVista['errores'] = ['unidades' => 'El formulario venció. Volvé a enviarlo.'];
+            $datosVista['valores'] = $_POST;
+        } else {
+            $entrada = [
+                'unidades'      => (int) ($_POST['unidades'] ?? 0),
+                'pisos'         => (int) ($_POST['pisos'] ?? 0),
+                'antiguedad'    => (int) ($_POST['antiguedad'] ?? -1),
+                'suma_edificio' => (float) ($_POST['suma_edificio'] ?? 0),
+                'limite_rc'     => (int) ($_POST['limite_rc'] ?? 0),
+                'ascensores'    => (int) ($_POST['ascensores'] ?? 0),
+                'amenities'     => !empty($_POST['amenities']),
+                'provincia'     => preg_replace('/\D/', '', (string) ($_POST['provincia'] ?? '')),
+                'localidad'     => trim((string) ($_POST['localidad'] ?? '')),
+                'cp'            => trim((string) ($_POST['cp'] ?? '')),
+            ];
+            $errores = sn_consorcio_errores($entrada);
+            $datosVista['valores'] = $entrada;
+            $datosVista['errores'] = $errores;
+
+            if ($errores === []) {
+                $cotizacion = sn_cotizar_consorcio($entrada);
+                $datosVista['cotizacion'] = $cotizacion;
+
+                $usuario = sn_usuario();
+                $pdo = sn_bd($config);
+                if ($usuario !== null && $pdo instanceof PDO) {
+                    try {
+                        $pdo->prepare(
+                            'INSERT INTO cotizaciones (usuario_id, ramo, datos, resultado, creada_en)
+                             VALUES (?, "consorcio", ?, ?, ?)'
+                        )->execute([
+                            $usuario['id'],
+                            json_encode($entrada, JSON_UNESCAPED_UNICODE),
+                            json_encode($cotizacion['planes'], JSON_UNESCAPED_UNICODE),
+                            sn_ahora(),
+                        ]);
+                    } catch (PDOException $ex) {
+                        error_log('Seguranet cotizacion consorcio: ' . $ex->getMessage());
+                    }
+                }
+            }
+        }
+    }
+
+    sn_responder('cotizar-consorcio', [
+        'titulo'      => 'Cotizador de consorcio',
+        'descripcion' => 'Calculá el seguro integral de tu consorcio y compará los tres '
+                       . 'planes, con el costo por unidad y por mes para llevar a la asamblea.',
+        'ruta'        => '/cotizar/consorcio',
+    ], $config, $ramos, $datosVista);
+    exit;
+}
+
 // --- Área de cuenta --------------------------------------------------------
 if (str_starts_with($ruta, '/cuenta')) {
     $paginaCuenta = static function (string $vista, string $titulo, string $ruta) use ($config, $ramos) {

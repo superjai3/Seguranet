@@ -116,6 +116,9 @@ el mismo día no duplica correos.
 - Cotizador de automotor con catálogo argentino y tarifación por zona.
 - Cotizador de hogar (combinado familiar) con tres planes. Distingue propietario
   de inquilino: al inquilino no se le cobra el edificio, que no es suyo.
+- Cotizador de consorcio con tres planes, el costo por unidad y por mes —el
+  número que se lleva a la asamblea— y avisos cuando el límite de
+  responsabilidad civil elegido queda corto para el edificio.
 - Seguimiento de pólizas con avisos de vencimiento a 60, 30, 15 y 7 días.
 - Correo saliente por SMTP autenticado con STARTTLS. Si el servidor no ofrece
   cifrado, el envío se cancela antes de mandar la clave.
@@ -125,13 +128,11 @@ el mismo día no duplica correos.
   poniendo `SN_MEDICION_ID` en la configuración; vacío, no se mide ni se
   pregunta nada.
 
-Todo con pruebas: 207 aserciones en `sitio/pruebas/` —`cuentas.php`, `zona.php`,
-`cotizador.php`, `cotizador-hogar.php`, `polizas.php` y `correo.php`—. Las corre
-también el workflow de GitHub Actions en cada push.
+Todo con pruebas: 251 aserciones en `sitio/pruebas/`. Las corre también el
+workflow de GitHub Actions en cada push.
 
 ## Qué falta
 
-- Cotizador de consorcio, que es el otro ramo cotizable sin demasiados datos.
 - Panel interno para ver y responder las consultas sin entrar a phpMyAdmin.
 - Tarifas reales: la tabla del cotizador es de ejemplo hasta que haya acuerdo
   con aseguradoras.
