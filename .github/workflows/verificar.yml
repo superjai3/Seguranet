@@ -47,6 +47,9 @@ jobs:
       - name: Probar el envío de correo
         run: php sitio/pruebas/correo.php
 
+      - name: Probar el panel interno
+        run: php sitio/pruebas/panel.php
+
       - name: Probar el cotizador de hogar
         run: php sitio/pruebas/cotizador-hogar.php
 

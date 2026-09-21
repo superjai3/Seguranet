@@ -57,6 +57,9 @@ sitio/
            'usuario' => 'dboxxxxxxx',
            'clave' => '...',
        ],
+       // Quién entra al panel de consultas (/panel). Vacío = nadie, ni vos.
+       // Hace falta además que esa cuenta esté registrada y confirmada.
+       'panel'  => ['admins' => ['jaime@seguranet.es']],
        'correo' => [
            'host'    => 'smtp.ionos.es',
            'puerto'  => 587,
@@ -122,18 +125,20 @@ el mismo día no duplica correos.
 - Seguimiento de pólizas con avisos de vencimiento a 60, 30, 15 y 7 días.
 - Correo saliente por SMTP autenticado con STARTTLS. Si el servidor no ofrece
   cifrado, el envío se cancela antes de mandar la clave.
+- Panel interno en `/panel` para trabajar las consultas: filtrar por estado,
+  cambiar el estado y dejar una nota. Las más viejas arriba. A quien no es
+  administrador le devuelve 404, no 403: un 403 confirmaría que existe.
 
 - Aviso de cookies con consentimiento previo: nada de analítica se carga hasta
   que la persona acepta, y rechazar cuesta lo mismo que aceptar. Se activa
   poniendo `SN_MEDICION_ID` en la configuración; vacío, no se mide ni se
   pregunta nada.
 
-Todo con pruebas: 251 aserciones en `sitio/pruebas/`. Las corre también el
+Todo con pruebas: 305 aserciones en `sitio/pruebas/`. Las corre también el
 workflow de GitHub Actions en cada push.
 
 ## Qué falta
 
-- Panel interno para ver y responder las consultas sin entrar a phpMyAdmin.
 - Tarifas reales: la tabla del cotizador es de ejemplo hasta que haya acuerdo
   con aseguradoras.
 - Registros SPF, DKIM y DMARC del dominio en Hostalia, que es donde está el

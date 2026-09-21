@@ -17,9 +17,14 @@ $config = require $raiz . '/app/config.php';
 require $raiz . '/app/ayudas.php';
 require $raiz . '/app/usuarios.php';
 
-// Los correos no se mandan de verdad: mail() cae en un comando que no hace
-// nada, en vez de llenar la salida de errores de sendmail.
-ini_set('sendmail_path', '/bin/true');
+// Los correos no se mandan de verdad. El intento anterior era
+// ini_set('sendmail_path', ...), que NO funciona: sendmail_path es
+// PHP_INI_SYSTEM y ini_set() devuelve false sin avisar. Lo que sí se puede es
+// mandar el log a un archivo, para que los "no pudo encolar" —que son ciertos:
+// en el entorno de prueba no hay servidor de correo— no tapen el resultado de
+// las pruebas. La línea "sendmail: not found" la escribe el shell, no PHP, y
+// desde acá no hay forma de callarla.
+ini_set('error_log', sys_get_temp_dir() . '/seguranet-pruebas.log');
 
 // La salida se guarda hasta el final: sin esto, el primer echo manda las
 // cabeceras y después session_start() y session_regenerate_id() no pueden
@@ -141,6 +146,11 @@ enviar(['correo' => 'jaime@ejemplo.com', 'clave' => 'calle Alsina 1234']);
 $r = sn_ingresar($config);
 comprobar('acepta las credenciales correctas', $r['ok'], $r['mensaje']);
 comprobar('deja al usuario en la sesión', sn_usuario() !== null && sn_usuario()['correo'] === 'jaime@ejemplo.com');
+// El panel interno exige cuenta confirmada y lo lee de acá. Sin este dato en
+// la sesión, sn_es_admin() devolvería false siempre y el panel no abriría para
+// nadie —sin un solo error en el log—. Queda fijado por una prueba.
+comprobar('la sesión guarda que el correo está confirmado',
+    (int) (sn_usuario()['correo_confirmado'] ?? 0) === 1);
 
 sn_salir();
 @session_start();

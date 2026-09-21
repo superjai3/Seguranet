@@ -11,7 +11,14 @@
 declare(strict_types=1);
 
 ini_set('error_log', sys_get_temp_dir() . '/seguranet-pruebas.log');
-ini_set('sendmail_path', '/bin/true');
+// Los correos no se mandan de verdad. El intento anterior era
+// ini_set('sendmail_path', ...), que NO funciona: sendmail_path es
+// PHP_INI_SYSTEM y ini_set() devuelve false sin avisar. Lo que sí se puede es
+// mandar el log a un archivo, para que los "no pudo encolar" —que son ciertos:
+// en el entorno de prueba no hay servidor de correo— no tapen el resultado de
+// las pruebas. La línea "sendmail: not found" la escribe el shell, no PHP, y
+// desde acá no hay forma de callarla.
+ini_set('error_log', sys_get_temp_dir() . '/seguranet-pruebas.log');
 
 $raiz = dirname(__DIR__);
 $config = require $raiz . '/app/config.php';

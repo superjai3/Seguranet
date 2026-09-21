@@ -126,6 +126,10 @@ if ($ruta === '/robots.txt') {
     echo "User-agent: *\n\n";
     echo "# El área de cuenta no le aporta nada a quien busca.\n";
     echo "Disallow: /cuenta/\n\n";
+    // /panel NO va acá, y no es un olvido: robots.txt lo lee cualquiera, así
+    // que listarlo sería anunciar que existe un panel de consultas. Como a
+    // quien no es administrador le devuelve 404, para un buscador la ruta no
+    // existe, que es exactamente lo que se busca.
     echo "Sitemap: " . url('/sitemap.xml', $config) . "\n";
     exit;
 }
@@ -375,6 +379,78 @@ if ($ruta === '/cotizar/consorcio') {
         'descripcion' => 'Calculá el seguro integral de tu consorcio y compará los tres '
                        . 'planes, con el costo por unidad y por mes para llevar a la asamblea.',
         'ruta'        => '/cotizar/consorcio',
+    ], $config, $ramos, $datosVista);
+    exit;
+}
+
+// --- Panel interno ---------------------------------------------------------
+// Devuelve 404 y no 403 a quien no tiene permiso, a propósito: un 403 confirma
+// que la ruta existe, y que exista un panel de consultas es justamente lo que
+// no hace falta contarle a nadie. Para quien no es administrador, /panel es
+// una página que no está.
+if ($ruta === '/panel') {
+    require $raizApp . '/panel.php';
+    require $raizApp . '/georef.php';   // para el nombre de la provincia
+
+    if (!sn_es_admin($config, sn_usuario())) {
+        http_response_code(404);
+        sn_responder('error-404', ['titulo' => 'Página no encontrada', 'ruta' => $ruta,
+            'descripcion' => 'La página que buscás no existe.', 'noindex' => true], $config, $ramos);
+        exit;
+    }
+
+    $pdo = sn_bd($config);
+    $datosVista = ['hayBase' => $pdo instanceof PDO, 'mensaje' => '', 'error' => ''];
+
+    if ($pdo instanceof PDO) {
+        if ($metodo === 'POST') {
+            if (!sn_token_valido($_POST['token'] ?? null)) {
+                $datosVista['error'] = 'El formulario venció. Volvé a enviarlo.';
+            } else {
+                $id = (int) ($_POST['id'] ?? 0);
+                $estado = (string) ($_POST['estado'] ?? '');
+                $cambios = [];
+                if (sn_panel_cambiar_estado($pdo, $id, $estado)) {
+                    $cambios[] = 'el estado';
+                }
+                if (sn_panel_guardar_nota($pdo, $id, (string) ($_POST['nota'] ?? ''))) {
+                    $cambios[] = 'la nota';
+                }
+                // Patrón POST-Redirect-GET: sin esto, recargar la página vuelve
+                // a mandar el formulario y el navegador pregunta si reenviar.
+                $volver = (string) ($_POST['volver'] ?? '/panel');
+                // Sólo destinos internos del panel: si no, esto sería un
+                // redirector abierto con el que mandar gente a cualquier lado.
+                if (!preg_match('#^/panel(\?[a-z0-9=&_-]*)?$#i', $volver)) {
+                    $volver = '/panel';
+                }
+                $_SESSION['sn_panel_mensaje'] = $cambios === []
+                    ? 'No hubo cambios que guardar.'
+                    : 'Guardado: ' . implode(' y ', $cambios) . '.';
+                header('Location: ' . $volver, true, 303);
+                exit;
+            }
+        }
+
+        if (isset($_SESSION['sn_panel_mensaje'])) {
+            $datosVista['mensaje'] = (string) $_SESSION['sn_panel_mensaje'];
+            unset($_SESSION['sn_panel_mensaje']);
+        }
+
+        $datosVista['filtro']  = (string) ($_GET['estado'] ?? '');
+        $datosVista['resumen'] = sn_panel_resumen($pdo);
+        $datosVista['listado'] = sn_panel_consultas(
+            $pdo,
+            $datosVista['filtro'],
+            (int) ($_GET['pagina'] ?? 1)
+        );
+    }
+
+    sn_responder('panel', [
+        'titulo'      => 'Consultas',
+        'ruta'        => $ruta,
+        'descripcion' => 'Panel interno de Seguranet.',
+        'noindex'     => true,
     ], $config, $ramos, $datosVista);
     exit;
 }
