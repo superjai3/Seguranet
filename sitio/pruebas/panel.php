@@ -14,8 +14,16 @@ declare(strict_types=1);
 
 $raiz = dirname(__DIR__);
 $config = require $raiz . '/app/config.php';
+$ramos  = require $raiz . '/app/ramos.php';
 require $raiz . '/app/ayudas.php';
+require $raiz . '/app/usuarios.php';
+require $raiz . '/app/medicion.php';
 require $raiz . '/app/panel.php';
+
+// El layout usa sn_token(), que necesita sesión; y la sesión necesita que no
+// se haya escrito nada todavía. Mismo arreglo que en pruebas/cuentas.php.
+ob_start();
+session_start();
 
 $fallos = 0;
 
@@ -208,6 +216,40 @@ comprobar('una fecha futura no dice "hace -3 días"',
     sn_hace_cuanto('2026-09-24 12:00:00', $ahora) === 'recién');
 comprobar('una fecha ilegible devuelve vacío en vez de romper',
     sn_hace_cuanto('no es una fecha', $ahora) === '');
+
+echo "\nEl enlace al panel en la barra de navegación\n";
+
+// Esto no lo tocan las pruebas de arriba: sn_es_admin() puede estar perfecta y
+// el layout llamarla mal. Hoy pasó dos veces —sn_whatsapp() recibía $config y
+// no un teléfono, y la sesión no guardaba correo_confirmado—, y las dos veces
+// el error sólo aparecía al dibujar la página, no al probar la función.
+$dibujar = static function (array $config, ?array $usuario) use ($ramos): string {
+    if ($usuario === null) { unset($_SESSION['sn_usuario']); }
+    else { $_SESSION['sn_usuario'] = $usuario; }
+    $pagina = ['titulo' => 'Prueba', 'ruta' => '/', 'descripcion' => 'x'];
+    $contenido = '<p>contenido</p>';
+    ob_start();
+    require dirname(__DIR__) . '/app/plantillas/layout.php';
+    return (string) ob_get_clean();
+};
+
+$conAdmins = array_replace_recursive($config, ['panel' => ['admins' => ['jaime@seguranet.es']]]);
+$elAdmin   = ['id' => 1, 'nombre' => 'Jaime Valdés', 'correo' => 'jaime@seguranet.es', 'correo_confirmado' => 1];
+$unCliente = ['id' => 2, 'nombre' => 'Ana Cliente', 'correo' => 'ana@gmail.com', 'correo_confirmado' => 1];
+
+$vistaVisitante = $dibujar($conAdmins, null);
+$vistaCliente   = $dibujar($conAdmins, $unCliente);
+$vistaAdmin     = $dibujar($conAdmins, $elAdmin);
+// Producción antes de configurar SN_ADMINS: la lista está vacía.
+$vistaSinLista  = $dibujar(array_replace_recursive($config, ['panel' => ['admins' => []]]), $elAdmin);
+
+comprobar('la página se dibuja para un visitante', str_contains($vistaVisitante, '<p>contenido</p>'));
+comprobar('y para alguien con sesión', str_contains($vistaCliente, '<p>contenido</p>'));
+comprobar('el visitante no ve el enlace al panel', !str_contains($vistaVisitante, '>Consultas<'));
+comprobar('un cliente con sesión tampoco', !str_contains($vistaCliente, '>Consultas<'));
+comprobar('sin lista configurada, ni el titular lo ve', !str_contains($vistaSinLista, '>Consultas<'));
+comprobar('el administrador sí lo ve', str_contains($vistaAdmin, '>Consultas<'));
+comprobar('y apunta a /panel', str_contains($vistaAdmin, 'href="/panel"'), '');
 
 echo "\n" . ($fallos === 0 ? "TODO BIEN\n" : "HAY $fallos FALLA(S)\n") . "\n";
 exit($fallos === 0 ? 0 : 1);
