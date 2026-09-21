@@ -6,6 +6,10 @@
 
 declare(strict_types=1);
 
+// El envío de correo es lo bastante grande como para vivir aparte, pero
+// todo el que usa ayudas.php termina mandando algún mensaje.
+require_once __DIR__ . '/correo.php';
+
 /**
  * Escapa texto para HTML. Se usa en TODA salida: es la defensa contra XSS y
  * no tiene excepciones "porque este dato es nuestro".
@@ -74,24 +78,6 @@ function sn_bd(array $config, ?PDO $inyectada = null): ?PDO
         error_log('Seguranet: no se pudo conectar a la base: ' . $e->getMessage());
         return null;
     }
-}
-
-/**
- * Envía un correo por SMTP del hosting.
- * Sin biblioteca externa: mail() alcanza para el volumen de un sitio de
- * captación, y en IONOS sale por su propio servidor.
- */
-function sn_enviar_correo(array $config, string $para, string $asunto, string $cuerpoHtml): bool
-{
-    $desde = $config['correo']['desde'];
-    $cabeceras = [
-        'MIME-Version: 1.0',
-        'Content-Type: text/html; charset=UTF-8',
-        'From: Seguranet <' . $desde . '>',
-        'Reply-To: ' . $config['sitio']['correo'],
-        'X-Mailer: Seguranet',
-    ];
-    return @mail($para, '=?UTF-8?B?' . base64_encode($asunto) . '?=', $cuerpoHtml, implode("\r\n", $cabeceras));
 }
 
 /**

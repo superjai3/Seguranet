@@ -57,9 +57,23 @@ sitio/
            'usuario' => 'dboxxxxxxx',
            'clave' => '...',
        ],
-       'correo' => ['desde' => 'no-responder@seguranet.es'],
+       'correo' => [
+           'host'    => 'smtp.ionos.es',
+           'puerto'  => 587,
+           'usuario' => 'no-responder@seguranet.es',
+           'clave'   => '...',
+           'desde'   => 'no-responder@seguranet.es',
+       ],
    ];
    ```
+
+   El buzón `no-responder@` se crea antes en *Correo → Crear dirección*: el
+   usuario de SMTP es la dirección completa y la clave es la del buzón, no la
+   de la cuenta de IONOS.
+
+   Sin `host` el sitio se cae a `mail()`, que sirve para probar en local pero
+   no para producción: el mensaje sale con el dominio del servidor compartido,
+   así que no lo respaldan ni SPF ni DKIM y termina en spam.
 
 5. **PHP 8.1 o superior.** En *PHP → Gestionar versiones*, asignale 8.1+ al
    dominio.
@@ -117,5 +131,7 @@ y `polizas.php`. Las corre también el workflow de GitHub Actions en cada push.
 - Panel interno para ver y responder las consultas sin entrar a phpMyAdmin.
 - Tarifas reales: la tabla del cotizador es de ejemplo hasta que haya acuerdo
   con aseguradoras.
-- Correo por SMTP autenticado de IONOS en vez de `mail()`, para que no caiga en
-  spam cuando el volumen crezca.
+- Registros SPF, DKIM y DMARC del dominio en Hostalia, que es donde está el
+  DNS de `seguranet.es`. El envío ya sale por SMTP autenticado de IONOS, pero
+  sin esos tres registros el buzón del destinatario no puede comprobar que el
+  correo sea nuestro.
