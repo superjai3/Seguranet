@@ -266,6 +266,11 @@ html, body { overflow-x: hidden; max-width: 100%; }
 
 /* --- Formularios --------------------------------------------------------- */
 
+/* El atributo hidden lo respeta el navegador por defecto, pero cualquier regla
+   futura con display: block lo pisaría sin avisar. El cotizador de hogar lo usa
+   para esconder campos que no corresponden. */
+[hidden] { display: none !important; }
+
 .sn-campo { margin-bottom: var(--sn-esp-4); }
 .sn-campo label { display: block; font-weight: 600; font-size: var(--sn-txt-sm); color: var(--sn-azul-900); margin-bottom: var(--sn-esp-2); }
 .sn-campo__ayuda { font-size: var(--sn-txt-xs); color: var(--sn-gris-500); margin-top: var(--sn-esp-1); }

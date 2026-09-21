@@ -114,20 +114,24 @@ el mismo día no duplica correos.
 - Área de cuenta: registro, confirmación por correo, ingreso, salida y
   restablecimiento de contraseña.
 - Cotizador de automotor con catálogo argentino y tarifación por zona.
+- Cotizador de hogar (combinado familiar) con tres planes. Distingue propietario
+  de inquilino: al inquilino no se le cobra el edificio, que no es suyo.
 - Seguimiento de pólizas con avisos de vencimiento a 60, 30, 15 y 7 días.
+- Correo saliente por SMTP autenticado con STARTTLS. Si el servidor no ofrece
+  cifrado, el envío se cancela antes de mandar la clave.
 
 - Aviso de cookies con consentimiento previo: nada de analítica se carga hasta
   que la persona acepta, y rechazar cuesta lo mismo que aceptar. Se activa
   poniendo `SN_MEDICION_ID` en la configuración; vacío, no se mide ni se
   pregunta nada.
 
-Todo con pruebas: `php sitio/pruebas/cuentas.php`, `zona.php`, `cotizador.php`
-y `polizas.php`. Las corre también el workflow de GitHub Actions en cada push.
+Todo con pruebas: 207 aserciones en `sitio/pruebas/` —`cuentas.php`, `zona.php`,
+`cotizador.php`, `cotizador-hogar.php`, `polizas.php` y `correo.php`—. Las corre
+también el workflow de GitHub Actions en cada push.
 
 ## Qué falta
 
-- Cotizadores de hogar y consorcio, que son los otros dos ramos cotizables sin
-  demasiados datos.
+- Cotizador de consorcio, que es el otro ramo cotizable sin demasiados datos.
 - Panel interno para ver y responder las consultas sin entrar a phpMyAdmin.
 - Tarifas reales: la tabla del cotizador es de ejemplo hasta que haya acuerdo
   con aseguradoras.

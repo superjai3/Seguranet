@@ -124,3 +124,15 @@ function sn_icono(string $nombre): string
          . 'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">'
          . $d . '</svg>';
 }
+
+/**
+ * Formatea un importe en pesos, sin centavos.
+ *
+ * Vivía dentro del cotizador de automotor, pero de tarifa no tiene nada: lo
+ * usan las pólizas y ahora también el cotizador de hogar. Cargar el tarifario
+ * del auto para escribir un precio no tenía sentido.
+ */
+function sn_pesos(int $monto): string
+{
+    return '$ ' . number_format((float) $monto, 0, ',', '.');
+}

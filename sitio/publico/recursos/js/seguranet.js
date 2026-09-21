@@ -109,3 +109,39 @@
     // Al volver de un error de validación, el modelo ya elegido no se pierde.
     if (marca.value) { cargar(true); }
 })();
+
+/* Cotizador de hogar: mostrar sólo lo que corresponde.
+   Sin JavaScript el formulario funciona igual —los campos se muestran u
+   ocultan también desde PHP al volver de una validación— pero así el cambio se
+   ve en el momento y nadie completa un campo que no le van a cobrar. */
+(function () {
+    "use strict";
+
+    var condicion = document.querySelector("[data-condicion]");
+    var tipo = document.querySelector("[data-tipo]");
+    var campoEdificio = document.querySelector("[data-campo-edificio]");
+    var campoPlantaBaja = document.querySelector("[data-planta-baja]");
+
+    function mostrar(elemento, visible) {
+        if (elemento) { elemento.hidden = !visible; }
+    }
+
+    if (condicion && campoEdificio) {
+        condicion.addEventListener("change", function () {
+            // El inquilino no asegura el edificio: no es suyo.
+            mostrar(campoEdificio, condicion.value !== "inquilino");
+        });
+    }
+
+    if (tipo && campoPlantaBaja) {
+        tipo.addEventListener("change", function () {
+            // "Planta baja" sólo tiene sentido en un departamento.
+            var esDepartamento = tipo.value === "departamento";
+            mostrar(campoPlantaBaja, esDepartamento);
+            if (!esDepartamento) {
+                var casilla = campoPlantaBaja.querySelector("input");
+                if (casilla) { casilla.checked = false; }
+            }
+        });
+    }
+})();

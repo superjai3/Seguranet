@@ -136,9 +136,14 @@ if ($ruta === '/sitemap.xml') {
     echo '<?xml version="1.0" encoding="UTF-8"?>' . "\n";
     echo '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' . "\n";
     $prioridades = ['/' => '1.0', '/cotizar' => '0.9', '/seguros' => '0.9', '/contacto' => '0.8'];
-    // El cotizador no está en $rutas porque tiene su propio manejo; va aparte.
-    printf("  <url><loc>%s</loc><lastmod>%s</lastmod><priority>0.9</priority></url>\n",
-        e(url('/cotizar/auto', $config)), $hoy);
+    // Los cotizadores no están en $rutas porque tienen su propio manejo. Se
+    // sacan de los ramos, así el día que haya un tercero aparece solo.
+    foreach ($ramos as $ramo) {
+        if ($ramo['cotizador'] !== '') {
+            printf("  <url><loc>%s</loc><lastmod>%s</lastmod><priority>0.9</priority></url>\n",
+                e(url($ramo['cotizador'], $config)), $hoy);
+        }
+    }
     foreach (array_keys($rutas) as $r) {
         printf("  <url><loc>%s</loc><lastmod>%s</lastmod><priority>%s</priority></url>\n",
             e(url($r, $config)), $hoy, $prioridades[$r] ?? '0.6');
@@ -249,6 +254,69 @@ if ($ruta === '/cotizar/auto') {
     exit;
 }
 
+// --- Cotizador de hogar ----------------------------------------------------
+if ($ruta === '/cotizar/hogar') {
+    require $raizApp . '/georef.php';
+    require $raizApp . '/cotizador-hogar.php';
+
+    $datosVista = ['provincias' => sn_provincias()];
+
+    if ($metodo === 'POST') {
+        if (!sn_token_valido($_POST['token'] ?? null)) {
+            $datosVista['errores'] = ['tipo' => 'El formulario venció. Volvé a enviarlo.'];
+            $datosVista['valores'] = $_POST;
+        } else {
+            $entrada = [
+                'tipo'           => trim((string) ($_POST['tipo'] ?? '')),
+                'condicion'      => trim((string) ($_POST['condicion'] ?? '')),
+                'suma_edificio'  => (float) ($_POST['suma_edificio'] ?? 0),
+                'suma_contenido' => (float) ($_POST['suma_contenido'] ?? 0),
+                'antiguedad'     => (int) ($_POST['antiguedad'] ?? -1),
+                'seguridad'      => trim((string) ($_POST['seguridad'] ?? '')),
+                'planta_baja'    => !empty($_POST['planta_baja']),
+                'provincia'      => preg_replace('/\D/', '', (string) ($_POST['provincia'] ?? '')),
+                'localidad'      => trim((string) ($_POST['localidad'] ?? '')),
+                'cp'             => trim((string) ($_POST['cp'] ?? '')),
+            ];
+            $errores = sn_hogar_errores($entrada);
+            $datosVista['valores'] = $entrada;
+            $datosVista['errores'] = $errores;
+
+            if ($errores === []) {
+                $cotizacion = sn_cotizar_hogar($entrada);
+                $datosVista['cotizacion'] = $cotizacion;
+
+                $usuario = sn_usuario();
+                $pdo = sn_bd($config);
+                if ($usuario !== null && $pdo instanceof PDO) {
+                    try {
+                        $pdo->prepare(
+                            'INSERT INTO cotizaciones (usuario_id, ramo, datos, resultado, creada_en)
+                             VALUES (?, "hogar", ?, ?, ?)'
+                        )->execute([
+                            $usuario['id'],
+                            json_encode($entrada, JSON_UNESCAPED_UNICODE),
+                            json_encode($cotizacion['planes'], JSON_UNESCAPED_UNICODE),
+                            sn_ahora(),
+                        ]);
+                    } catch (PDOException $ex) {
+                        // Que no se pueda guardar no puede impedir ver el precio.
+                        error_log('Seguranet cotizacion hogar: ' . $ex->getMessage());
+                    }
+                }
+            }
+        }
+    }
+
+    sn_responder('cotizar-hogar', [
+        'titulo'      => 'Cotizador de hogar',
+        'descripcion' => 'Calculá en línea cuánto sale el seguro de tu casa o departamento '
+                       . 'y compará los tres planes. Si alquilás, no pagás el edificio.',
+        'ruta'        => '/cotizar/hogar',
+    ], $config, $ramos, $datosVista);
+    exit;
+}
+
 // --- Área de cuenta --------------------------------------------------------
 if (str_starts_with($ruta, '/cuenta')) {
     $paginaCuenta = static function (string $vista, string $titulo, string $ruta) use ($config, $ramos) {
@@ -319,7 +387,6 @@ if (str_starts_with($ruta, '/cuenta')) {
                 exit;
             }
             require $raizApp . '/polizas.php';
-            require $raizApp . '/cotizador.php';   // para sn_pesos()
             $pdo = sn_bd($config);
             $lista = $pdo instanceof PDO ? sn_polizas_de($pdo, sn_usuario()['id']) : [];
             sn_responder('cuenta-polizas', ['titulo' => 'Mis pólizas', 'ruta' => $ruta,

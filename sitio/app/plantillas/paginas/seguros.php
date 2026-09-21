@@ -15,7 +15,7 @@
                     <h2 style="font-size:var(--sn-txt-xl)"><?= e($ramo['titulo']) ?></h2>
                     <p><?= e($ramo['resumen']) ?></p>
                     <span class="sn-tarjeta__pie">
-                        <?= $ramo['cotizable'] ? 'Cotizar en línea &rarr;' : 'Pedir propuesta &rarr;' ?>
+                        <?= $ramo['cotizador'] !== '' ? 'Cotizar en línea &rarr;' : 'Pedir propuesta &rarr;' ?>
                     </span>
                 </a>
             <?php endforeach; ?>

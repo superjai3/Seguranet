@@ -211,9 +211,3 @@ function sn_cotizar(array $d, int $anioActual): array
         ],
     ];
 }
-
-/** Formatea un importe en pesos, sin centavos. */
-function sn_pesos(int $monto): string
-{
-    return '$ ' . number_format((float) $monto, 0, ',', '.');
-}
