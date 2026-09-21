@@ -186,6 +186,11 @@ def leer_vista(accion):
     texto = sacar_bloque(texto, "@section Scripts")
     texto = traducir_enlaces(texto)
     texto = rutas_relativas(texto)
+    # En Razor, @@ es una arroba literal. El layout ya lo deshacía; las vistas
+    # no, así que un mailto: escrito como corresponde salía con dos arrobas y
+    # el enlace no funcionaba. Va al final: antes de esto, @@ todavía sirve
+    # para distinguir una arroba escapada de una expresión de Razor.
+    texto = texto.replace("@@", "@")
 
     return (
         titulo.group(1) if titulo else "Seguranet",
